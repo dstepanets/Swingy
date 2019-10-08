@@ -1,0 +1,5 @@
+* Builder pattern
+
+* Hibernate Validator
+
+* Lombok plugin getters-setters
