@@ -1,23 +1,24 @@
 package unit.swingy;
 
+import unit.swingy.controller.Game;
+
 public class Main {
 
-	static boolean guiMode;
-
-	public static void printUsage(){
+	private static void printUsage() {
 		System.out.println("Choose the game mode by providing an argument.");
 		System.out.println("\t$java -jar swingy.jar console\nor\n\t$java -jar swingy.jar gui");
 	}
 
 	public static void main(String[] args) {
 
+//		Chose game mode
+		boolean guiMode = false;
 		if (args.length == 1) {
 			switch (args[0]) {
 				case "gui":
 					guiMode = true;
 					break;
 				case "console":
-					guiMode = false;
 					break;
 				default:
 					printUsage();
@@ -26,7 +27,11 @@ public class Main {
 			printUsage();
 		}
 
-		System.out.println(guiMode);
+		Game game = Game.getInstance();
+		if (guiMode)
+			game.switchGameMode();
+		System.out.println(game.isGuiMode());
+
 	}
 
 
