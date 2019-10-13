@@ -51,13 +51,6 @@
 
 
 	<dependencies>
-
-		<!-- Java Bean validation API - Spec -->
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.1.0.Final</version>
-		</dependency>
 		<!-- Provides  annotations to validate input fields of a form against constraints -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -77,8 +70,17 @@
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.el</artifactId>
-			<version>3.0.1-b09</version>
+			<version>3.0.1-b08</version>
 		</dependency>
+		<!-- Hibernate Validator CDI portable extension by -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator-cdi</artifactId>
+			<version>5.4.3.Final</version>
+		</dependency>
+
+
+
 
 		<!-- Automatic Getters / Setters -->
 		<dependency>

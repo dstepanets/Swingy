@@ -1,14 +1,15 @@
 package unit.swingy.model.characters;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
-@Getter
+@Getter @Setter
 public abstract class ACharacter {
 
-	@Range(min = 0, max = 10) private int level;
-	private int hp;
-	private int attack;
-	private int defence;
+	@Range(min = 0) protected int level;
+	protected int hp;
+	protected int attack;
+	protected int defence;
 
 }

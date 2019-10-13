@@ -20,8 +20,39 @@ public class HeroBuilder {
 		hero.setName(name);
 	}
 
-	public void setClas(String c) {
+	public void setClas(HeroClass c) {
 		hero.setClas(c);
+
+		switch (c) {
+			case REGULAR:
+				buildRegular();
+				break;
+			case BERSERK:
+				buildBerserk();
+				break;
+			case TANK:
+				buildTank();
+				break;
+		}
+
+	}
+
+	private void buildRegular() {
+		hero.setHp(100);
+		hero.setAttack(10);
+		hero.setDefence(5);
+	}
+
+	private void buildBerserk() {
+		hero.setHp(80);
+		hero.setAttack(14);
+		hero.setDefence(4);
+	}
+
+	private void buildTank() {
+		hero.setHp(120);
+		hero.setAttack(8);
+		hero.setDefence(6);
 	}
 
 

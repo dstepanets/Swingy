@@ -29,10 +29,6 @@ public class Game {
 		guiMode = guiMode ? false : true;
 	}
 
-	public void setUpHero() {
-
-
-	}
 }
 
 

@@ -1,5 +1,6 @@
 package unit.swingy;
 
+import unit.swingy.controller.CreateHero;
 import unit.swingy.controller.Game;
 
 public class Main {
@@ -30,7 +31,13 @@ public class Main {
 		Game game = Game.getInstance();
 		if (guiMode)
 			game.switchGameMode();
-		System.out.println(game.isGuiMode());
+		System.out.println("GUI mode: " + game.isGuiMode());
+
+
+		CreateHero director = new CreateHero();
+		director.setUpHero();
+
+		System.out.println("Hero's Name: " + game.getHero().getName());
 
 	}
 
