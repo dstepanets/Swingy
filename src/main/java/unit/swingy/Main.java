@@ -34,10 +34,20 @@ public class Main {
 		System.out.println("GUI mode: " + game.isGuiMode());
 
 
+
 		CreateHero director = new CreateHero();
 		director.setUpHero();
 
 		System.out.println("Hero's Name: " + game.getHero().getName());
+
+
+
+
+
+//		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+//		Set<ConstraintViolation<String>> errors;
+//		errors = validator.validate();
+//		System.out.println(errors.toString());
 
 	}
 

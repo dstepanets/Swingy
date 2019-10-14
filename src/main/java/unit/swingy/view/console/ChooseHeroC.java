@@ -31,12 +31,16 @@ public class ChooseHeroC {
 		setUpValidator();
 		Set<ConstraintViolation<String>> errors;
 
-		do {
+//		do {
 			System.out.println("Type your hero's name and press Enter:");
 			name = scanner.nextLine();
 			errors = validator.validate(name);
 
-		} while (name.isEmpty());
+//		} while (name.isEmpty());
+
+		for (ConstraintViolation e : errors) {
+			System.out.println(e.getMessage());
+		}
 
 
 		return name;

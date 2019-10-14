@@ -51,6 +51,17 @@
 
 
 	<dependencies>
+
+		<!-- Automatic Getters / Setters -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.20</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+
 		<!-- Provides  annotations to validate input fields of a form against constraints -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -79,16 +90,50 @@
 			<version>5.4.3.Final</version>
 		</dependency>
 
-
-
-
-		<!-- Automatic Getters / Setters -->
 		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.20</version>
-			<scope>provided</scope>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
 		</dependency>
+
+
+<!--		&lt;!&ndash; Java bean validation API - Spec &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>javax.validation</groupId>-->
+<!--			<artifactId>validation-api</artifactId>-->
+<!--			<version>2.0.1.Final</version>-->
+<!--		</dependency>-->
+
+<!--		&lt;!&ndash; Hibernate validator - Bean validation API Implementation &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.hibernate</groupId>-->
+<!--			<artifactId>hibernate-validator</artifactId>-->
+<!--			<version>6.0.11.Final</version>-->
+<!--		</dependency>-->
+
+<!--		&lt;!&ndash; Verify validation annotations usage at compile time &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.hibernate</groupId>-->
+<!--			<artifactId>hibernate-validator-annotation-processor</artifactId>-->
+<!--			<version>6.0.11.Final</version>-->
+<!--		</dependency>-->
+
+<!--		&lt;!&ndash; Unified Expression Language - Spec &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>javax.el</groupId>-->
+<!--			<artifactId>javax.el-api</artifactId>-->
+<!--			<version>3.0.1-b06</version>-->
+<!--		</dependency>-->
+
+
+
+
+
+
+
+
+
+
 
 	</dependencies>
 
