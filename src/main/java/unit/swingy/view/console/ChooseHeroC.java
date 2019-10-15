@@ -1,50 +1,59 @@
 package unit.swingy.view.console;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
+import unit.swingy.model.characters.HeroClass;
 
+import java.util.HashMap;
 import java.util.Scanner;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 public class ChooseHeroC {
 
-	@NotEmpty(message = "Provide a name of your hero Empty")
-	@NotBlank(message = "Provide a name of your hero Blank")
-	private String name;
-
 	private Scanner scanner = new Scanner(System.in);
-	private static Validator validator;
-
-	public static void setUpValidator() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		validator = factory.getValidator();
-	}
 
 
 	public String getName() {
 
-		setUpValidator();
-		Set<ConstraintViolation<String>> errors;
+		String name;
 
-//		do {
+		do {
 			System.out.println("Type your hero's name and press Enter:");
 			name = scanner.nextLine();
-			errors = validator.validate(name);
-
-//		} while (name.isEmpty());
-
-		for (ConstraintViolation e : errors) {
-			System.out.println(e.getMessage());
-		}
-
+		} while (name.isEmpty() || name.trim().isEmpty());
 
 		return name;
+	}
+
+	public HeroClass getClas () {
+
+		HeroClass clas = null;
+
+		HashMap<Integer, String> choices = new HashMap<>();
+		choices.put(1, "r");
+		choices.put(2, "b");
+		choices.put(3, "t");
+
+		int choice;
+		do {
+			System.out.println("What kind of hero is that?");
+			System.out.println("Type a number to learn more about the choice:");
+
+			int n = 0;
+			for(HeroClass h : HeroClass.values()) {
+				n++;
+				System.out.println("\t" + n + ". " + h.toString().substring(0, 1) + h.toString().substring(1).toLowerCase());
+			}
+
+			choice = scanner.nextInt();
+
+			if (choice >= 0 && choice <= HeroClass.count) {
+				System.out.println(choices.get(choice));
+				clas = HeroClass.values()[choice - 1];
+			}
+		} while (clas == null);
+
+		return clas;
 
 	}
+
+
 
 }

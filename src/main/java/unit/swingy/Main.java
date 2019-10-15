@@ -8,6 +8,7 @@ public class Main {
 	private static void printUsage() {
 		System.out.println("Choose the game mode by providing an argument.");
 		System.out.println("\t$java -jar swingy.jar console\nor\n\t$java -jar swingy.jar gui");
+		System.exit(1);
 	}
 
 	public static void main(String[] args) {
@@ -34,22 +35,27 @@ public class Main {
 		System.out.println("GUI mode: " + game.isGuiMode());
 
 
-
 		CreateHero director = new CreateHero();
 		director.setUpHero();
 
 		System.out.println("Hero's Name: " + game.getHero().getName());
+		System.out.println("Hero's Class: " + game.getHero().getClas());
 
 
 
 
-
-//		Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-//		Set<ConstraintViolation<String>> errors;
-//		errors = validator.validate();
-//		System.out.println(errors.toString());
 
 	}
 
 
 }
+
+
+//		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+//		Validator validator = factory.getValidator();
+//		Set<ConstraintViolation<String>> errors;
+//		errors = validator.validate(name);
+//
+//		for (ConstraintViolation e : errors) {
+//			System.err.println(e.getMessage());
+//		}

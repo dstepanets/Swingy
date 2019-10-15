@@ -5,9 +5,9 @@ import unit.swingy.view.console.ChooseHeroC;
 
 public class CreateHero {
 
-	public void setUpHero() {
+	private Game game = Game.getInstance();
 
-		Game game = Game.getInstance();
+	public void setUpHero() {
 
 		HeroBuilder builder = new HeroBuilder();
 		builder.reset();
@@ -17,6 +17,7 @@ public class CreateHero {
 		} else {
 			ChooseHeroC console = new ChooseHeroC();
 			builder.setName(console.getName());
+			builder.setClas(console.getClas());
 
 		}
 

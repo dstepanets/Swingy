@@ -3,21 +3,16 @@ package unit.swingy.controller;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.Getter;
+import javax.validation.constraints.NotNull;
 
 import unit.swingy.model.characters.Hero;
 
 @Getter @Setter
 public class Game {
 
-	private static Game instance = null;
+	private static Game instance;
 	@Setter(AccessLevel.NONE) private boolean guiMode;
-	private Hero hero;
-
-
-	private Game() {
-		guiMode = false;
-		hero = null;
-	}
+	@NotNull private Hero hero;
 
 	public static Game getInstance() {
 		if (instance == null)

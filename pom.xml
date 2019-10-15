@@ -7,27 +7,30 @@
 	<groupId>ua.unit</groupId>
 	<artifactId>swingy</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 
-
+	<!-- Defines encoding for platform-independent builds -->
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<build>
 		<plugins>
-			<plugin>
-				<!-- Build an executable JAR -->
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>3.1.2</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>unit.swingy.Main</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
+<!--			<plugin>-->
+<!--				&lt;!&ndash; Build an executable JAR &ndash;&gt;-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-jar-plugin</artifactId>-->
+<!--				<version>3.1.2</version>-->
+<!--				<configuration>-->
+<!--					<archive>-->
+<!--						<manifest>-->
+<!--							<addClasspath>true</addClasspath>-->
+<!--							<classpathPrefix>lib/</classpathPrefix>-->
+<!--							<mainClass>unit.swingy.Main</mainClass>-->
+<!--						</manifest>-->
+<!--					</archive>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 			<!-- The Compiler Plugin is used to compile the sources of your project.-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -38,15 +41,39 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+			<!-- Maven Assembly Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.1</version>
+				<configuration>
+					<!-- get all project dependencies -->
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<!-- MainClass in mainfest make a executable jar -->
+					<archive>
+						<manifest>
+							<mainClass>unit.swingy.Main</mainClass>
+						</manifest>
+					</archive>
 
+				</configuration>
+				<executions>
+					<execution>
+						<!-- this is used for inheritance merges -->
+						<id>make-assembly</id>
+						<!-- bind to the packaging phase -->
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
-
-	<!-- Defines encoding for platform-independent builds -->
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 
 
@@ -59,8 +86,6 @@
 			<version>1.16.20</version>
 			<scope>provided</scope>
 		</dependency>
-
-
 
 		<!-- Provides  annotations to validate input fields of a form against constraints -->
 		<dependency>
@@ -90,42 +115,11 @@
 			<version>5.4.3.Final</version>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.1.0.Final</version>
-		</dependency>
-
-
-<!--		&lt;!&ndash; Java bean validation API - Spec &ndash;&gt;-->
 <!--		<dependency>-->
 <!--			<groupId>javax.validation</groupId>-->
 <!--			<artifactId>validation-api</artifactId>-->
-<!--			<version>2.0.1.Final</version>-->
+<!--			<version>1.1.0.Final</version>-->
 <!--		</dependency>-->
-
-<!--		&lt;!&ndash; Hibernate validator - Bean validation API Implementation &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.hibernate</groupId>-->
-<!--			<artifactId>hibernate-validator</artifactId>-->
-<!--			<version>6.0.11.Final</version>-->
-<!--		</dependency>-->
-
-<!--		&lt;!&ndash; Verify validation annotations usage at compile time &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>org.hibernate</groupId>-->
-<!--			<artifactId>hibernate-validator-annotation-processor</artifactId>-->
-<!--			<version>6.0.11.Final</version>-->
-<!--		</dependency>-->
-
-<!--		&lt;!&ndash; Unified Expression Language - Spec &ndash;&gt;-->
-<!--		<dependency>-->
-<!--			<groupId>javax.el</groupId>-->
-<!--			<artifactId>javax.el-api</artifactId>-->
-<!--			<version>3.0.1-b06</version>-->
-<!--		</dependency>-->
-
-
 
 
 
@@ -140,3 +134,16 @@
 
 
 </project>
+
+
+
+
+		<!-- Library for printing colored or debug messages on a terminal.-->
+		<!-- https://mvnrepository.com/artifact/com.diogonunes/JCDP -->
+		<!--		<dependency>-->
+		<!--			<groupId>com.diogonunes</groupId>-->
+		<!--			<artifactId>JCDP</artifactId>-->
+		<!--			<version>2.0.3.1</version>-->
+		<!--		</dependency>-->
+
+
