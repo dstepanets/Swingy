@@ -28,20 +28,19 @@ public class Main {
 		} else {
 			printUsage();
 		}
-
 		Game game = Game.getInstance();
 		if (guiMode)
 			game.switchGameMode();
-		System.out.println("GUI mode: " + game.isGuiMode());
+		System.out.println(">> GUI mode: " + game.isGuiMode());
 
-
+//		set up the hero
 		CreateHero director = new CreateHero();
 		director.setUpHero();
 
-		System.out.println("Hero's Name: " + game.getHero().getName());
-		System.out.println("Hero's Class: " + game.getHero().getClas());
+		System.out.println(">> Hero's Name: " + game.getHero().getName());
+		System.out.println(">> Hero's Class: " + game.getHero().getClas());
 
-
+//		save the hero
 
 
 
