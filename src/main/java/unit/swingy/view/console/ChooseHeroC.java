@@ -2,7 +2,6 @@ package unit.swingy.view.console;
 
 import unit.swingy.model.characters.HeroClass;
 
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class ChooseHeroC {
@@ -26,34 +25,39 @@ public class ChooseHeroC {
 
 		HeroClass clas = null;
 
-		HashMap<Integer, String> choices = new HashMap<>();
-		choices.put(1, "r");
-		choices.put(2, "b");
-		choices.put(3, "t");
-
-		int choice;
 		do {
 			System.out.println("What kind of hero is that?");
 			System.out.println("Type a number to learn more about the choice:");
 
 			int n = 0;
-			for(HeroClass h : HeroClass.values()) {
+			for (HeroClass h : HeroClass.values()) {
 				n++;
-				System.out.println("\t" + n + ". " + h.toString().substring(0, 1) + h.toString().substring(1).toLowerCase());
+				System.out.println("\t" + n + ". " + h.getClassName());
 			}
 
-			choice = scanner.nextInt();
-
-			if (choice >= 0 && choice <= HeroClass.count) {
-				System.out.println(choices.get(choice));
+			while (!scanner.hasNextInt()) {
+				scanner.next();
+			}
+			int choice = scanner.nextInt();
+			scanner.nextLine();
+			if (choice >= 1 && choice <= HeroClass.count) {
 				clas = HeroClass.values()[choice - 1];
+				System.out.println("\n\t" + clas.toString() + "\n" + clas.getDescription());
+
+				while (true) {
+					System.out.println("\nDo you want to play this bastard? Yes / No:");
+					String answer = scanner.nextLine();
+					if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("Yes")) {
+						break;
+					} else if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("No")) {
+						clas = null;
+						break;
+					}
+				}
 			}
 		} while (clas == null);
 
 		return clas;
-
 	}
-
-
 
 }
