@@ -14,7 +14,7 @@ import unit.swingy.model.artifacts.Armor;
 @Getter @Setter
 public class Hero extends ACharacter {
 
-	@Range(min=1, max = 30, message = "Hero's name must be 1-30 character long")
+	@Range(min=1, max = 50, message = "Hero's name must be 1-30 character long")
 	@NotBlank(message = "Hero's name can't be blank")
 	private String name;
 	@NotNull(message = "Hero must belong to a class")
