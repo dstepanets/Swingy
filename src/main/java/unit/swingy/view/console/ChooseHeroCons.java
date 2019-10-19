@@ -4,12 +4,11 @@ import unit.swingy.model.characters.HeroClass;
 
 import java.util.Scanner;
 
-public class ChooseHeroC {
+public class ChooseHeroCons {
 
 	private Scanner scanner = new Scanner(System.in);
 
-
-	public String getName() {
+	public String getNewHeroName() {
 
 		String name;
 
@@ -21,7 +20,7 @@ public class ChooseHeroC {
 		return name;
 	}
 
-	public HeroClass getClas () {
+	public HeroClass getNewHeroClas() {
 
 		HeroClass clas = null;
 

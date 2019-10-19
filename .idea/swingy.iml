@@ -19,5 +19,6 @@
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-validator-annotation-processor:5.4.3.Final" level="project" />
     <orderEntry type="library" name="Maven: org.glassfish:javax.el:3.0.1-b08" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-validator-cdi:5.4.3.Final" level="project" />
+    <orderEntry type="library" name="Maven: com.h2database:h2:1.4.200" level="project" />
   </component>
 </module>

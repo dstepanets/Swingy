@@ -1,7 +1,8 @@
 package unit.swingy;
 
-import unit.swingy.controller.CreateHero;
+import unit.swingy.controller.ChooseHeroDirector;
 import unit.swingy.controller.Game;
+import unit.swingy.model.characters.DataBase;
 
 public class Main {
 
@@ -33,8 +34,12 @@ public class Main {
 			game.switchGameMode();
 		System.out.println(">> GUI mode: " + game.isGuiMode());
 
+//		data base test
+		DataBase db = new DataBase();
+		db.connectToDB();
+
 //		set up the hero
-		CreateHero director = new CreateHero();
+		ChooseHeroDirector director = new ChooseHeroDirector();
 		director.setUpHero();
 
 		System.out.println(">> Hero's Name: " + game.getHero().getName());

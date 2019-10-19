@@ -16,3 +16,5 @@ create table HEROES
     constraint HEROES_PK
         primary key ("id")
 );
+
+INSERT INTO PUBLIC.HEROES ("id", "name", "class", "level", "exp", "hp", "attack", "defence", "weapon", "armor", "helm") VALUES (0, 'Normal Guy', 'Regular', 0, 0, 100, 10, 5, null, null, null);
