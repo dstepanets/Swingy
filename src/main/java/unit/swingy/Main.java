@@ -34,13 +34,9 @@ public class Main {
 			game.switchGameMode();
 		System.out.println(">> GUI mode: " + game.isGuiMode());
 
-//		data base test
-		DataBase db = new DataBase();
-		db.connectToDB();
-
 //		set up the hero
 		ChooseHeroDirector director = new ChooseHeroDirector();
-		director.setUpHero();
+		director.chooseHero();
 
 		System.out.println(">> Hero's Name: " + game.getHero().getName());
 		System.out.println(">> Hero's Class: " + game.getHero().getClas());

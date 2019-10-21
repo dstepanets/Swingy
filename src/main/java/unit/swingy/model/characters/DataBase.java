@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DataBase {
 
@@ -29,18 +30,14 @@ public class DataBase {
 			System.out.println(">> Connecting to database...");
 			connection = DriverManager.getConnection(DB_URL + ";IFEXISTS=TRUE", USER, PASS);
 
+			//test
 			printTable();
-
-			//close connection
-			if (statement != null)
-				statement.close();
-			if (connection != null)
-				connection.close();
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException esql) {
-  			esql.printStackTrace();
+			System.out.println(esql.getMessage());
+//  			esql.printStackTrace();
 			resetDB();
 		}
 	}
@@ -77,6 +74,52 @@ public class DataBase {
 		} catch (SQLException esql) {
 			esql.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ArrayList<Hero> getHeroesList(HeroBuilder builder) {
+
+		ArrayList<Hero> heroesList = new ArrayList<>();
+
+		try {
+			ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM HEROES");
+			rs.next();
+			int rows = rs.getInt("count(*)");
+			System.out.println(">> Table contains " + rows + " rows");
+
+			rs = statement.executeQuery("SELECT * FROM HEROES");
+
+			while (rs.next()) {
+				builder.setName(rs.getString("name"));
+				builder.setClas(rs.getString("class"));
+				builder.setLevel(rs.getInt("level"));
+				builder.setExp(rs.getInt("exp"));
+				builder.setHp(rs.getInt("hp"));
+				builder.setAttack(rs.getInt("attack"));
+				builder.setDefence(rs.getInt("defence"));
+				builder.setWeapon(rs.getString("weapon"));
+				builder.setArmor(rs.getString("armor"));
+				builder.setHelm(rs.getString("helm"));
+				heroesList.add(builder.getHero());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+
+
+		return heroesList;
+	}
+
+	public void closeConnection() {
+
+		try {
+			if (statement != null)
+				statement.close();
+			if (connection != null)
+				connection.close();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

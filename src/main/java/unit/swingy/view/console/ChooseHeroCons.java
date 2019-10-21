@@ -1,12 +1,30 @@
 package unit.swingy.view.console;
 
+import unit.swingy.model.characters.Hero;
 import unit.swingy.model.characters.HeroClass;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ChooseHeroCons {
 
 	private Scanner scanner = new Scanner(System.in);
+
+	public Hero chooseHero(ArrayList<Hero> heroesList) {
+
+		Hero hero = null;
+
+		System.out.println("Here we go! Choose your hero by number. Enter '0' if you want to create a new one.");
+		System.out.println(String.format("%2s  %-20s\t%-10s\t%-5s\t%-5s", "#", "NAME", "CLASS", "LEVEL", "EXP"));
+		int i = 0;
+		for (Hero h : heroesList) {
+			String str = String.format("%2d. %-20s\t%-10s\t%-5d\t%-5d",
+					++i, h.getName(), h.getClas().getClassName(), h.getLevel(), h.getExp());
+			System.out.println(str);
+		}
+
+		return hero;
+	}
 
 	public String getNewHeroName() {
 

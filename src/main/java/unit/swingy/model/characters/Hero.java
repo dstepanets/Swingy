@@ -20,7 +20,7 @@ public class Hero extends ACharacter {
 	@NotNull(message = "Hero must belong to a class")
 	private HeroClass clas;
 //	private int level;
-	private int experience;
+	private int exp;
 
 //	private int hp;
 //	private int attack;
@@ -32,6 +32,6 @@ public class Hero extends ACharacter {
 
 	Hero() {
 		level = 0;
-		experience = 0;
+		exp = 0;
 	}
 }
