@@ -1,6 +1,8 @@
 package unit.swingy.view.console;
 
+import unit.swingy.model.characters.DataBase;
 import unit.swingy.model.characters.Hero;
+import unit.swingy.model.characters.HeroBuilder;
 import unit.swingy.model.characters.HeroClass;
 
 import java.util.ArrayList;
@@ -10,21 +12,90 @@ public class ChooseHeroCons {
 
 	private Scanner scanner = new Scanner(System.in);
 
-	public Hero chooseHero(ArrayList<Hero> heroesList) {
+	private boolean scanYesOrNo() {
+
+		while (true) {
+			String answer = scanner.nextLine();
+			if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("Yes")) {
+				return true;
+			} else if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("No")) {
+				return false;
+			}
+		}
+	}
+
+	public Hero chooseHero(ArrayList<Hero> heroesList, DataBase db, HeroBuilder builder) {
 
 		Hero hero = null;
 
-		System.out.println("Here we go! Choose your hero by number. Enter '0' if you want to create a new one.");
-		System.out.println(String.format("%2s  %-20s\t%-10s\t%-5s\t%-5s", "#", "NAME", "CLASS", "LEVEL", "EXP"));
-		int i = 0;
-		for (Hero h : heroesList) {
-			String str = String.format("%2d. %-20s\t%-10s\t%-5d\t%-5d",
-					++i, h.getName(), h.getClas().getClassName(), h.getLevel(), h.getExp());
-			System.out.println(str);
-		}
+		System.out.println("Here we go!");
+		do {
+			// print list
+			int rows = 0;
+			System.out.println("Choose your hero by number.");
+			System.out.println("Enter '0' if you want to CREATE a new one.");
+			System.out.println("Enter negative number if you want to DELETE a hero from this world. FOREVER.");
+			System.out.printf("%s  %-20s\t%-10s\t%-5s\t%-5s\n", "##", "NAME", "CLASS", "LEVEL", "EXP");
+			for (Hero h : heroesList) {
+				printShortStats(h, ++rows);
+			}
 
+			// get int choice
+			// init i outside of loop condition
+			int i = rows + 1;
+			do {
+				while (!scanner.hasNextInt()) {
+					scanner.next();
+				}
+				i = scanner.nextInt();
+			} while (i < -rows || i > rows);
+			scanner.nextLine();
+
+			// break out of the loop and go to hero creation
+			if (i == 0) {
+				break;
+			}
+
+			// print detailed stats and ask for confirmation
+			if (i > 0) {
+				printShortStats(heroesList.get(i - 1), i);
+				printMoreStats(heroesList.get(i - 1));
+				System.out.println("\nDo you want to play this bastard? Yes / No:");
+				if (scanYesOrNo() == true) {
+					hero = heroesList.get(i - 1);
+				}
+			//	delete hero if a negative index is entered
+			} else {
+				System.out.println("Are you sure you want to eliminate this jerk FOREVER AND EVER, with no going back?");
+				System.out.println("Yes / No:");
+				if (scanYesOrNo() == true) {
+					db.removeHero(heroesList.get(-i - 1).getId());
+					heroesList = db.getHeroesList(builder);
+				}
+			}
+
+		} while (hero == null);
+		// if null is returned, go to hero creation
 		return hero;
 	}
+
+	public void printShortStats(Hero h, int num) {
+		System.out.printf("%2d. %-20s\t%-10s\t%-5d\t%-5d",
+							num, h.getName(), h.getClas().getClassName(), h.getLevel(), h.getExp());
+		System.out.println();
+	}
+
+	public void printMoreStats(Hero h) {
+		System.out.println("HP:\t\t\t" + h.getHp());
+		System.out.println("Attack:\t\t" + h.getAttack());
+		System.out.println("Defence:\t" + h.getDefence());
+		System.out.println("Weapon:\t\t" + h.getWeapon());
+		System.out.println("Armor:\t\t" + h.getArmor());
+		System.out.println("Helm:\t\t" + h.getHelm());
+		System.out.println(h.getClas().getDescription());
+	}
+
+
 
 	public String getNewHeroName() {
 
@@ -46,30 +117,28 @@ public class ChooseHeroCons {
 			System.out.println("What kind of hero is that?");
 			System.out.println("Type a number to learn more about the choice:");
 
+			// list heroes
 			int n = 0;
 			for (HeroClass h : HeroClass.values()) {
 				n++;
 				System.out.println("\t" + n + ". " + h.getClassName());
 			}
 
+			// get number
 			while (!scanner.hasNextInt()) {
 				scanner.next();
 			}
 			int choice = scanner.nextInt();
 			scanner.nextLine();
+
+			// print info about a class and confirm the choice
 			if (choice >= 1 && choice <= HeroClass.count) {
 				clas = HeroClass.values()[choice - 1];
 				System.out.println("\n\t" + clas.toString() + "\n" + clas.getDescription());
-
-				while (true) {
-					System.out.println("\nDo you want to play this bastard? Yes / No:");
-					String answer = scanner.nextLine();
-					if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("Yes")) {
-						break;
-					} else if (answer.equalsIgnoreCase("N") || answer.equalsIgnoreCase("No")) {
-						clas = null;
-						break;
-					}
+				System.out.println(clas.getStartingStatsInfo());
+				System.out.println("\nDo you want to add this bastard to the list? Yes / No:");
+				if (scanYesOrNo() == false) {
+					clas = null;
 				}
 			}
 		} while (clas == null);

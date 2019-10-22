@@ -25,6 +25,10 @@ public class HeroBuilder {
 		hero.setDefence(c.getDefence());
 	}
 
+	public void setId(int id) {
+		hero.setId(id);
+	}
+
 	public void setName(String name) {
 		hero.setName(name);
 	}

@@ -1,5 +1,6 @@
 package unit.swingy.model.characters;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.NotBlank;
@@ -14,6 +15,7 @@ import unit.swingy.model.artifacts.Armor;
 @Getter @Setter
 public class Hero extends ACharacter {
 
+	private int id;
 	@Range(min=1, max = 50, message = "Hero's name must be 1-30 character long")
 	@NotBlank(message = "Hero's name can't be blank")
 	private String name;

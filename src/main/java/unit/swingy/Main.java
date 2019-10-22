@@ -39,7 +39,7 @@ public class Main {
 		director.chooseHero();
 
 		System.out.println(">> Hero's Name: " + game.getHero().getName());
-		System.out.println(">> Hero's Class: " + game.getHero().getClas());
+		System.out.println(">> Hero's Class: " + game.getHero().getClas().getClassName());
 
 //		save the hero
 

@@ -1,0 +1,9 @@
+2019-10-22 18:03:09 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "REMOVE[*] FROM HEROES WHERE ID = -8"; expected "ROLLBACK, REVOKE, RUNSCRIPT, RELEASE"; SQL statement:
+REMOVE FROM Heroes WHERE id = -8 [42001-200]
+2019-10-22 18:19:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DBCC[*] CHECKIDENT('Heroes', RESEED, 0);"; expected "DELETE, DROP, DECLARE, DEALLOCATE"; SQL statement:
+DBCC CHECKIDENT('Heroes', RESEED, 0); [42001-200]
+2019-10-22 18:46:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DBCC[*] CHECKIDENT('Heroes', RESEED, 0);"; expected "DELETE, DROP, DECLARE, DEALLOCATE"; SQL statement:
+DBCC CHECKIDENT('Heroes', RESEED, 0); [42001-200]

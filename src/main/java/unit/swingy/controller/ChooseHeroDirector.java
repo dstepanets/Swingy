@@ -26,21 +26,24 @@ public class ChooseHeroDirector {
 	public void chooseHero() {
 		db.connectToDB();
 
-		ArrayList<Hero> heroesList = db.getHeroesList(builder);
-		Hero hero = null;
+		do {
+			ArrayList<Hero> heroesList = db.getHeroesList(builder);
+			Hero hero = null;
 
-		if (game.isGuiMode()) {
+			if (game.isGuiMode()) {
 
-		} else {
-			hero = console.chooseHero(heroesList);
-		}
-
-		if (hero == null) {
-			hero = newHero();
-		}
+			} else {
+				hero = console.chooseHero(heroesList, db, builder);
+			}
+			if (hero != null) {
+				game.setHero(hero);
+			} else {
+				hero = newHero();
+				db.addHero(hero);
+			}
+		} while (game.getHero() == null);
 
 		db.closeConnection();
-		game.setHero(hero);
 	}
 
 	private Hero newHero() {

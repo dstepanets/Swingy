@@ -83,6 +83,8 @@ public class DataBase {
 		ArrayList<Hero> heroesList = new ArrayList<>();
 
 		try {
+
+//			temporary count
 			ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM HEROES");
 			rs.next();
 			int rows = rs.getInt("count(*)");
@@ -91,6 +93,7 @@ public class DataBase {
 			rs = statement.executeQuery("SELECT * FROM HEROES");
 
 			while (rs.next()) {
+				builder.setId(rs.getInt("id"));
 				builder.setName(rs.getString("name"));
 				builder.setClas(rs.getString("class"));
 				builder.setLevel(rs.getInt("level"));
@@ -106,10 +109,33 @@ public class DataBase {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-
-
 		return heroesList;
+	}
+
+	public void addHero(Hero h) {
+
+		System.out.println(">> Adding a hero...");
+
+		String sql = "INSERT INTO Heroes (name, class, level, exp, hp, attack, defence, weapon, armor, helm) " +
+				"VALUES (\'" + h.getName() + "\', \'" + h.getClas() + "\', " + h.getLevel() + ", " + h.getExp() + ", " +
+				h.getHp() + ", " + h.getAttack() + ", " + h.getDefence() + ", " + h.getWeapon() + ", " +
+				h.getArmor() + ", " + h.getHelm() + ");";
+		try {
+			statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void  removeHero(int id) {
+		System.out.println(">> Removing a hero...");
+		String sql = "DELETE FROM Heroes WHERE id = " + id;
+		try {
+			statement.executeUpdate(sql);
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
 	}
 
 	public void closeConnection() {
@@ -127,6 +153,7 @@ public class DataBase {
 	//for debugging
 	private void printTable() {
 
+		System.out.println("====================DB=======================");
 		try {
 			statement = connection.createStatement();
 
@@ -144,6 +171,7 @@ public class DataBase {
 					System.out.print(" " + rs.getMetaData().getColumnName(i) + "=" + rs.getObject(i));
 					System.out.println();
 				}
+				System.out.println("---------------------");
 			}
 
 		} catch (SQLException esql) {

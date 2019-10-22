@@ -3,3 +3,27 @@
 * Hibernate Validator
 
 * Lombok plugin getters-setters
+
+
+
+
+
+
+
+
+
+================================
+BONUSES:
+
+
+*** PLANNED:
+* map
+* obstacles
+* special ability
+
+
+
+
+### DONE:
+1. remove hero form DB
+
