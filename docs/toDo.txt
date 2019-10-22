@@ -17,6 +17,8 @@ BONUSES:
 
 
 *** PLANNED:
+* You can switch between console view and GUI view at runtime, without closing the
+game
 * map
 * obstacles
 * special ability
@@ -25,5 +27,6 @@ BONUSES:
 
 
 ### DONE:
-1. remove hero form DB
+1. You persist the user’s heroes in a relational database, instead of a text file.
+2. remove hero form DB
 
