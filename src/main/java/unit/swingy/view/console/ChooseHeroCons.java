@@ -24,9 +24,10 @@ public class ChooseHeroCons {
 		}
 	}
 
-	public Hero chooseHero(ArrayList<Hero> heroesList, DataBase db, HeroBuilder builder) {
+	public Hero chooseHero(DataBase db, HeroBuilder builder) {
 
 		Hero hero = null;
+		ArrayList<Hero> heroesList = db.getHeroesList(builder);
 
 		System.out.println("Here we go!");
 		do {

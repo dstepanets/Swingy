@@ -4,6 +4,7 @@ import unit.swingy.model.characters.DataBase;
 import unit.swingy.model.characters.Hero;
 import unit.swingy.model.characters.HeroBuilder;
 import unit.swingy.view.console.ChooseHeroCons;
+import unit.swingy.view.gui.ChooseHeroGui;
 
 import java.util.ArrayList;
 
@@ -13,27 +14,32 @@ public class ChooseHeroDirector {
 	private HeroBuilder builder;
 	private DataBase db;
 	ChooseHeroCons console;
+	ChooseHeroGui gui;
 
 	public ChooseHeroDirector() {
 		game = Game.getInstance();
 		builder = new HeroBuilder();
 		builder.reset();
 		db = new DataBase();
-
 		console = new ChooseHeroCons();
+		gui = new ChooseHeroGui();
 	}
 
 	public void chooseHero() {
+
 		db.connectToDB();
 
 		do {
-			ArrayList<Hero> heroesList = db.getHeroesList(builder);
 			Hero hero = null;
 
 			if (game.isGuiMode()) {
+				hero = gui.chooseHero(db, builder);
+//				temp
+				if (hero == null)
+					return;
 
 			} else {
-				hero = console.chooseHero(heroesList, db, builder);
+				hero = console.chooseHero(db, builder);
 			}
 			if (hero != null) {
 				game.setHero(hero);

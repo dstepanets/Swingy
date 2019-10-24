@@ -31,6 +31,7 @@
 <!--					</archive>-->
 <!--				</configuration>-->
 <!--			</plugin>-->
+
 			<!-- The Compiler Plugin is used to compile the sources of your project.-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -41,6 +42,7 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
+
 			<!-- Maven Assembly Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -57,7 +59,6 @@
 							<mainClass>unit.swingy.Main</mainClass>
 						</manifest>
 					</archive>
-
 				</configuration>
 				<executions>
 					<execution>
@@ -71,6 +72,27 @@
 					</execution>
 				</executions>
 			</plugin>
+
+
+			<!-- for GUI builder -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>ideauidesigner-maven-plugin</artifactId>
+				<version>1.0-beta-1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>javac2</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<fork>true</fork>
+					<debug>true</debug>
+					<failOnError>true</failOnError>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 
@@ -132,8 +154,20 @@
 			<version>1.4.200</version>
 		</dependency>
 
-
-
+		<!-- Jetbrains UiDesigner -->
+		<!-- https://mvnrepository.com/artifact/com.intellij/forms_rt -->
+		<dependency>
+			<groupId>com.intellij</groupId>
+			<artifactId>forms_rt</artifactId>
+			<version>7.0.3</version>
+		</dependency>
+		<!-- for GUI builder -->
+		<!-- https://mvnrepository.com/artifact/com.intellij/javac2 -->
+		<dependency>
+			<groupId>com.intellij</groupId>
+			<artifactId>javac2</artifactId>
+			<version>7.0.3</version>
+		</dependency>
 
 
 	</dependencies>

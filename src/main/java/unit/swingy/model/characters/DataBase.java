@@ -150,6 +150,21 @@ public class DataBase {
 		}
 	}
 
+	public String[] getColumnNames() {
+		String[] columnNames = null;
+		try {
+			statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery("SELECT * FROM Heroes");
+			columnNames = new String[rs.getMetaData().getColumnCount()];
+			for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) {
+				columnNames[i - 1] = rs.getMetaData().getColumnName(i);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return columnNames;
+	}
+
 	//for debugging
 	private void printTable() {
 
