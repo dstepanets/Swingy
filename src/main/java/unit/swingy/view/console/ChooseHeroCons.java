@@ -10,7 +10,16 @@ import java.util.Scanner;
 
 public class ChooseHeroCons {
 
-	private Scanner scanner = new Scanner(System.in);
+	private DataBase db;
+	private HeroBuilder hb;
+	private Scanner scanner;
+
+	public ChooseHeroCons(DataBase dataBase, HeroBuilder builder) {
+		db = dataBase;
+		hb = builder;
+		scanner  = new Scanner(System.in);
+	}
+
 
 	private boolean scanYesOrNo() {
 
@@ -24,10 +33,10 @@ public class ChooseHeroCons {
 		}
 	}
 
-	public Hero chooseHero(DataBase db, HeroBuilder builder) {
+	public Hero chooseHero() {
 
 		Hero hero = null;
-		ArrayList<Hero> heroesList = db.getHeroesList(builder);
+		ArrayList<Hero> heroesList = db.getHeroesList(hb);
 
 		System.out.println("Here we go!");
 		do {
@@ -71,7 +80,7 @@ public class ChooseHeroCons {
 				System.out.println("Yes / No:");
 				if (scanYesOrNo() == true) {
 					db.removeHero(heroesList.get(-i - 1).getId());
-					heroesList = db.getHeroesList(builder);
+					heroesList = db.getHeroesList(hb);
 				}
 			}
 

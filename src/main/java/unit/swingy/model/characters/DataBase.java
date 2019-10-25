@@ -9,6 +9,14 @@ import java.util.ArrayList;
 
 public class DataBase {
 
+	private static DataBase instance;
+
+	public static DataBase getInstance() {
+		if (instance == null)
+			instance = new DataBase();
+		return instance;
+	}
+
 	// JDBC driver name and database URL
 	static final String JDBC_DRIVER = "org.h2.Driver";
 	static final String DB_URL = "jdbc:h2:./src/main/resources/HeroesDB/HeroesH2";
@@ -18,6 +26,10 @@ public class DataBase {
 
 	private Connection connection = null;
 	private Statement statement = null;
+
+	private DataBase() {
+		connectToDB();
+	}
 
 	public void connectToDB() {
 

@@ -20,26 +20,25 @@ public class ChooseHeroDirector {
 		game = Game.getInstance();
 		builder = new HeroBuilder();
 		builder.reset();
-		db = new DataBase();
-		console = new ChooseHeroCons();
+		db = DataBase.getInstance();
+		db.connectToDB();
+		console = new ChooseHeroCons(db, builder);
 		gui = new ChooseHeroGui();
 	}
 
 	public void chooseHero() {
 
-		db.connectToDB();
-
 		do {
 			Hero hero = null;
 
 			if (game.isGuiMode()) {
-				hero = gui.chooseHero(db, builder);
+				hero = gui.chooseHero();
 //				temp
 				if (hero == null)
 					return;
 
 			} else {
-				hero = console.chooseHero(db, builder);
+				hero = console.chooseHero();
 			}
 			if (hero != null) {
 				game.setHero(hero);

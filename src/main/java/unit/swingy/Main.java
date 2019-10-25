@@ -38,8 +38,12 @@ public class Main {
 		ChooseHeroDirector director = new ChooseHeroDirector();
 		director.chooseHero();
 
-//		System.out.println(">> Hero's Name: " + game.getHero().getName());
-//		System.out.println(">> Hero's Class: " + game.getHero().getClas().getClassName());
+		if (game.getHero() != null) {
+			System.out.println(">> Hero's Name: " + game.getHero().getName());
+			System.out.println(">> Hero's Class: " + game.getHero().getClas().getClassName());
+		} else {
+			System.out.println(">> No hero is selected.");
+		}
 
 //		save the hero
 

@@ -7,6 +7,10 @@ public class HeroBuilder {
 	@Setter
 	private Hero hero;
 
+	public HeroBuilder() {
+		reset();
+	}
+
 	public void reset() {
 		this.hero = new Hero();
 	}
