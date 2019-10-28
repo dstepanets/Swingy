@@ -43,8 +43,8 @@ public enum HeroClass {
 
 		switch (this) {
 			case REGULAR:
-				description = "\"I'm just a regular everyday normal guy\n" +
-						"Nothin' special 'bout me, motherfucker\" (c) Jon Lajoie\n" +
+				description = "* I'm just a regular everyday normal guy\n" +
+						"Nothin' special 'bout me, motherfucker * (c) Jon Lajoie\n" +
 						"It's hard to notice me in a crowd. Even on an empty street. " +
 						"And still harder to remember. But that's OK. Whatever.";
 				break;
@@ -60,7 +60,7 @@ public enum HeroClass {
 						"while trying to break my 100-kilos armor with their toy sticks.";
 				break;
 		}
-		return ("[* * * " + description + " * * *]");
+		return ("\"" + description + "\"");
 	}
 
 

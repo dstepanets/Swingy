@@ -7,14 +7,19 @@ import lombok.Getter;
 import unit.swingy.model.characters.DataBase;
 import unit.swingy.model.characters.Hero;
 import unit.swingy.model.characters.HeroBuilder;
+import unit.swingy.model.characters.HeroClass;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 @Getter
@@ -26,24 +31,42 @@ public class ChooseHeroGui {
 	private Hero hero = null;
 	private ArrayList<Hero> heroesList;
 
+	private JFrame frame;
+	private JPanel mainPanel;
+	private JScrollPane paneLeft;
+	private JLabel avatar;
 	private JTable table;
+
+	private JScrollPane bioPane;
+	private JTextPane bio;
+	private JScrollPane statsPane;
+	private JTextPane stats;
+
 	private JButton play;
 	private JButton addHero;
 	private JButton deleteHero;
-	private JPanel mainPanel;
-	private JTextPane textPane;
-	private JScrollPane paneLeft;
-	private JScrollPane paneRight;
+
 
 	public ChooseHeroGui() {
+
 		$$$setupUI$$$();
+		frame = new JFrame("Choose your hero");
+
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent event) {
 				hero = heroesList.get(table.getSelectedRow());
+				displayAvatar();
 				displayHeroStats();
 			}
 		});
 
+		addHero.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				createNewHero();
+			}
+		});
 	}
 
 	public Hero chooseHero() {
@@ -52,7 +75,7 @@ public class ChooseHeroGui {
 
 
 		//init frame
-		JFrame frame = new JFrame("Choose your hero");
+
 		frame.setContentPane(this.getMainPanel());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
@@ -69,7 +92,6 @@ public class ChooseHeroGui {
 
 		String[] columns = {"NAME", "CLASS", "LEVEL", "EXP"};
 		Object[][] data = new Object[rows][4];
-
 		for (int r = 0; r < rows; r++) {
 			data[r][0] = heroesList.get(r).getName();
 			data[r][1] = heroesList.get(r).getClas();
@@ -77,32 +99,101 @@ public class ChooseHeroGui {
 			data[r][3] = heroesList.get(r).getExp();
 		}
 
-		table = new JTable(data, columns);
+		DefaultTableModel tableModel = new DefaultTableModel(data, columns) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				//all cells false
+				return false;
+			}
+		};
+
+		table = new JTable(tableModel);
 		table.setFillsViewportHeight(true);
 
 	}
 
 	private void displayHeroStats() {
 
-		textPane.setText("");
+		bio.setText("");
+		stats.setText("");
+
 		SimpleAttributeSet atr = new SimpleAttributeSet();
-		Document doc = textPane.getStyledDocument();
+		StyleConstants.setFontSize(atr, 13);
+		StyleConstants.setItalic(atr, true);
+
+		Document bioDoc = bio.getStyledDocument();
+		Document statsDoc = stats.getStyledDocument();
 
 		try {
-			doc.insertString(doc.getLength(), "Name: " + hero.getName() + "\n", atr);
-			doc.insertString(doc.getLength(), "Class: " + hero.getClas() + "\n\n", atr);
-			doc.insertString(doc.getLength(), "Level: " + hero.getLevel() + "\n", atr);
-			doc.insertString(doc.getLength(), "Exp: " + hero.getExp() + "\n\n", atr);
-			doc.insertString(doc.getLength(), "HP: " + hero.getHp() + "\n", atr);
-			doc.insertString(doc.getLength(), "Attack: " + hero.getAttack() + "\n", atr);
-			doc.insertString(doc.getLength(), "Defence: " + hero.getDefence() + "\n\n", atr);
-			doc.insertString(doc.getLength(), "Weapon: " + hero.getWeapon() + "\n", atr);
-			doc.insertString(doc.getLength(), "Armor: " + hero.getArmor() + "\n", atr);
-			doc.insertString(doc.getLength(), "Helm: " + hero.getHelm() + "\n", atr);
+			bioDoc.insertString(statsDoc.getLength(), hero.getClas().getDescription() + "\n\n", atr);
+			StyleConstants.setFontSize(atr, 14);
+			StyleConstants.setItalic(atr, false);
+
+			statsDoc.insertString(statsDoc.getLength(), "Name: " + hero.getName() + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Class: " + hero.getClas() + "\n\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Level: " + hero.getLevel() + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Exp: " + hero.getExp() + "\n\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "HP: " + hero.getHp() + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Attack: " + hero.getAttack() + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Defence: " + hero.getDefence() + "\n\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Weapon: " + hero.getWeapon() + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Armor: " + hero.getArmor() + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Helm: " + hero.getHelm() + "\n", atr);
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
 	}
+
+	private void displayAvatar() {
+		String path = "src/main/resources/img/" + hero.getClas().getClassName() + ".jpg";
+		ImageIcon icon = new ImageIcon(path);
+		avatar.setIcon(icon);
+	}
+
+	private void createNewHero() {
+
+//		get a name from input
+		String input = "";
+		do {
+			input = (String) JOptionPane.showInputDialog(frame, "Enter your Hero's name:",
+					"New Hero's Name", JOptionPane.PLAIN_MESSAGE);
+			if (input == null)
+				return;
+		} while (input.trim().isEmpty());
+
+		hb.reset();
+		hb.setName(input);
+
+//		get a class from dialog
+		Object[] options = new Object[HeroClass.count];
+		int i = 0;
+		for (HeroClass c : HeroClass.values()) {
+			options[i++] = c.getClassName();
+		}
+
+//		TODO: this dialog is not working yet. But looks promising:)
+		input = "";
+		HeroClass clas = HeroClass.REGULAR;
+		do {
+			String msg = clas.getDescription() + "\n" + clas.getStartingStatsInfo() + "\n";
+			String path = "src/main/resources/img/" + clas.getClassName() + ".jpg";
+			ImageIcon icon = new ImageIcon(path);
+			input = (String) JOptionPane.showInputDialog(frame, msg, "New Hero's class",
+					JOptionPane.PLAIN_MESSAGE, icon, options, "REGULAR");
+			if (input == null) {
+				hero = null;
+				return;
+			}
+			clas = HeroClass.valueOf(input);
+		} while (true);
+
+
+//		hero = hb.getHero();
+	}
+
+
+
+
 
 
 	/**
@@ -120,13 +211,13 @@ public class ChooseHeroGui {
 		mainPanel.add(paneLeft, new GridConstraints(0, 0, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
 		paneLeft.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), null));
 		paneLeft.setViewportView(table);
-		paneRight = new JScrollPane();
-		mainPanel.add(paneRight, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(200, -1), null, 0, false));
-		paneRight.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), null));
-		textPane = new JTextPane();
-		textPane.setEditable(false);
-		textPane.setText("Select a hero");
-		paneRight.setViewportView(textPane);
+		statsPane = new JScrollPane();
+		mainPanel.add(statsPane, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(200, -1), null, 0, false));
+		statsPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLoweredBevelBorder(), null));
+		stats = new JTextPane();
+		stats.setEditable(false);
+		stats.setText("Select a hero");
+		statsPane.setViewportView(stats);
 		play = new JButton();
 		play.setText("Play");
 		mainPanel.add(play, new GridConstraints(1, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
