@@ -15,8 +15,11 @@ public enum HeroClass {
 	private int		attack;
 	private int		defence;
 
+	private String avatar;
+
 	HeroClass() {
 		className = this.toString().substring(0, 1) + this.toString().substring(1).toLowerCase();
+		avatar = "src/main/resources/img/avatars/" + className + ".jpg";
 
 		switch (className) {
 			case "Regular":

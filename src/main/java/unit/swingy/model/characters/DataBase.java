@@ -43,7 +43,7 @@ public class DataBase {
 			connection = DriverManager.getConnection(DB_URL + ";IFEXISTS=TRUE", USER, PASS);
 
 			//test
-			printTable();
+//			printTable();
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -95,6 +95,8 @@ public class DataBase {
 		ArrayList<Hero> heroesList = new ArrayList<>();
 
 		try {
+
+			statement = connection.createStatement();
 
 //			temporary count
 			ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM HEROES");
