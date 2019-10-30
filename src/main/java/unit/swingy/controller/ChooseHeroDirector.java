@@ -23,30 +23,32 @@ public class ChooseHeroDirector {
 		db = DataBase.getInstance();
 		db.connectToDB();
 		console = new ChooseHeroCons(db, builder);
-		gui = new ChooseHeroGui();
+//		gui = new ChooseHeroGui();
 	}
 
 	public void chooseHero() {
 
-		do {
+
 			Hero hero = null;
 
 			if (game.isGuiMode()) {
-				hero = gui.chooseHero();
+				gui = new ChooseHeroGui();
+				gui.chooseHero();
+				while (game.getHero() == null) {}
 //				temp
-				if (hero == null)
-					return;
+			} else {
+				do {
+					hero = console.chooseHero();
+					if (hero != null) {
+						game.setHero(hero);
+					} else {
+						hero = newHero();
+						db.addHero(hero);
+					}
+				} while (game.getHero() == null);
+			}
 
-			} else {
-				hero = console.chooseHero();
-			}
-			if (hero != null) {
-				game.setHero(hero);
-			} else {
-				hero = newHero();
-				db.addHero(hero);
-			}
-		} while (game.getHero() == null);
+
 
 		db.closeConnection();
 	}

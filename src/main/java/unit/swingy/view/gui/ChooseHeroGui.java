@@ -52,7 +52,7 @@ public class ChooseHeroGui {
 
 	public ChooseHeroGui() {
 
-		frame = new JFrame("Choose your hero");
+		this.frame = new JFrame("Choose your hero");
 		$$$setupUI$$$();
 		updateTable();
 
@@ -88,13 +88,15 @@ public class ChooseHeroGui {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				setHeroAndClose();
+				if (hero != null) {
+					setHeroAndClose();
+				}
 			}
 		});
 	}
 
 
-	public Hero chooseHero() {
+	public void chooseHero() {
 
 		System.out.println(">> Starting GUI ChooseHero method...");
 
@@ -106,7 +108,6 @@ public class ChooseHeroGui {
 		frame.setVisible(true);
 
 
-		return hero;
 	}
 
 	private void updateTable() {
@@ -295,10 +296,8 @@ public class ChooseHeroGui {
 
 
 	private void setHeroAndClose() {
-		if (hero != null) {
 			Game.getInstance().setHero(hero);
 			frame.dispose();
-		}
 	}
 
 
