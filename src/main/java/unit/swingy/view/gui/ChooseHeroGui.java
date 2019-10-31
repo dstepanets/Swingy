@@ -58,10 +58,14 @@ public class ChooseHeroGui {
 
 		//		select table row event
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent event) {
-				hero = heroesList.get(table.getSelectedRow());
-				displayAvatar();
-				displayHeroStats();
+				int row = table.getSelectedRow();
+				if (row > 0) {
+					hero = heroesList.get(row);
+					displayAvatar();
+					displayHeroStats();
+				}
 			}
 		});
 
@@ -185,9 +189,7 @@ public class ChooseHeroGui {
 			if (input == null)
 				return;
 		} while (input.trim().isEmpty());
-
-		hb.reset();
-		hb.setName(input);
+		final String name = input;
 
 //		GET THE HERO CLASS FROM A DIALOG
 
@@ -240,7 +242,9 @@ public class ChooseHeroGui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (list.getSelectedIndex() != -1) {
-					hb.setClas(list.getSelectedValue());
+
+					hb.reset();
+					hb.setUpNewHero(name, HeroClass.valueOf(list.getSelectedValue()));
 					db.addHero(hb.getHero());
 
 //						frame.removeAll();
@@ -313,6 +317,7 @@ public class ChooseHeroGui {
 	 *
 	 * @noinspection ALL
 	 */
+
 	private void $$$setupUI$$$() {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayoutManager(4, 4, new Insets(0, 0, 0, 0), -1, -1));
@@ -359,6 +364,7 @@ public class ChooseHeroGui {
 	/**
 	 * @noinspection ALL
 	 */
+
 	private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
 		if (currentFont == null) return null;
 		String resultName;
@@ -381,12 +387,5 @@ public class ChooseHeroGui {
 	public JComponent $$$getRootComponent$$$() {
 		return mainPanel;
 	}
-
-	private void createUIComponents() {
-		// TODO: place custom component creation code here
-//		createTable();
-
-	}
-
 
 }
