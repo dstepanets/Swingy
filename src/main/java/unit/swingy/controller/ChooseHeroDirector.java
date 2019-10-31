@@ -21,47 +21,43 @@ public class ChooseHeroDirector {
 		builder = new HeroBuilder();
 		builder.reset();
 		db = DataBase.getInstance();
-		db.connectToDB();
 		console = new ChooseHeroCons(db, builder);
 //		gui = new ChooseHeroGui();
 	}
 
 	public void chooseHero() {
 
-
 			Hero hero = null;
 
 			if (game.isGuiMode()) {
 				gui = new ChooseHeroGui();
 				gui.chooseHero();
+//				temp crutch
 				while (game.getHero() == null) {}
-//				temp
 			} else {
 				do {
 					hero = console.chooseHero();
 					if (hero != null) {
 						game.setHero(hero);
 					} else {
-						hero = newHero();
-						db.addHero(hero);
+						builder.setUpNewHero(console.getNewHeroName(), console.getNewHeroClas());
+						db.addHero(builder.getHero());
 					}
 				} while (game.getHero() == null);
 			}
 
-
-
 		db.closeConnection();
 	}
 
-	private Hero newHero() {
-
-		if (game.isGuiMode()) {
-
-		} else {
-			builder.setUpNewHero(console.getNewHeroName(), console.getNewHeroClas());
-		}
-
-		return builder.getHero();
-	}
+//	private Hero newHero() {
+//
+//		if (game.isGuiMode()) {
+//
+//		} else {
+//			builder.setUpNewHero(console.getNewHeroName(), console.getNewHeroClas());
+//		}
+//
+//		return builder.getHero();
+//	}
 
 }

@@ -30,9 +30,8 @@ public class ChooseHeroGui {
 
 	private DataBase db = DataBase.getInstance();
 	private HeroBuilder hb = new HeroBuilder();
-
-	private Hero hero = null;
 	private ArrayList<Hero> heroesList;
+	private Hero hero = null;
 
 	private JFrame frame;
 	private JPanel mainPanel;
@@ -55,6 +54,8 @@ public class ChooseHeroGui {
 		this.frame = new JFrame("Choose your hero");
 		$$$setupUI$$$();
 		updateTable();
+
+
 
 		//		select table row event
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -93,7 +94,8 @@ public class ChooseHeroGui {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				if (hero != null) {
-					setHeroAndClose();
+					Game.getInstance().setHero(hero);
+					frame.dispose();
 				}
 			}
 		});
@@ -191,8 +193,8 @@ public class ChooseHeroGui {
 		} while (input.trim().isEmpty());
 		final String name = input;
 
-//		GET THE HERO CLASS FROM A DIALOG
 
+//		GET THE HERO CLASS FROM A DIALOG
 //		classes list
 		final JFrame f = new JFrame();
 		DefaultListModel<String> lm = new DefaultListModel<>();
@@ -201,26 +203,26 @@ public class ChooseHeroGui {
 		}
 		final JList<String> list = new JList<>(lm);
 		list.setBounds(20, 20, 150, 256);
+		f.add(list);
 
 //		add avatar
 		final JLabel lAvatar = new JLabel();
 		lAvatar.setBounds(224, 20, 256, 256);
+		f.add(lAvatar);
 
 //		add description
 		final JLabel lInfo = new JLabel();
 		lInfo.setBounds(20, 282, 400, 128);
+		f.add(lInfo);
 
 //		buttons
 		JButton bCancel = new JButton("Cancel");
 		bCancel.setBounds(50, 430, 120, 40);
+		f.add(bCancel);
 		JButton bOk = new JButton("Create Hero");
 		bOk.setBounds(330, 430, 120, 40);
-
-		f.add(list);
-		f.add(lAvatar);
-		f.add(lInfo);
-		f.add(bCancel);
 		f.add(bOk);
+
 		f.setSize(500, 500);
 		f.setLayout(null);
 		f.setVisible(true);
@@ -242,16 +244,11 @@ public class ChooseHeroGui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (list.getSelectedIndex() != -1) {
-
+					// build hero with builder and add to DataBase
 					hb.reset();
 					hb.setUpNewHero(name, HeroClass.valueOf(list.getSelectedValue()));
 					db.addHero(hb.getHero());
-
-//						frame.removeAll();
-//						createTable();
-//						frame.repaint();
-//						frame.revalidate();
-//						((DefaultTableModel) table.getModel()).fireTableDataChanged();
+					// close frame, update table
 					f.dispose();
 					updateTable();
 				}
@@ -297,16 +294,6 @@ public class ChooseHeroGui {
 		}
 
 	}
-
-
-	private void setHeroAndClose() {
-			Game.getInstance().setHero(hero);
-			frame.dispose();
-	}
-
-
-
-
 
 
 

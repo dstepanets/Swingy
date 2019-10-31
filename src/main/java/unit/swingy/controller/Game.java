@@ -12,7 +12,7 @@ public class Game {
 
 	private static Game instance;
 	@Setter(AccessLevel.NONE) private boolean guiMode;
-	@NotNull private Hero hero;
+	@NotNull private Hero hero = null;
 
 	public static Game getInstance() {
 		if (instance == null)
