@@ -62,7 +62,7 @@ public class ChooseHeroGui {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
 				int row = table.getSelectedRow();
-				if (row > 0) {
+				if (row >= 0 && row < heroesList.size()) {
 					hero = heroesList.get(row);
 					displayAvatar();
 					displayHeroStats();

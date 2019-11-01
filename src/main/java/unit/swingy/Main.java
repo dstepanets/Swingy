@@ -45,6 +45,8 @@ public class Main {
 			System.out.println(">> No hero is selected.");
 		}
 
+//		TODO Annotation validation of the chosen hero
+
 //		save the hero
 
 

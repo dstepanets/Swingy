@@ -32,8 +32,16 @@ public class ChooseHeroDirector {
 			if (game.isGuiMode()) {
 				gui = new ChooseHeroGui();
 				gui.chooseHero();
-//				temp crutch
-				while (game.getHero() == null) {}
+				
+//				TODO Try multithreading tools like wait() and notify() instead of the loop
+//				wait till user has chosen a hero
+				while (game.getHero() == null) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 			} else {
 				do {
 					hero = console.chooseHero();
@@ -48,16 +56,4 @@ public class ChooseHeroDirector {
 
 		db.closeConnection();
 	}
-
-//	private Hero newHero() {
-//
-//		if (game.isGuiMode()) {
-//
-//		} else {
-//			builder.setUpNewHero(console.getNewHeroName(), console.getNewHeroClas());
-//		}
-//
-//		return builder.getHero();
-//	}
-
 }
