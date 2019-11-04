@@ -2,6 +2,7 @@ package unit.swingy;
 
 import unit.swingy.controller.ChooseHeroDirector;
 import unit.swingy.controller.Game;
+import unit.swingy.model.Map;
 import unit.swingy.model.characters.DataBase;
 
 public class Main {
@@ -47,7 +48,8 @@ public class Main {
 
 //		TODO Annotation validation of the chosen hero
 
-//		save the hero
+
+		game.startGame();
 
 
 

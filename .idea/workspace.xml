@@ -2,12 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a7a2311c-f7db-418e-973b-2e5ec40a63c0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/model/Map.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/model/MapTile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/Enemy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/EnemyBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/EnemyClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ExplorationCons.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/unit/swingy/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unit/swingy/controller/ChooseHeroDirector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/controller/ChooseHeroDirector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/unit/swingy/view/gui/ChooseHeroGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/view/gui/ChooseHeroGui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/unit/swingy/controller/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/controller/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/AArtifact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/AArtifact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/Hero.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/Hero.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ChooseHeroCons.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ChooseHeroCons.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/HeroesDB/HeroesH2.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/HeroesDB/HeroesH2.mv.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/HeroesDB/HeroesH2.trace.db" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,29 +49,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="557">
-              <caret line="39" selection-start-line="39" selection-end-line="39" />
+            <state relative-caret-position="427">
+              <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/controller/Game.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/controller/ChooseHeroDirector.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/controller/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
+            <state relative-caret-position="517">
+              <caret line="86" column="32" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/Map.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-41">
+              <caret line="54" column="40" lean-forward="true" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -73,10 +80,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/view/gui/ChooseHeroGui.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ExplorationCons.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="97" selection-start-line="97" selection-end-line="97" />
+            <state relative-caret-position="-203">
+              <caret line="52" column="9" lean-forward="true" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -85,10 +92,22 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home/src.zip!/java/lang/Object.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/Enemy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="501" selection-start-line="501" selection-end-line="501" />
+            <state relative-caret-position="252">
+              <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/EnemyBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
             </state>
           </provider>
         </entry>
@@ -120,7 +139,6 @@
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/Weapon.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/Armor.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/Helm.java" />
-        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/AArtifact.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/view/IChooseHero.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ChooseHero.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/ACharacter.java" />
@@ -130,17 +148,24 @@
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/controller/ChooseHero.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/view/console/CreateHeroCons.java" />
         <option value="$PROJECT_DIR$/src/main/resources/HeroesDB/createTable.sql" />
-        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/Hero.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ChooseHeroCons.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/HeroClass.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/DataBase.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/HeroBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/view/gui/ChooseHeroGui.form" />
-        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/controller/Game.java" />
-        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/Main.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/view/gui/ChooseHeroGui.java" />
         <option value="$PROJECT_DIR$/src/main/java/unit/swingy/controller/ChooseHeroDirector.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/MapTile.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/Hero.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/AArtifact.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/EnemyBuilder.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/Enemy.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/Main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/EnemyClass.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ChooseHeroCons.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ExplorationCons.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/model/Map.java" />
+        <option value="$PROJECT_DIR$/src/main/java/unit/swingy/controller/Game.java" />
       </list>
     </option>
   </component>
@@ -178,8 +203,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="565" />
-    <option name="y" value="24" />
+    <option name="x" value="130" />
+    <option name="y" value="23" />
     <option name="width" value="1663" />
     <option name="height" value="1417" />
   </component>
@@ -191,8 +216,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -312,6 +335,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -348,7 +373,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JAR Application.swingy-jar-dep">
+  <component name="RunManager" selected="Maven.mvn-build">
     <configuration name="main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="unit.swingy.Main" />
       <module name="swingy" />
@@ -358,7 +383,7 @@
     </configuration>
     <configuration name="swingy-jar-dep" type="JarApplication">
       <option name="JAR_PATH" value="$PROJECT_DIR$/target/swingy-1.0-jar-with-dependencies.jar" />
-      <option name="PROGRAM_PARAMETERS" value="gui" />
+      <option name="PROGRAM_PARAMETERS" value="console" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <method v="2">
@@ -462,11 +487,12 @@
       <workItem from="1572521840908" duration="3333000" />
       <workItem from="1572529880111" duration="3898000" />
       <workItem from="1572622256486" duration="4532000" />
+      <workItem from="1572867018300" duration="18092000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="181956000" />
+    <option name="totallyTimeSpent" value="200048000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -478,10 +504,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="565" y="24" width="1663" height="1417" extended-state="0" />
+    <frame x="130" y="23" width="1663" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20172733" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.197409" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -494,7 +520,7 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32981133" />
+      <window_info active="true" anchor="bottom" id="TODO" order="6" visible="true" weight="0.32981133" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
@@ -524,28 +550,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/docs/toDo.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="2" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/Weapon.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="37" selection-start-line="2" selection-start-column="37" selection-end-line="2" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/Helm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="35" selection-start-line="2" selection-start-column="35" selection-end-line="2" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/view/IChooseHero.java" />
     <entry file="jar://$MAVEN_REPOSITORY$/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar!/javax/validation/Validator.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -609,23 +613,6 @@
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/1084fef2-e6e7-4f33-aa13-bfec66d86a34/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/Armor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="37" selection-start-line="2" selection-start-column="37" selection-end-line="2" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/AArtifact.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/HeroesDB/createTable.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -638,20 +625,6 @@
     </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/0eddd918-c06a-4f11-a3ee-5871771c9392/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/ACharacter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/Hero.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
-        </state>
-      </provider>
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home/src.zip!/javax/swing/JTable.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -672,17 +645,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="460">
           <caret line="81" column="28" selection-start-line="81" selection-start-column="28" selection-end-line="81" selection-end-column="28" />
-        </state>
-      </provider>
-      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/HeroClass.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
@@ -738,23 +704,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ChooseHeroCons.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1296">
-          <caret line="78" column="118" selection-start-line="78" selection-start-column="36" selection-end-line="78" selection-end-column="118" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/HeroBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="39" column="24" selection-start-line="39" selection-start-column="24" selection-end-line="39" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home/src.zip!/javax/swing/plaf/basic/BasicButtonListener.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="287">
@@ -777,47 +726,156 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/view/gui/ChooseHeroGui.form">
       <provider selected="true" editor-type-id="ui-designer" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/controller/Game.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/view/gui/ChooseHeroGui.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="14" column="38" selection-start-line="14" selection-start-column="38" selection-end-line="14" selection-end-column="38" />
+        <state relative-caret-position="1440">
+          <caret line="103" selection-start-line="103" selection-end-line="103" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_211.jdk/Contents/Home/src.zip!/java/lang/Object.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
+        <state relative-caret-position="8532">
           <caret line="501" selection-start-line="501" selection-end-line="501" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/view/gui/ChooseHeroGui.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="97" selection-start-line="97" selection-end-line="97" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="557">
-          <caret line="39" selection-start-line="39" selection-end-line="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/controller/ChooseHeroDirector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
+        <state relative-caret-position="576">
+          <caret line="32" column="42" selection-start-line="32" selection-start-column="42" selection-end-line="32" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/Armor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="37" selection-start-line="2" selection-start-column="37" selection-end-line="2" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/artifacts/AArtifact.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/HeroClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="4" selection-start-line="4" selection-end-line="4" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/Hero.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="18" column="62" selection-start-line="18" selection-start-column="62" selection-end-line="18" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/ACharacter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="9" selection-start-line="9" selection-end-line="12" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/EnemyClass.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="499">
+          <caret line="49" column="89" selection-start-line="49" selection-start-column="89" selection-end-line="49" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/MapTile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/HeroBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="14" column="16" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/Enemy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="11" selection-start-line="14" selection-start-column="11" selection-end-line="14" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/characters/EnemyBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/model/Map.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-41">
+          <caret line="54" column="40" lean-forward="true" selection-start-line="54" selection-start-column="40" selection-end-line="54" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ChooseHeroCons.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1648">
+          <caret line="23" selection-start-line="23" selection-end-line="32" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/view/console/ExplorationCons.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-203">
+          <caret line="52" column="9" lean-forward="true" selection-start-line="52" selection-start-column="9" selection-end-line="52" selection-end-column="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/unit/swingy/controller/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="86" column="32" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
         </state>
       </provider>
     </entry>

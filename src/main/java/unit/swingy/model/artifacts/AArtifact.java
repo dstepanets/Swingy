@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter @Setter
 public abstract class AArtifact {
 
+	private String name;
 	private int power;
 
 }

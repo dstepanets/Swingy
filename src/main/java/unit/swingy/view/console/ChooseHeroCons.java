@@ -22,7 +22,6 @@ public class ChooseHeroCons {
 
 
 	private boolean scanYesOrNo() {
-
 		while (true) {
 			String answer = scanner.nextLine();
 			if (answer.equalsIgnoreCase("Y") || answer.equalsIgnoreCase("Yes")) {
