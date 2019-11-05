@@ -14,7 +14,6 @@ import unit.swingy.model.artifacts.Armor;
 
 @Getter @Setter
 public class Hero extends ACharacter {
-
 	private int id;
 	@Range(min=1, max = 50, message = "Hero's name must be 1-50 character long")
 	@NotBlank(message = "Hero's name can't be blank")
@@ -24,6 +23,7 @@ public class Hero extends ACharacter {
 //	private int level;
 	private int exp;
 
+//	private int maxHp;
 //	private int hp;
 //	private int attack;
 //	private int defence;
@@ -36,4 +36,19 @@ public class Hero extends ACharacter {
 		level = 0;
 		exp = 0;
 	}
+
+	public String takeDamage(ACharacter enemy) {
+
+		int damage = enemy.getAttack() - defence;
+		String log = name + "(" + hp + "/" + maxHp + ") takes " + damage + " damage.";
+		hp -= damage;
+
+		return log;
+	}
+
+	public void heal() {
+		hp = maxHp;
+	}
+
+
 }

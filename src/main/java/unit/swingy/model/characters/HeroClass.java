@@ -11,7 +11,7 @@ public enum HeroClass {
 	public static final int count = HeroClass.values().length;
 
 	private String	className;
-	private int		hp;
+	private int 	maxHp;
 	private int		attack;
 	private int		defence;
 
@@ -23,17 +23,17 @@ public enum HeroClass {
 
 		switch (className) {
 			case "Regular":
-				hp = 100;
+				maxHp = 100;
 				attack = 10;
 				defence = 5;
 				break;
 			case "Berserk":
-				hp = 80;
+				maxHp = 80;
 				attack = 14;
 				defence = 4;
 				break;
 			case "Tank":
-				hp = 120;
+				maxHp = 120;
 				attack = 8;
 				defence = 6;
 				break;
@@ -69,7 +69,7 @@ public enum HeroClass {
 
 	public String getStartingStatsInfo() {
 		String startingStats = "STARTING STATS (";
-		startingStats += "HP: " + hp + " || " + "Attack: " + attack + " || " + "Defence: " + defence + ")";
+		startingStats += "HP: " + maxHp + " || " + "Attack: " + attack + " || " + "Defence: " + defence + ")";
 		return (startingStats);
 	}
 

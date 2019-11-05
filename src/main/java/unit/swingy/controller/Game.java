@@ -7,8 +7,11 @@ import javax.validation.constraints.NotNull;
 
 import unit.swingy.model.Map;
 import unit.swingy.model.MapTile;
+import unit.swingy.model.characters.Enemy;
 import unit.swingy.model.characters.Hero;
 import unit.swingy.view.console.ExplorationCons;
+
+import java.util.Random;
 
 @Getter @Setter
 public class Game {
@@ -19,12 +22,15 @@ public class Game {
 
 	@NotNull private Hero hero;
 	@NotNull private Map map;
-//	player's coordinates on the map
-	private int y;
-	private int x;
+	MapTile grid[][];
+//	player's current coordinates on the map
+	private int x, y;
+//	new coordinates that player tries to move on
+	private int nx, ny;
+
 //	flags that control the game flow
-	private boolean won;
-	private boolean lost;
+	private boolean won = false;
+	private boolean lost = false;
 
 
 	public static Game getInstance() {
@@ -39,8 +45,10 @@ public class Game {
 
 
 	public void startGame() {
+
 		map = new Map(hero);
-		map.printMapTiles();
+		grid = map.getGrid();
+//		map.printMapTiles();
 		console = new ExplorationCons();
 
 		do {
@@ -55,9 +63,10 @@ public class Game {
 
 	public void moveHero(char direction) {
 
-		MapTile tab[][] = map.getTab();
-//		new coordinates
-		int nx = x, ny = y;
+		System.out.println(">> You are moving to: " + direction);
+
+		nx = x;
+		ny = y;
 
 		switch (direction) {
 			case 'n':
@@ -76,21 +85,85 @@ public class Game {
 		}
 
 		if (nx < 0 || ny < 0 || nx >= map.getSize() || ny >= map.getSize()) {
-			won = true;
+			mapVictory();
 		} else {
-			tab[ny][nx].setExplored(true);
-			if (!tab[ny][nx].isObstacle()) {
+			grid[ny][nx].setExplored(true);
+			if (grid[ny][nx].getEnemy() != null) {
+				fightOrFlee();
+//				write further logic
+			}
+			else if (!grid[ny][nx].isObstacle()) {
 //				move to new location if no obstacle is there
-				tab[y][x].setHero(null);
-				tab[ny][nx].setHero(hero);
-//				if there is an enemy we need to remember old coordinates in case the player escapes
-//				TODO: UNFINISHED
-
-
+				grid[y][x].setHero(null);
+				grid[ny][nx].setHero(hero);
+				y = ny; x = nx;
 			}
 		}
+	}
 
+	private void mapVictory() {
+		won = true;
+	}
 
+	private void fightOrFlee() {
+
+		Enemy enemy = grid[ny][nx].getEnemy();
+		boolean willFight = false;
+
+		if (isGuiMode()) {
+
+		} else {
+			willFight = console.fightOrFlee(enemy);
+		}
+
+		if (!willFight) {
+			if (tryToFlee())
+				escapeBattle();
+			else
+				battle(true, enemy);
+		} else
+			battle(false, enemy);
+
+	}
+
+	private boolean tryToFlee() {
+//		TODO: add greater chance for Normal Guy
+		return new Random().nextBoolean();
+	}
+
+	private void escapeBattle() {
+		if (guiMode) {
+
+		} else {
+			console.printMessage("You heroically escaped that filthy beast!");
+		}
+		ny = y; nx = x;
+	}
+
+	private void battle(boolean forced, Enemy enemy) {
+
+		System.out.println("## You entered a battle.");
+		boolean victory = false;
+
+		if (guiMode) {
+
+		} else {
+			if (forced) console.printMessage("Sadly, you run so sloooowly...");
+//			console.battle();
+		}
+
+		do {
+			String s = enemy.takeDamage(hero);
+			System.out.println("## " + s);
+			s = hero.takeDamage(enemy);
+			System.out.println("## " + s);
+		} while ((hero.getHp() > 0) && (enemy.getHp() > 0));
+
+		victory = (enemy.getHp() <= 0) ? true : false;
+		System.out.println("## Victory: " + victory);
+
+		if (victory)
+			hero.heal();
 
 	}
 

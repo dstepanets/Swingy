@@ -165,7 +165,7 @@ public class ChooseHeroGui {
 			statsDoc.insertString(statsDoc.getLength(), "Class: " + hero.getClas() + "\n\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Level: " + hero.getLevel() + "\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Exp: " + hero.getExp() + "\n\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "HP: " + hero.getHp() + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "MaxHP: " + hero.getMaxHp() + "\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Attack: " + hero.getAttack() + "\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Defence: " + hero.getDefence() + "\n\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Weapon: " + hero.getWeapon() + "\n", atr);

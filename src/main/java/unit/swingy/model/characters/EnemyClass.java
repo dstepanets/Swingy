@@ -10,7 +10,7 @@ public enum EnemyClass {
 
 	public static final int count = EnemyClass.values().length;
 
-	private String	className;
+	private String		className;
 //	PL - per level
 	private double		hpPL;
 	private double		attackPL;

@@ -8,6 +8,7 @@ import unit.swingy.model.characters.HeroClass;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//	TODO make a common interface for console classes
 public class ChooseHeroCons {
 
 	private DataBase db;
@@ -48,6 +49,7 @@ public class ChooseHeroCons {
 			for (Hero h : heroesList) {
 				printShortStats(h, ++rows);
 			}
+			System.out.print(":> ");
 
 			// get int choice
 			// init i outside of loop condition
@@ -70,13 +72,14 @@ public class ChooseHeroCons {
 				printShortStats(heroesList.get(i - 1), i);
 				printMoreStats(heroesList.get(i - 1));
 				System.out.println("\nDo you want to play this bastard? Yes / No:");
+				System.out.print(":> ");
 				if (scanYesOrNo() == true) {
 					hero = heroesList.get(i - 1);
 				}
 			//	delete hero if a negative index is entered
 			} else {
 				System.out.println("Are you sure you want to eliminate this jerk FOREVER AND EVER, with no going back?");
-				System.out.println("Yes / No:");
+				System.out.print("Yes/No:> ");
 				if (scanYesOrNo() == true) {
 					db.removeHero(heroesList.get(-i - 1).getId());
 					heroesList = db.getHeroesList(hb);
@@ -112,6 +115,7 @@ public class ChooseHeroCons {
 
 		do {
 			System.out.println("Type your hero's name and press Enter:");
+			System.out.print(":> ");
 			name = scanner.nextLine();
 		} while (name.isEmpty() || name.trim().isEmpty());
 
@@ -135,6 +139,7 @@ public class ChooseHeroCons {
 
 			// get number
 			while (!scanner.hasNextInt()) {
+				System.out.print(":> ");
 				scanner.next();
 			}
 			int choice = scanner.nextInt();
@@ -146,6 +151,7 @@ public class ChooseHeroCons {
 				System.out.println("\n\t" + clas.toString() + "\n" + clas.getDescription());
 				System.out.println(clas.getStartingStatsInfo());
 				System.out.println("\nDo you want to add this bastard to the list? Yes / No:");
+				System.out.print(":> ");
 				if (scanYesOrNo() == false) {
 					clas = null;
 				}

@@ -24,7 +24,7 @@ public class HeroBuilder {
 	public void setUpNewHero(String name, HeroClass c) {
 		hero.setName(name);
 		hero.setClas(c);
-		hero.setHp(c.getHp());
+		hero.setHp(c.getMaxHp());
 		hero.setAttack(c.getAttack());
 		hero.setDefence(c.getDefence());
 	}
@@ -50,8 +50,9 @@ public class HeroBuilder {
 		hero.setExp(exp);
 	}
 
-	public void setHp(int hp) {
-		hero.setHp(hp);
+	public void setHp(int maxHp) {
+		hero.setMaxHp(maxHp);
+		hero.heal();
 	}
 
 	public void setAttack(int a) {
