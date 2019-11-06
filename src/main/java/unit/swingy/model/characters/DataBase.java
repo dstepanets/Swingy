@@ -131,9 +131,17 @@ public class DataBase {
 		System.out.println(">> Adding a hero...");
 
 		String sql = "INSERT INTO Heroes (name, class, level, exp, hp, attack, defence, weapon, armor, helm) " +
-				"VALUES (\'" + h.getName() + "\', \'" + h.getClas() + "\', " + h.getLevel() + ", " + h.getExp() + ", " +
-				h.getHp() + ", " + h.getAttack() + ", " + h.getDefence() + ", " + h.getWeapon() + ", " +
-				h.getArmor() + ", " + h.getHelm() + ");";
+						"VALUES (\'" +
+						h.getName() + "\', \'" +
+						h.getClas() + "\', " +
+						h.getLevel() + ", " +
+						h.getExp() + ", " +
+						h.getMaxHp() + ", " +
+						h.getAttack() + ", " +
+						h.getDefence() + ", " +
+						h.getWeapon() + ", " +
+						h.getArmor() + ", " +
+						h.getHelm() + ");";
 		try {
 			statement.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -177,6 +185,26 @@ public class DataBase {
 			e.printStackTrace();
 		}
 		return columnNames;
+	}
+
+	public void updateHero(Hero h) {
+		System.out.println(">> Updating a hero in the DB...");
+		String sql = "UPDATE Heroes SET " +
+						"level = " + h.getLevel() +
+						", exp = " + h.getExp() +
+						", hp = " + h.getMaxHp() +
+						", attack = " + h.getAttack() +
+						", defence = " + h.getDefence() +
+						", weapon = " + h.getWeapon() +
+						", armor = " + h.getArmor() +
+						", helm = " + h.getHelm() +
+					" WHERE id = " + h.getId();
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	//for debugging

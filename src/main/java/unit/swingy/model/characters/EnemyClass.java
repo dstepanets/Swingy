@@ -24,18 +24,18 @@ public enum EnemyClass {
 
 		switch (className) {
 			case "Cockroach":
-				hpPL = 10.0;
-				attackPL = 2.0;
-				defencePL = 1.5;
+				hpPL = 5.0;
+				attackPL = 1.2;
+				defencePL = 0.8;
 				break;
 			case "Mushroom":
-				hpPL = 12.0;
+				hpPL = 7.0;
 				attackPL = 1.5;
 				defencePL = 2.0;
 				break;
 			case "Moonshine":
-				hpPL = 20.0;
-				attackPL = 8;
+				hpPL = 9.0;
+				attackPL = 3;
 				defencePL = 0.0;
 				break;
 		}

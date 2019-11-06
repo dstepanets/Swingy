@@ -22,6 +22,7 @@ public class Hero extends ACharacter {
 	private HeroClass clas;
 //	private int level;
 	private int exp;
+	private int expToLevelUp;
 
 //	private int maxHp;
 //	private int hp;
@@ -35,12 +36,20 @@ public class Hero extends ACharacter {
 	Hero() {
 		level = 0;
 		exp = 0;
+		setExpToLevelUp();
+	}
+
+	void setExpToLevelUp() {
+		//		formula was given in the task description
+		expToLevelUp = (level + 1) * 1000 + level * level * 450;
 	}
 
 	public String takeDamage(ACharacter enemy) {
 
 		int damage = enemy.getAttack() - defence;
-		String log = name + "(" + hp + "/" + maxHp + ") takes " + damage + " damage.";
+		if (damage < 0)
+			damage = 0;
+		String log = name + " (" + hp + "/" + maxHp + ") takes " + damage + " damage.";
 		hp -= damage;
 
 		return log;
@@ -48,6 +57,31 @@ public class Hero extends ACharacter {
 
 	public void heal() {
 		hp = maxHp;
+	}
+
+	public void gainExp(Enemy enemy) {
+
+//		if enemy is null it's the end-of-map reward
+		if (enemy == null) {
+			exp += expToLevelUp / 10;
+		} else {
+			exp += (enemy.getAttack() + enemy.getDefence()) * enemy.getLevel() + enemy.getMaxHp();
+		}
+
+		if (exp >= expToLevelUp){
+			levelUp();
+		}
+
+	}
+
+	private void levelUp() {
+		exp -= expToLevelUp;
+		level++;
+		setExpToLevelUp();
+
+		maxHp *= 1.25;
+		attack *= 1.25;
+		defence *= 1.25;
 	}
 
 

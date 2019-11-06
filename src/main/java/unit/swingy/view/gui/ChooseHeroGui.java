@@ -3,7 +3,6 @@ package unit.swingy.view.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import lombok.Getter;
 import unit.swingy.controller.Game;
 import unit.swingy.model.characters.DataBase;
 import unit.swingy.model.characters.Hero;
@@ -25,7 +24,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
-@Getter
 public class ChooseHeroGui {
 
 	private DataBase db = DataBase.getInstance();
@@ -107,8 +105,7 @@ public class ChooseHeroGui {
 		System.out.println(">> Starting GUI ChooseHero method...");
 
 		//init frame
-
-		frame.setContentPane(this.getMainPanel());
+		frame.setContentPane(mainPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
@@ -165,7 +162,7 @@ public class ChooseHeroGui {
 			statsDoc.insertString(statsDoc.getLength(), "Class: " + hero.getClas() + "\n\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Level: " + hero.getLevel() + "\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Exp: " + hero.getExp() + "\n\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "MaxHP: " + hero.getMaxHp() + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "HP: " + hero.getMaxHp() + "\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Attack: " + hero.getAttack() + "\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Defence: " + hero.getDefence() + "\n\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Weapon: " + hero.getWeapon() + "\n", atr);

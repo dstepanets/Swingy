@@ -7,9 +7,11 @@ import javax.validation.constraints.NotNull;
 
 import unit.swingy.model.Map;
 import unit.swingy.model.MapTile;
+import unit.swingy.model.characters.DataBase;
 import unit.swingy.model.characters.Enemy;
 import unit.swingy.model.characters.Hero;
 import unit.swingy.view.console.ExplorationCons;
+import unit.swingy.view.gui.ExplorationGui;
 
 import java.util.Random;
 
@@ -17,8 +19,10 @@ import java.util.Random;
 public class Game {
 
 	private static Game instance;
+	private DataBase db = DataBase.getInstance();
 	@Setter(AccessLevel.NONE) private boolean guiMode;
 	private ExplorationCons console;
+	private ExplorationGui gui;
 
 	@NotNull private Hero hero;
 	@NotNull private Map map;
@@ -29,8 +33,8 @@ public class Game {
 	private int nx, ny;
 
 //	flags that control the game flow
-	private boolean won = false;
-	private boolean lost = false;
+	private boolean won;
+	private boolean lost;
 
 
 	public static Game getInstance() {
@@ -46,19 +50,38 @@ public class Game {
 
 	public void startGame() {
 
-		map = new Map(hero);
-		grid = map.getGrid();
-//		map.printMapTiles();
-		console = new ExplorationCons();
+		resetMap();
 
-		do {
+		console = new ExplorationCons();
+		gui = new ExplorationGui();
+
+
+		while (true) {
+
 			if (guiMode) {
 
 			} else {
 				console.printExplorationPage();
 			}
-		} while (!won && !lost);
 
+			if (won || lost) {
+				resetMap();
+			}
+		}
+	}
+
+	private void resetMap() {
+		won = false;
+		lost = false;
+		hero.heal();
+		map = new Map(hero);
+		grid = map.getGrid();
+//		map.printMapTiles();
+	}
+
+	public void exitGame() {
+		db.closeConnection();
+		System.exit(0);
 	}
 
 	public void moveHero(char direction) {
@@ -85,12 +108,13 @@ public class Game {
 		}
 
 		if (nx < 0 || ny < 0 || nx >= map.getSize() || ny >= map.getSize()) {
-			mapVictory();
+			//	if an argument is null gives end-of-map exp reward
+			hero.gainExp(null);
+			won = true;
 		} else {
 			grid[ny][nx].setExplored(true);
 			if (grid[ny][nx].getEnemy() != null) {
 				fightOrFlee();
-//				write further logic
 			}
 			else if (!grid[ny][nx].isObstacle()) {
 //				move to new location if no obstacle is there
@@ -99,10 +123,6 @@ public class Game {
 				y = ny; x = nx;
 			}
 		}
-	}
-
-	private void mapVictory() {
-		won = true;
 	}
 
 	private void fightOrFlee() {
@@ -154,18 +174,33 @@ public class Game {
 
 		do {
 			String s = enemy.takeDamage(hero);
-			System.out.println("## " + s);
+				System.out.println("## " + s);
 			s = hero.takeDamage(enemy);
-			System.out.println("## " + s);
+				System.out.println("## " + s);
 		} while ((hero.getHp() > 0) && (enemy.getHp() > 0));
 
 		victory = (enemy.getHp() <= 0) ? true : false;
 		System.out.println("## Victory: " + victory);
 
-		if (victory)
+		if (victory) {
+			hero.gainExp(enemy);
 			hero.heal();
+//			remove an enemy from the map
+			grid[ny][nx].setEnemy(null);
 
+//			update hero in the DataBase
+			db.updateHero(hero);
+
+//			move to the new location
+			grid[y][x].setHero(null);
+			grid[ny][nx].setHero(hero);
+			y = ny; x = nx;
+		} else {
+			lost = true;
+		}
 	}
+
+
 
 }
 

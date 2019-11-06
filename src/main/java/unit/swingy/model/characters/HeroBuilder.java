@@ -44,6 +44,7 @@ public class HeroBuilder {
 
 	public void setLevel(int l) {
 		hero.setLevel(l);
+		hero.setExpToLevelUp();
 	}
 
 	public void setExp(int exp) {

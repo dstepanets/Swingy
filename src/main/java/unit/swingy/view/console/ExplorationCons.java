@@ -4,6 +4,7 @@ import unit.swingy.controller.Game;
 import unit.swingy.model.Map;
 import unit.swingy.model.MapTile;
 import unit.swingy.model.characters.Enemy;
+import unit.swingy.model.characters.Hero;
 
 import java.util.Scanner;
 
@@ -18,7 +19,6 @@ public class ExplorationCons {
 	}
 
 	public void printExplorationPage() {
-
 		printMap();
 		scanCommands();
 	}
@@ -39,7 +39,7 @@ public class ExplorationCons {
 	}
 
 //	TODO: Hide unexplored tiles
-	public void printMap() {
+		private void printMap() {
 		Map map = game.getMap();
 		MapTile[][] tab = map.getGrid();
 
@@ -71,9 +71,9 @@ public class ExplorationCons {
 		System.out.println("C - show controls");
 	}
 
-	public void printControls() {
+	private void printControls() {
 
-		System.out.println("\n[- - - - - CONTROLS - - - - -]");
+		System.out.println("\n[- - - - - - CONTROLS - - - - - -]");
 		System.out.println("(Type the command and press Enter)\n");
 
 		System.out.println("  N  ");
@@ -84,7 +84,7 @@ public class ExplorationCons {
 		System.out.println("H	- show your hero's stats");
 		System.out.println("GUI	- switch to graphical interface");
 		System.out.println("EXIT	- exit the game");
-		System.out.println("[- - - - - - - - - - - - - - -]");
+		System.out.println("[- - - - - - - -  - - - - - - - - -]");
 
 	}
 
@@ -108,12 +108,29 @@ public class ExplorationCons {
 					printControls();
 					gotIt = true;
 					break;
+				case "h":
+					printHero();
+					gotIt = true;
+					break;
 				case "exit":
-					System.exit(0);
+					game.exitGame();
 					break;
 			}
 
 		} while (!gotIt);
+	}
+
+	private void printHero() {
+		Hero hero = game.getHero();
+		System.out.println("\n* * * * * * * * * * * HERO * * * * * * * * * * * * *");
+		System.out.println(hero.getName() + "\t" + hero.getClas().getClassName() +
+							"\t(" + hero.getLevel() + " level)\t Exp: " + hero.getExp() + "/" + hero.getExpToLevelUp());
+		System.out.println("HP: " + hero.getHp() + "/" + hero.getMaxHp() + "\t" + "Attack: " + hero.getAttack() +
+							"\t" + "Defence: " + hero.getDefence());
+		System.out.println("Weapon: " + hero.getWeapon());
+		System.out.println("Armor: " + hero.getArmor());
+		System.out.println("Helm: " + hero.getHelm());
+		System.out.println("* * * * * * * * * * * * *  * * * * * * * * * * * * *");
 	}
 
 	public boolean fightOrFlee(Enemy enemy) {

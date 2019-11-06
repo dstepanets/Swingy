@@ -98,7 +98,7 @@ public class ChooseHeroCons {
 	}
 
 	public void printMoreStats(Hero h) {
-		System.out.println("HP:\t\t\t" + h.getHp());
+		System.out.println("HP:\t\t" + h.getHp());
 		System.out.println("Attack:\t\t" + h.getAttack());
 		System.out.println("Defence:\t" + h.getDefence());
 		System.out.println("Weapon:\t\t" + h.getWeapon());

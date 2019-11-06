@@ -54,6 +54,6 @@ public class ChooseHeroDirector {
 				} while (game.getHero() == null);
 			}
 
-		db.closeConnection();
+//		db.closeConnection();
 	}
 }
