@@ -3,27 +3,21 @@
   <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="8" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="728" height="517"/>
+      <xy x="20" y="20" width="1052" height="520"/>
     </constraints>
     <properties>
       <font name="Apple SD Gothic Neo"/>
-      <preferredSize width="1024" height="768"/>
+      <preferredSize width="1024" height="600"/>
     </properties>
     <border type="bevel-raised"/>
     <children>
-      <scrollpane id="41f21" binding="mapPane">
-        <constraints>
-          <grid row="0" column="3" row-span="8" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="512" height="-1"/>
-          </grid>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children/>
-      </scrollpane>
       <scrollpane id="25341" binding="enemyPane">
         <constraints>
-          <grid row="1" column="0" row-span="5" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="5" col-span="3" vsize-policy="7" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="256" height="-1"/>
+            <preferred-size width="256" height="-1"/>
+            <maximum-size width="256" height="-1"/>
+          </grid>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -31,7 +25,11 @@
       </scrollpane>
       <scrollpane id="c7195" binding="heroPane">
         <constraints>
-          <grid row="5" column="4" row-span="3" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="5" column="4" row-span="3" col-span="1" vsize-policy="7" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="256" height="-1"/>
+            <preferred-size width="256" height="-1"/>
+            <maximum-size width="256" height="-1"/>
+          </grid>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -87,7 +85,7 @@
       </component>
       <component id="741e5" class="javax.swing.JLabel" binding="heroAvatar">
         <constraints>
-          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <text value=""/>
@@ -115,7 +113,7 @@
       </component>
       <component id="dde7b" class="javax.swing.JProgressBar" binding="expBar">
         <constraints>
-          <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font name="Herculanum" size="16"/>
@@ -125,7 +123,7 @@
       </component>
       <component id="cb425" class="javax.swing.JProgressBar" binding="hpBar">
         <constraints>
-          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font name="Herculanum" size="16"/>
@@ -137,6 +135,18 @@
           <toolTipText value=""/>
         </properties>
       </component>
+      <grid id="8bb52" binding="back" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="3" row-span="8" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <minimum-size width="512" height="512"/>
+            <preferred-size width="800" height="800"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
     </children>
   </grid>
 </form>

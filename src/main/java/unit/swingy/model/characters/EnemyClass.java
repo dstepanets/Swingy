@@ -17,10 +17,12 @@ public enum EnemyClass {
 	private double		defencePL;
 
 	private String avatar;
+	private String icon;
 
 	EnemyClass() {
 		className = this.toString().substring(0, 1) + this.toString().substring(1).toLowerCase();
 		avatar = ""; // path to file
+		icon = "src/main/resources/img/icons/" + className + ".png";
 
 		switch (className) {
 			case "Cockroach":

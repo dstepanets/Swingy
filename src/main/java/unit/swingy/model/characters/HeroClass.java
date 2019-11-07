@@ -16,10 +16,12 @@ public enum HeroClass {
 	private int		defence;
 
 	private String avatar;
+	private String icon;
 
 	HeroClass() {
 		className = this.toString().substring(0, 1) + this.toString().substring(1).toLowerCase();
 		avatar = "src/main/resources/img/avatars/" + className + ".jpg";
+		icon = "src/main/resources/img/icons/" + className + ".png";
 
 		switch (className) {
 			case "Regular":
