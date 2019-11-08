@@ -2,6 +2,8 @@ package unit.swingy.model.characters;
 
 import lombok.Getter;
 
+import javax.swing.*;
+
 @Getter
 public enum HeroClass {
 	REGULAR,
@@ -15,13 +17,16 @@ public enum HeroClass {
 	private int		attack;
 	private int		defence;
 
-	private String avatar;
-	private String icon;
+	private ImageIcon avatar;
+	private ImageIcon icon;
 
 	HeroClass() {
 		className = this.toString().substring(0, 1) + this.toString().substring(1).toLowerCase();
-		avatar = "src/main/resources/img/avatars/" + className + ".jpg";
-		icon = "src/main/resources/img/icons/" + className + ".png";
+
+		String avatarPath = "src/main/resources/img/heroAvatars/" + className + ".jpg";
+		avatar = new ImageIcon(avatarPath);
+		String iconPath = "src/main/resources/img/heroIcons/" + className + ".png";
+		icon = new ImageIcon(iconPath);
 
 		switch (className) {
 			case "Regular":

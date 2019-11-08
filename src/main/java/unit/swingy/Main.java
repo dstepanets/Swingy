@@ -48,6 +48,8 @@ public class Main {
 
 //		TODO Annotation validation of the chosen hero
 
+////		temp
+//		game.getHero().setLevel(3);
 
 		game.startGame();
 

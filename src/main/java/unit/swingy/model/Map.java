@@ -8,6 +8,7 @@ import unit.swingy.model.characters.Hero;
 import java.util.Random;
 
 public class Map {
+
 	@Getter	private int size;
 	@Getter	private MapTile[][] grid;
 
@@ -16,11 +17,15 @@ public class Map {
 	private int maxObstacles;
 	private int obstacles;
 
+	Random rand;
+
 	public Map(Hero hero) {
 		int lvl = hero.getLevel();
 		size = (lvl - 1) * 5 + 10 - (lvl % 2);
 		System.out.println(">> Map size: " + size);
 		grid = new MapTile[size][size];
+
+		rand = new Random();
 
 		initMap();
 	}
@@ -38,9 +43,9 @@ public class Map {
 		maxObstacles = size * size / 4;
 		obstacles = 0;
 
-//		TODO: set terrain
 //		TODO: set obstacles
 		putHero();
+		putObstacles();
 		putEnemies();
 
 	}
@@ -55,17 +60,31 @@ public class Map {
 		grid[pos][pos].setExplored(true);
 	}
 
+	private void putObstacles() {
+
+		String[] terrains = {"rocks", "water"};
+
+		while (obstacles < maxObstacles) {
+			int index = rand.nextInt(size * size);
+			int x = index % size;
+			int y = index / size;
+			if (grid[y][x].getObstacle() == null && grid[y][x].getHero() == null) {
+//				put random string from array
+				grid[y][x].setObstacle(terrains[rand.nextInt(terrains.length)]);
+				obstacles++;
+			}
+		}
+	}
+
 
 	private void putEnemies() {
-
-		Random rand = new Random();
 
 //		generate enemies on random free tiles
 		while (enemies < maxEnemies) {
 			int index = rand.nextInt(size * size);
 			int x = index % size;
 			int y = index / size;
-			if (!grid[y][x].isObstacle() && grid[y][x].getEnemy() == null && grid[y][x].getHero() == null) {
+			if (grid[y][x].getObstacle() == null && grid[y][x].getEnemy() == null && grid[y][x].getHero() == null) {
 				grid[y][x].setEnemy(new Enemy());
 				enemies++;
 			}
@@ -81,8 +100,7 @@ public class Map {
 		for (int y = 0; y < size; y++) {
 			for (int x = 0; x < size; x++) {
 				System.out.println("Y: " + y + "; X: " + x);
-				System.out.println("terrain=" + grid[y][x].getTerrain());
-				System.out.println("obstacle=" + grid[y][x].isObstacle());
+				System.out.println("obstacle=" + grid[y][x].getObstacle());
 				System.out.println("explored=" + grid[y][x].isExplored());
 				System.out.println("hero=" + grid[y][x].getHero());
 				System.out.println("enemy=" + grid[y][x].getEnemy());

@@ -62,7 +62,6 @@ public class ChooseHeroGui {
 				int row = table.getSelectedRow();
 				if (row >= 0 && row < heroesList.size()) {
 					hero = heroesList.get(row);
-					displayAvatar();
 					displayHeroStats();
 				}
 			}
@@ -142,6 +141,8 @@ public class ChooseHeroGui {
 
 
 	private void displayHeroStats() {
+//		display avatar
+		avatar.setIcon(hero.getClas().getAvatar());
 
 		bio.setText("");
 		stats.setText("");
@@ -171,11 +172,6 @@ public class ChooseHeroGui {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void displayAvatar() {
-		ImageIcon icon = new ImageIcon(hero.getClas().getAvatar());
-		avatar.setIcon(icon);
 	}
 
 	private void createNewHero() {
@@ -229,7 +225,7 @@ public class ChooseHeroGui {
 			@Override
 			public void valueChanged(ListSelectionEvent event) {
 				HeroClass clas = HeroClass.valueOf(list.getSelectedValue());
-				lAvatar.setIcon(new ImageIcon(clas.getAvatar()));
+				lAvatar.setIcon(clas.getAvatar());
 				String description = "<html>" + clas.getDescription() + "<br><br>" +
 						clas.getStartingStatsInfo() + "</html>";
 				lInfo.setText(description);

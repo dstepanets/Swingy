@@ -8,8 +8,7 @@ import unit.swingy.model.characters.Hero;
 @Getter @Setter
 public class MapTile {
 
-	private String terrain;
-	private boolean obstacle;
+	private String obstacle;
 	private boolean explored;
 	private Hero hero;
 	private Enemy enemy;

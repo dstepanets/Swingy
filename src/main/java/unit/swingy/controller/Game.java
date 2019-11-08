@@ -116,7 +116,7 @@ public class Game {
 			if (grid[ny][nx].getEnemy() != null) {
 				fightOrFlee();
 			}
-			else if (!grid[ny][nx].isObstacle()) {
+			else if (grid[ny][nx].getObstacle() == null) {
 //				move to new location if no obstacle is there
 				grid[y][x].setHero(null);
 				grid[ny][nx].setHero(hero);

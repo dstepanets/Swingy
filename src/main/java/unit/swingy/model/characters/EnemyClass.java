@@ -2,6 +2,8 @@ package unit.swingy.model.characters;
 
 import lombok.Getter;
 
+import javax.swing.*;
+
 @Getter
 public enum EnemyClass {
 	COCKROACH,
@@ -16,13 +18,16 @@ public enum EnemyClass {
 	private double		attackPL;
 	private double		defencePL;
 
-	private String avatar;
-	private String icon;
+	private ImageIcon avatar;
+	private ImageIcon icon;
 
 	EnemyClass() {
 		className = this.toString().substring(0, 1) + this.toString().substring(1).toLowerCase();
-		avatar = ""; // path to file
-		icon = "src/main/resources/img/icons/" + className + ".png";
+
+		String avatarPath = "src/main/resources/img/enemyAvatars/" + className + ".jpg";
+		avatar = new ImageIcon(avatarPath);
+		String iconPAth = "src/main/resources/img/enemyIcons/" + className + ".png";
+		icon = new ImageIcon(iconPAth);
 
 		switch (className) {
 			case "Cockroach":
