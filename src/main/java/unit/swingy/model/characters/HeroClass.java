@@ -1,5 +1,6 @@
 package unit.swingy.model.characters;
 
+import darrylbu.icon.StretchIcon;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public enum HeroClass {
 		String avatarPath = "src/main/resources/img/heroAvatars/" + className + ".jpg";
 		avatar = new ImageIcon(avatarPath);
 		String iconPath = "src/main/resources/img/heroIcons/" + className + ".png";
-		icon = new ImageIcon(iconPath);
+		icon = new StretchIcon(iconPath);
 
 		switch (className) {
 			case "Regular":

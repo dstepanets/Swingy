@@ -62,7 +62,7 @@ public class Map {
 
 	private void putObstacles() {
 
-		String[] terrains = {"rocks", "water"};
+		String[] terrains = {"mountains", "tree", "water", "Ukraine"};
 
 		while (obstacles < maxObstacles) {
 			int index = rand.nextInt(size * size);

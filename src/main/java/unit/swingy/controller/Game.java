@@ -123,6 +123,10 @@ public class Game {
 				y = ny; x = nx;
 			}
 		}
+// 		TODO create better map update
+		if (guiMode) {
+			gui.updateMap(x, y, nx, ny);
+		}
 	}
 
 	private void fightOrFlee() {

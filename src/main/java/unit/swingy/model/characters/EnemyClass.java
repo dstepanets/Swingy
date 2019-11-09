@@ -1,5 +1,6 @@
 package unit.swingy.model.characters;
 
+import darrylbu.icon.StretchIcon;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public enum EnemyClass {
 		String avatarPath = "src/main/resources/img/enemyAvatars/" + className + ".jpg";
 		avatar = new ImageIcon(avatarPath);
 		String iconPAth = "src/main/resources/img/enemyIcons/" + className + ".png";
-		icon = new ImageIcon(iconPAth);
+		icon = new StretchIcon(iconPAth);
 
 		switch (className) {
 			case "Cockroach":

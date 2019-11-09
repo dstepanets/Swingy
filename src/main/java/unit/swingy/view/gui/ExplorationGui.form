@@ -7,7 +7,7 @@
     </constraints>
     <properties>
       <font name="Apple SD Gothic Neo"/>
-      <preferredSize width="1280" height="768"/>
+      <preferredSize width="1200" height="800"/>
     </properties>
     <border type="bevel-raised"/>
     <children>
@@ -97,13 +97,10 @@
           <toolTipText value=""/>
         </properties>
       </component>
-      <grid id="8bb52" binding="back" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="8bb52" binding="mapHolder" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="true" same-size-vertically="true" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="0" column="2" row-span="8" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <minimum-size width="512" height="512"/>
-            <preferred-size width="800" height="800"/>
-          </grid>
+          <grid row="0" column="2" row-span="8" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
