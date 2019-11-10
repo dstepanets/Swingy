@@ -24,7 +24,7 @@ public class HeroBuilder {
 	public void setUpNewHero(String name, HeroClass c) {
 		hero.setName(name);
 		hero.setClas(c);
-		hero.setHp(c.getMaxHp());
+		this.setHp(c.getMaxHp());
 		hero.setAttack(c.getAttack());
 		hero.setDefence(c.getDefence());
 	}

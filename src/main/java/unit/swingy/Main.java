@@ -49,7 +49,7 @@ public class Main {
 //		TODO Annotation validation of the chosen hero
 
 //		temp
-		game.getHero().setLevel(2);
+//		game.getHero().setLevel(2);
 
 		game.startGame();
 

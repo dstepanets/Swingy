@@ -30,6 +30,8 @@ public class ExplorationGui {
 
 	private final int ICON_SIZE = 64;
 	private final int SIDE_PANE_WIDTH = 256;
+	private final int VIEW_SIZE = 9;
+	private final int VIEW_DISTANCE = VIEW_SIZE / 2;
 	private int winWidth;
 	private int winHeight;
 
@@ -72,8 +74,12 @@ public class ExplorationGui {
 		grid = map.getGrid();
 
 		$$$setupUI$$$();
+
 		buildMap();
+		updateMap();
+
 		buildHeroPane();
+
 		resizePanels();
 		initFrame();
 
@@ -82,8 +88,8 @@ public class ExplorationGui {
 	}
 
 	private void resizePanels() {
-		winWidth = (map.getSize() * ICON_SIZE) + (SIDE_PANE_WIDTH * 2);
-		winHeight = map.getSize() * ICON_SIZE;
+		winWidth = (VIEW_SIZE * ICON_SIZE) + (SIDE_PANE_WIDTH * 2);
+		winHeight = VIEW_SIZE * ICON_SIZE;
 		mainPanel.setPreferredSize(new Dimension(winWidth, winHeight));
 	}
 
@@ -103,6 +109,7 @@ public class ExplorationGui {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				game.moveHero('n');
+//				updateMap();
 			}
 		});
 
@@ -111,6 +118,7 @@ public class ExplorationGui {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				game.moveHero('s');
+//				updateMap();
 			}
 		});
 
@@ -119,6 +127,7 @@ public class ExplorationGui {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				game.moveHero('w');
+//				updateMap();
 			}
 		});
 
@@ -127,9 +136,16 @@ public class ExplorationGui {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				game.moveHero('e');
+//				updateMap();
 			}
 		});
 	}
+
+	public void destroyWindow() {
+		frame.dispose();
+	}
+
+
 
 
 	private void buildHeroPane() {
@@ -182,38 +198,30 @@ public class ExplorationGui {
 		}
 	}
 
-	private void buildMap() {
+	public void buildMap() {
 
 //		set map background and create grid to hold labels
 		mapBack = new MapBack();
-		mapBack.setLayout(new GridLayout(map.getSize(), map.getSize()));
+		mapBack.setLayout(new GridLayout(VIEW_SIZE, VIEW_SIZE));
 		mapHolder.add(mapBack, new GridConstraints(0, 0, 1, 1,
 				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK |
 				GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-				null, new Dimension(map.getSize() * ICON_SIZE, map.getSize() * ICON_SIZE), null, 0, false));
+				null, new Dimension(VIEW_SIZE * ICON_SIZE, VIEW_SIZE * ICON_SIZE), null, 0, false));
 
-		labels = new JLabel[map.getSize()][map.getSize()];
-//		Border whiteBorder = BorderFactory.createLineBorder(Color.white);
-		for (int y = 0; y < map.getSize(); y++) {
-			for (int x = 0; x < map.getSize(); x++) {
+//		create array of labels that will contain game icons
+		labels = new JLabel[VIEW_SIZE][VIEW_SIZE];
+		for (int y = 0; y < VIEW_SIZE; y++) {
+			for (int x = 0; x < VIEW_SIZE; x++) {
 				labels[y][x] = new JLabel();
-//				labels[y][x].setBorder(whiteBorder);
 				labels[y][x].setHorizontalAlignment(SwingConstants.CENTER);
 				labels[y][x].setVerticalAlignment(SwingConstants.CENTER);
 				labels[y][x].setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
-
-				if (grid[y][x].getHero() != null) {
-					labels[y][x].setIcon(hero.getClas().getIcon());
-					labels[y][x].setBorder(BorderFactory.createLineBorder(Color.blue));
-				} else {
-					labels[y][x].setIcon(new StretchIcon("src/main/resources/img/obstacles/fog.png"));
-				}
-
 				mapBack.add(labels[y][x]);
 			}
 		}
 	}
 
+/*
 	public void updateMap(int x, int y, int nx, int ny) {
 		Border whiteBorder = BorderFactory.createLineBorder(Color.white);
 		Border blueBorder = BorderFactory.createLineBorder(Color.blue);
@@ -241,39 +249,52 @@ public class ExplorationGui {
 		}
 
 	}
+*/
 
-/*
-	private void updateMap() {
+
+	public void updateMap() {
 
 		Border whiteBorder = BorderFactory.createLineBorder(Color.white);
 		Border blueBorder = BorderFactory.createLineBorder(Color.blue);
 		Border blackBorder = BorderFactory.createLineBorder(Color.black);
 		Border redBorder = BorderFactory.createLineBorder(Color.red);
-		for (int y = 0; y < map.getSize(); y++) {
-			for (int x = 0; x < map.getSize(); x++) {
-//				if explored set corresponding icon
-				if (grid[y][x].isExplored()) {
+
+//		draw only part of the map around the hero
+		int y = game.getY() - VIEW_DISTANCE;
+		for (int i = 0; i < VIEW_SIZE; i++, y++) {
+			int x = game.getX() - VIEW_DISTANCE;
+			for (int j = 0; j < VIEW_SIZE; j++, x++) {
+
+				if (x < 0 || y < 0 || x >= map.getSize() || y >= map.getSize()) {
+					labels[i][j].setIcon(new StretchIcon("src/main/resources/img/obstacles/space.png"));
+					labels[i][j].setBorder(null);
+//					if explored set corresponding icon
+				} else if (grid[y][x].isExplored()) {
 					if (grid[y][x].getObstacle() != null) {
-						labels[y][x].setIcon(new StretchIcon("src/main/resources/img/obstacles/" + grid[y][x].getObstacle() + ".png"));
-						labels[y][x].setBorder(blackBorder);
+						labels[i][j].setIcon(new StretchIcon("src/main/resources/img/obstacles/" + grid[y][x].getObstacle() + ".png"));
+						labels[i][j].setBorder(blackBorder);
 					} else if (grid[y][x].getHero() != null) {
-						labels[y][x].setIcon(hero.getClas().getIcon());
-						labels[y][x].setBorder(blueBorder);
+						labels[i][j].setIcon(hero.getClas().getIcon());
+						labels[i][j].setBorder(blueBorder);
 					} else if (grid[y][x].getEnemy() != null) {
-						labels[y][x].setIcon(grid[y][x].getEnemy().getClas().getIcon());
-						labels[y][x].setBorder(redBorder);
+						labels[i][j].setIcon(grid[y][x].getEnemy().getClas().getIcon());
+						labels[i][j].setBorder(redBorder);
 					} else {
-						labels[y][x].setIcon(null);
-						labels[y][x].setBorder(whiteBorder);
+						labels[i][j].setIcon(null);
+						labels[i][j].setBorder(whiteBorder);
 					}
 //				if not explored, set fog
 				} else {
-					labels[y][x].setIcon(new StretchIcon("src/main/resources/img/obstacles/fog.png"));
+					labels[i][j].setIcon(new StretchIcon("src/main/resources/img/obstacles/fog.png"));
+					labels[i][j].setBorder(null);
 				}
 			}
 		}
 	}
-*/
+
+
+
+
 
 
 	/**

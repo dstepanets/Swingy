@@ -38,9 +38,9 @@ public class Map {
 			}
 		}
 
-		maxEnemies = size * size / 3;
+		maxEnemies = size * size / 10;
 		enemies = 0;
-		maxObstacles = size * size / 4;
+		maxObstacles = size * size / 10;
 		obstacles = 0;
 
 //		TODO: set obstacles

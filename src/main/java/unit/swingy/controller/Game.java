@@ -50,11 +50,9 @@ public class Game {
 
 	public void startGame() {
 
-		resetMap();
-
 		console = new ExplorationCons();
-		gui = new ExplorationGui();
 
+		resetMap();
 
 		while (true) {
 
@@ -76,6 +74,14 @@ public class Game {
 		hero.heal();
 		map = new Map(hero);
 		grid = map.getGrid();
+		if (guiMode) {
+			if (gui != null) {
+				gui.destroyWindow();
+			}
+			gui = new ExplorationGui();
+			gui.buildMap();
+			gui.updateMap();
+		}
 //		map.printMapTiles();
 	}
 
@@ -122,11 +128,11 @@ public class Game {
 				grid[ny][nx].setHero(hero);
 				y = ny; x = nx;
 			}
+			if (guiMode) gui.updateMap();
 		}
 // 		TODO create better map update
-		if (guiMode) {
-			gui.updateMap(x, y, nx, ny);
-		}
+
+
 	}
 
 	private void fightOrFlee() {
