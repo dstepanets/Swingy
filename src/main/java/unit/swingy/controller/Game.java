@@ -135,13 +135,26 @@ public class Game {
 
 	}
 
-	private void fightOrFlee() {
+	synchronized private void fightOrFlee() {
 
 		Enemy enemy = grid[ny][nx].getEnemy();
 		boolean willFight = false;
 
 		if (isGuiMode()) {
-
+			gui.fightOrFlee(enemy);
+			try {
+				this.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+//			while(!gui.isClicked()) {
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+			willFight = gui.isChoice();
 		} else {
 			willFight = console.fightOrFlee(enemy);
 		}

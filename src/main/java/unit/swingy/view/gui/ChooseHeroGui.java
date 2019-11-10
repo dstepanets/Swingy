@@ -68,28 +68,25 @@ public class ChooseHeroGui {
 		});
 
 		// '+' button event - create New Hero
-		bAddHero.addMouseListener(new MouseAdapter() {
+		bAddHero.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
+			public void actionPerformed(ActionEvent e) {
 				createNewHero();
 			}
 		});
 
 		// '-' button event - remove selected Hero
-		bDeleteHero.addMouseListener(new MouseAdapter() {
+		bDeleteHero.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
+			public void actionPerformed(ActionEvent e) {
 				deleteHero();
 			}
 		});
 
 		// set selected Hero for the Game and close the window
-		bPlay.addMouseListener(new MouseAdapter() {
+		bPlay.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
+			public void actionPerformed(ActionEvent e) {
 				if (hero != null) {
 					Game.getInstance().setHero(hero);
 					frame.dispose();

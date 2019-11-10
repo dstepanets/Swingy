@@ -3,9 +3,11 @@ package unit.swingy.view.gui;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import darrylbu.icon.StretchIcon;
+import lombok.Getter;
 import unit.swingy.controller.Game;
 import unit.swingy.model.Map;
 import unit.swingy.model.MapTile;
+import unit.swingy.model.characters.Enemy;
 import unit.swingy.model.characters.Hero;
 
 import javax.imageio.ImageIO;
@@ -15,6 +17,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -35,6 +39,9 @@ public class ExplorationGui {
 	private int winWidth;
 	private int winHeight;
 
+	@Getter private boolean clicked = false;
+	@Getter private boolean choice = false;
+
 	private JFrame frame;
 	private JPanel mainPanel;
 	private JPanel mapBack;
@@ -42,10 +49,9 @@ public class ExplorationGui {
 
 	private JScrollPane enemyPane;
 	private JLabel enemyAvatar;
-	private JButton bN;
-	private JButton bS;
-	private JButton bE;
-	private JButton bW;
+	private JButton bFight;
+	private JButton bFlee;
+	private JButton bCons;
 
 	private JScrollPane heroPane;
 	private JLabel heroAvatar;
@@ -54,9 +60,10 @@ public class ExplorationGui {
 	private JProgressBar expBar;
 	private JProgressBar hpBar;
 	private JTextPane heroStats;
-	private JButton bFight;
-	private JButton bFlee;
-	private JButton bCons;
+	private JButton bN;
+	private JButton bS;
+	private JButton bE;
+	private JButton bW;
 
 
 //	TODO Pack the images
@@ -104,48 +111,61 @@ public class ExplorationGui {
 	}
 
 	private void createEventsListeners() {
-		bN.addMouseListener(new MouseAdapter() {
+		bN.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
+			public void actionPerformed(ActionEvent e) {
 				game.moveHero('n');
 //				updateMap();
 			}
 		});
 
-		bS.addMouseListener(new MouseAdapter() {
+		bS.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
+			public void actionPerformed(ActionEvent e) {
 				game.moveHero('s');
 //				updateMap();
 			}
 		});
 
-		bW.addMouseListener(new MouseAdapter() {
+		bW.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
+			public void actionPerformed(ActionEvent e) {
 				game.moveHero('w');
 //				updateMap();
 			}
 		});
 
-		bE.addMouseListener(new MouseAdapter() {
+		bE.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
+			public void actionPerformed(ActionEvent e) {
 				game.moveHero('e');
 //				updateMap();
 			}
 		});
+
+		bFight.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				choice = true;
+				clicked = true;
+				game.notify();
+			}
+		});
+
+		bFlee.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				choice = false;
+				clicked = true;
+				game.notify();
+			}
+		});
 	}
+
 
 	public void destroyWindow() {
 		frame.dispose();
 	}
-
-
 
 
 	private void buildHeroPane() {
@@ -293,8 +313,25 @@ public class ExplorationGui {
 	}
 
 
+	public void fightOrFlee(Enemy e) {
+//		enable fight/flee buttons, disable all others
+		bFight.setEnabled(true);
+		bFlee.setEnabled(true);
+		bN.setEnabled(false);
+		bS.setEnabled(false);
+		bW.setEnabled(false);
+		bE.setEnabled(false);
+		bCons.setEnabled(false);
 
-
+//		while (!clicked) {
+////			try {
+////				Thread.sleep(1000);
+////			} catch (InterruptedException ex) {
+////				ex.printStackTrace();
+////			}
+//		}
+//		return choice;
+	}
 
 
 	/**
