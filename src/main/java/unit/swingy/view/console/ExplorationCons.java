@@ -19,8 +19,10 @@ public class ExplorationCons {
 	}
 
 	public void printExplorationPage() {
-		printMap();
-		scanCommands();
+		do {
+			printMap();
+			scanCommands();
+		} while (!game.isGuiMode());
 	}
 
 	private boolean scanYesOrNo() {
@@ -41,7 +43,7 @@ public class ExplorationCons {
 //	TODO: Hide unexplored tiles
 		private void printMap() {
 		Map map = game.getMap();
-		MapTile[][] tab = map.getGrid();
+		MapTile[][] grid = map.getGrid();
 
 		System.out.println("\n[- THE WORLD IS " + map.getSize() + "x" + map.getSize() + " -]");
 //		print upper border
@@ -53,12 +55,19 @@ public class ExplorationCons {
 		for (int y = 0; y < map.getSize(); y++) {
 			for (int x = 0; x < map.getSize(); x++) {
 				if (x == 0) System.out.print("|");
-				if (tab[y][x].getHero() != null) {
-					System.out.print("H");
-				} else if (tab[y][x].getEnemy() != null) {
-					System.out.print("E");
+
+				if (grid[y][x].isExplored()) {
+					if (grid[y][x].getObstacle() != null) {
+						System.out.print("X");
+					} else if (grid[y][x].getHero() != null) {
+						System.out.print("@");
+					} else if (grid[y][x].getEnemy() != null) {
+						System.out.print("E");
+					} else
+						System.out.print(" ");
 				} else
-					System.out.print(".");
+						System.out.print(".");
+
 				System.out.print("|");
 			}
 			System.out.println();
@@ -101,18 +110,24 @@ public class ExplorationCons {
 				case "s":
 				case "w":
 				case "e":
-					game.moveHero(ln.charAt(0));
 					gotIt = true;
+					game.moveHero(ln.charAt(0));
 					break;
 				case "c":
-					printControls();
 					gotIt = true;
+					printControls();
 					break;
 				case "h":
-					printHero();
 					gotIt = true;
+					printHero();
+					break;
+				case "gui":
+					gotIt = true;
+					game.setGuiMode(true);
+					game.switchView();
 					break;
 				case "exit":
+					gotIt = true;
 					game.exitGame();
 					break;
 			}
@@ -133,13 +148,27 @@ public class ExplorationCons {
 		System.out.println("* * * * * * * * * * * * *  * * * * * * * * * * * * *");
 	}
 
-	public boolean fightOrFlee(Enemy enemy) {
+	public void fightOrFlee(Enemy enemy) {
+
 		System.out.println("You encounter a " + enemy.getClas().getClassName() + " (Level " + enemy.getLevel() + ")");
 		System.out.println("[HP: " + enemy.getHp() + " | Attack: " + enemy.getAttack() + " | Defence: " + enemy.getDefence() + "]");
 		System.out.print("Fight it bravely? (Yes)\n"  +
 							"Or try to run away like a coward? (No)\n" +
 							"Yes/No:> ");
-		return scanYesOrNo();
+
+		if (scanYesOrNo()) {
+			System.out.println("You rush into the battle!");
+			game.battle(enemy);
+		} else {
+			if (game.tryToFlee()) {
+				System.out.println("You heroically escaped that filthy beast!");
+				game.escapeBattle();
+			} else {
+				System.out.println("Sadly, your running is so sloooow...");
+				game.battle(enemy);
+			}
+		}
+
 	}
 
 	public void battle() {

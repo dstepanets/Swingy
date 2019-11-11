@@ -31,8 +31,7 @@ public class Main {
 			printUsage();
 		}
 		Game game = Game.getInstance();
-		if (guiMode)
-			game.switchGameMode();
+		game.setGuiMode(guiMode);
 		System.out.println(">> GUI mode: " + game.isGuiMode());
 
 //		set up the hero

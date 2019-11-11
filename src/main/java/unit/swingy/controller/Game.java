@@ -3,6 +3,8 @@ package unit.swingy.controller;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.Getter;
+
+import javax.swing.*;
 import javax.validation.constraints.NotNull;
 
 import unit.swingy.model.Map;
@@ -13,14 +15,15 @@ import unit.swingy.model.characters.Hero;
 import unit.swingy.view.console.ExplorationCons;
 import unit.swingy.view.gui.ExplorationGui;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 @Getter @Setter
-public class Game {
+	public class Game {
 
 	private static Game instance;
 	private DataBase db = DataBase.getInstance();
-	@Setter(AccessLevel.NONE) private boolean guiMode;
+	private boolean guiMode;
 	private ExplorationCons console;
 	private ExplorationGui gui;
 
@@ -33,6 +36,7 @@ public class Game {
 	private int nx, ny;
 
 //	flags that control the game flow
+//	TODO: maybe no need in them
 	private boolean won;
 	private boolean lost;
 
@@ -43,29 +47,26 @@ public class Game {
 		return instance;
 	}
 
-	public void switchGameMode() {
-		guiMode = guiMode ? false : true;
+	public void switchView() {
+		if (guiMode) {
+			if (gui == null) gui = new ExplorationGui();
+			gui.updateMap();
+			gui.updateHeroPane();
+			gui.getFrame().setVisible(true);
+		} else {
+			if (console == null) console = new ExplorationCons();
+			if (gui != null) gui.getFrame().setVisible(false);
+			console.printExplorationPage();
+		}
 	}
-
 
 	public void startGame() {
 
-		console = new ExplorationCons();
+		System.out.println(">> startGame Thr: " + Thread.currentThread().getName());
 
 		resetMap();
+		switchView();
 
-		while (true) {
-
-			if (guiMode) {
-
-			} else {
-				console.printExplorationPage();
-			}
-
-			if (won || lost) {
-				resetMap();
-			}
-		}
 	}
 
 	private void resetMap() {
@@ -74,17 +75,10 @@ public class Game {
 		hero.heal();
 		map = new Map(hero);
 		grid = map.getGrid();
-		if (guiMode) {
-			if (gui != null) {
-				gui.destroyWindow();
-			}
-			gui = new ExplorationGui();
-			gui.buildMap();
-			gui.updateMap();
-		}
 //		map.printMapTiles();
 	}
 
+//	TODO: Call this when GUI is closed
 	public void exitGame() {
 		db.closeConnection();
 		System.exit(0);
@@ -110,19 +104,19 @@ public class Game {
 			case 'e':
 				nx++;
 				break;
-
 		}
+
 
 		if (nx < 0 || ny < 0 || nx >= map.getSize() || ny >= map.getSize()) {
 			//	if an argument is null gives end-of-map exp reward
 			hero.gainExp(null);
 			won = true;
+			startGame();
 		} else {
 			grid[ny][nx].setExplored(true);
 			if (grid[ny][nx].getEnemy() != null) {
 				fightOrFlee();
-			}
-			else if (grid[ny][nx].getObstacle() == null) {
+			} else if (grid[ny][nx].getObstacle() == null) {
 //				move to new location if no obstacle is there
 				grid[y][x].setHero(null);
 				grid[ny][nx].setHero(hero);
@@ -135,65 +129,32 @@ public class Game {
 
 	}
 
-	synchronized private void fightOrFlee() {
+	private void fightOrFlee() {
 
-		Enemy enemy = grid[ny][nx].getEnemy();
-		boolean willFight = false;
+		final Enemy enemy = grid[ny][nx].getEnemy();
 
 		if (isGuiMode()) {
 			gui.fightOrFlee(enemy);
-			try {
-				this.wait();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-//			while(!gui.isClicked()) {
-//				try {
-//					Thread.sleep(1000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-			willFight = gui.isChoice();
 		} else {
-			willFight = console.fightOrFlee(enemy);
+			console.fightOrFlee(enemy);
 		}
 
-		if (!willFight) {
-			if (tryToFlee())
-				escapeBattle();
-			else
-				battle(true, enemy);
-		} else
-			battle(false, enemy);
 
 	}
 
-	private boolean tryToFlee() {
+	public boolean tryToFlee() {
 //		TODO: add greater chance for Normal Guy
 		return new Random().nextBoolean();
 	}
 
-	private void escapeBattle() {
-		if (guiMode) {
-
-		} else {
-			console.printMessage("You heroically escaped that filthy beast!");
-		}
+	public void escapeBattle() {
 		ny = y; nx = x;
 	}
 
-	private void battle(boolean forced, Enemy enemy) {
+	public void battle(Enemy enemy) {
 
 		System.out.println("## You entered a battle.");
 		boolean victory = false;
-
-		if (guiMode) {
-
-		} else {
-			if (forced) console.printMessage("Sadly, you run so sloooowly...");
-//			console.battle();
-		}
 
 		do {
 			String s = enemy.takeDamage(hero);
@@ -218,9 +179,17 @@ public class Game {
 			grid[y][x].setHero(null);
 			grid[ny][nx].setHero(hero);
 			y = ny; x = nx;
+
+			if (guiMode) {
+				gui.updateMap();
+				gui.updateHeroPane();
+			}
 		} else {
 			lost = true;
+			startGame();
 		}
+
+
 	}
 
 

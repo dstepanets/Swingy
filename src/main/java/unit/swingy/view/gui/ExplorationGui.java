@@ -31,6 +31,7 @@ public class ExplorationGui {
 	private Map map;
 	private MapTile[][] grid;
 	private JLabel[][] labels;
+	private Enemy enemy;
 
 	private final int ICON_SIZE = 64;
 	private final int SIDE_PANE_WIDTH = 256;
@@ -39,10 +40,11 @@ public class ExplorationGui {
 	private int winWidth;
 	private int winHeight;
 
+//	test
 	@Getter private boolean clicked = false;
 	@Getter private boolean choice = false;
 
-	private JFrame frame;
+	@Getter private JFrame frame;
 	private JPanel mainPanel;
 	private JPanel mapBack;
 	private JPanel mapHolder;
@@ -77,18 +79,18 @@ public class ExplorationGui {
 
 		game = Game.getInstance();
 		hero = game.getHero();
-		map = game.getMap();
-		grid = map.getGrid();
+		enemy = null;
 
 		$$$setupUI$$$();
 
 		buildMap();
-		updateMap();
 
 		buildHeroPane();
 
 		resizePanels();
 		initFrame();
+
+		updateMap();
 
 		createEventsListeners();
 
@@ -107,7 +109,7 @@ public class ExplorationGui {
 		frame.setContentPane(mainPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
-		frame.setVisible(true);
+//		frame.setVisible(true);
 	}
 
 	private void createEventsListeners() {
@@ -146,18 +148,33 @@ public class ExplorationGui {
 		bFight.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				choice = true;
-				clicked = true;
-				game.notify();
+				game.battle(enemy);
+//				updateMap();
+				resetButtons();
 			}
 		});
 
 		bFlee.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				choice = false;
-				clicked = true;
-				game.notify();
+				if (game.tryToFlee()) {
+					System.out.println(">> You heroically escaped that filthy beast!");
+					game.escapeBattle();
+					enemy = null;
+				} else {
+					System.out.println(">> Sadly, your running is so sloooow...");
+					game.battle(enemy);
+//					updateMap();
+				}
+				resetButtons();
+			}
+		});
+
+		bCons.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.setGuiMode(false);
+				game.switchView();
 			}
 		});
 	}
@@ -167,16 +184,14 @@ public class ExplorationGui {
 		frame.dispose();
 	}
 
-
 	private void buildHeroPane() {
 		heroAvatar.setIcon(hero.getClas().getAvatar());
 		heroAvatar.setToolTipText(hero.getClas().getDescription());
-
 		heroName.setText(hero.getName());
 		updateHeroPane();
 	}
 
-	private void updateHeroPane() {
+	public void updateHeroPane() {
 		heroClass.setText(hero.getClas().getClassName() + " (" + hero.getLevel() + " lvl)");
 
 		expBar.setMaximum(hero.getExpToLevelUp());
@@ -187,6 +202,7 @@ public class ExplorationGui {
 		hpBar.setValue(hero.getHp());
 		hpBar.setString("HP: " + hero.getHp() + "/" + hero.getMaxHp());
 
+		heroStats.setText("");
 		SimpleAttributeSet atr = new SimpleAttributeSet();
 		Document statsDoc = heroStats.getStyledDocument();
 		try {
@@ -274,6 +290,10 @@ public class ExplorationGui {
 
 	public void updateMap() {
 
+//		update references if the map has changed
+		map = game.getMap();
+		grid = map.getGrid();
+
 		Border whiteBorder = BorderFactory.createLineBorder(Color.white);
 		Border blueBorder = BorderFactory.createLineBorder(Color.blue);
 		Border blackBorder = BorderFactory.createLineBorder(Color.black);
@@ -314,23 +334,30 @@ public class ExplorationGui {
 
 
 	public void fightOrFlee(Enemy e) {
+
 //		enable fight/flee buttons, disable all others
 		bFight.setEnabled(true);
+		bFight.setForeground(Color.RED);
 		bFlee.setEnabled(true);
+		bFlee.setForeground(Color.CYAN);
+
 		bN.setEnabled(false);
 		bS.setEnabled(false);
 		bW.setEnabled(false);
 		bE.setEnabled(false);
 		bCons.setEnabled(false);
 
-//		while (!clicked) {
-////			try {
-////				Thread.sleep(1000);
-////			} catch (InterruptedException ex) {
-////				ex.printStackTrace();
-////			}
-//		}
-//		return choice;
+		this.enemy = e;
+	}
+
+	private void resetButtons() {
+		bFight.setEnabled(false);
+		bFlee.setEnabled(false);
+		bN.setEnabled(true);
+		bS.setEnabled(true);
+		bW.setEnabled(true);
+		bE.setEnabled(true);
+		bCons.setEnabled(true);
 	}
 
 
