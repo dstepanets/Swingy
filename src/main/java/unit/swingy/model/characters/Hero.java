@@ -59,19 +59,23 @@ public class Hero extends ACharacter {
 		hp = maxHp;
 	}
 
-	public void gainExp(Enemy enemy) {
+	public int gainExp(Enemy enemy) {
+
+		int expReward = 0;
 
 //		if enemy is null it's the end-of-map reward
 		if (enemy == null) {
-			exp += expToLevelUp / 10;
+			expReward += expToLevelUp / 10;
 		} else {
-			exp += (enemy.getAttack() + enemy.getDefence()) * enemy.getLevel() + enemy.getMaxHp();
+			expReward += (enemy.getAttack() + enemy.getDefence()) * enemy.getLevel() + enemy.getMaxHp();
 		}
 
+		exp += expReward;
 		if (exp >= expToLevelUp){
 			levelUp();
 		}
 
+		return expReward;
 	}
 
 	private void levelUp() {

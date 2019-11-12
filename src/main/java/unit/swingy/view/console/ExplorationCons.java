@@ -5,10 +5,11 @@ import unit.swingy.model.Map;
 import unit.swingy.model.MapTile;
 import unit.swingy.model.characters.Enemy;
 import unit.swingy.model.characters.Hero;
+import unit.swingy.view.IExploration;
 
 import java.util.Scanner;
 
-public class ExplorationCons {
+public class ExplorationCons implements IExploration {
 
 	private Game game;
 	private Scanner scan;
@@ -20,7 +21,7 @@ public class ExplorationCons {
 
 	public void printExplorationPage() {
 		do {
-			printMap();
+			updateMap();
 			scanCommands();
 		} while (!game.isGuiMode());
 	}
@@ -41,7 +42,7 @@ public class ExplorationCons {
 	}
 
 //	TODO: Hide unexplored tiles
-		private void printMap() {
+		public void updateMap() {
 		Map map = game.getMap();
 		MapTile[][] grid = map.getGrid();
 
@@ -150,6 +151,8 @@ public class ExplorationCons {
 
 	public void fightOrFlee(Enemy enemy) {
 
+		updateMap();
+
 		System.out.println("You encounter a " + enemy.getClas().getClassName() + " (Level " + enemy.getLevel() + ")");
 		System.out.println("[HP: " + enemy.getHp() + " | Attack: " + enemy.getAttack() + " | Defence: " + enemy.getDefence() + "]");
 		System.out.print("Fight it bravely? (Yes)\n"  +
@@ -157,22 +160,36 @@ public class ExplorationCons {
 							"Yes/No:> ");
 
 		if (scanYesOrNo()) {
-			System.out.println("You rush into the battle!");
+			printMessage("You rush into the battle!");
 			game.battle(enemy);
 		} else {
 			if (game.tryToFlee()) {
-				System.out.println("You heroically escaped that filthy beast!");
 				game.escapeBattle();
 			} else {
-				System.out.println("Sadly, your running is so sloooow...");
+				printMessage("Sadly, your running is so sloooow...");
 				game.battle(enemy);
 			}
 		}
+	}
 
+	public void escapeBattle(String msg) {
+		printMessage(msg);
 	}
 
 	public void battle() {
 
 	}
 
+	public void winBattle(int expReward) {
+		printMessage("Glory to the victor! And " + expReward + " EXP!");
+	}
+
+	public void winMap(String msg, int expReward) {
+		printMessage("The edge of the world! You earned " + expReward + " EXP.");
+		printMessage(msg);
+	}
+
+	public void youDie(String msg) {
+		printMessage(msg);
+	}
 }

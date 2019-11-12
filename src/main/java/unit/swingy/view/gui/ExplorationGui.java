@@ -9,6 +9,7 @@ import unit.swingy.model.Map;
 import unit.swingy.model.MapTile;
 import unit.swingy.model.characters.Enemy;
 import unit.swingy.model.characters.Hero;
+import unit.swingy.view.IExploration;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,15 +17,14 @@ import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class ExplorationGui {
+public class ExplorationGui implements IExploration {
 
 	private Game game;
 	private Hero hero;
@@ -37,14 +37,18 @@ public class ExplorationGui {
 	private final int SIDE_PANE_WIDTH = 256;
 	private final int VIEW_SIZE = 9;
 	private final int VIEW_DISTANCE = VIEW_SIZE / 2;
+	private final int INFO_PANEL_HEIGHT = 100;
 	private int winWidth;
 	private int winHeight;
 
-//	test
-	@Getter private boolean clicked = false;
-	@Getter private boolean choice = false;
+	//	test
+	@Getter
+	private boolean clicked = false;
+	@Getter
+	private boolean choice = false;
 
-	@Getter private JFrame frame;
+	@Getter
+	private JFrame frame;
 	private JPanel mainPanel;
 	private JPanel mapBack;
 	private JPanel mapHolder;
@@ -66,7 +70,26 @@ public class ExplorationGui {
 	private JButton bS;
 	private JButton bE;
 	private JButton bW;
+	private JLabel enemyClass;
+	private JLabel enemyLevel;
+	private JTextPane enemyStats;
+	private JScrollPane infoPane;
+	private JTextPane info;
 
+
+	/*	------------------------- FORMATTING AND STYLING ------------------------- */
+	//	TODO: clean the mess with style attributes
+
+	private Border whiteBorder = BorderFactory.createLineBorder(Color.white);
+	private Border blueBorder = BorderFactory.createLineBorder(Color.blue);
+	private Border blackBorder = BorderFactory.createLineBorder(Color.black);
+	private Border redBorder = BorderFactory.createLineBorder(Color.red);
+
+	SimpleAttributeSet styleNorm = new SimpleAttributeSet();
+	SimpleAttributeSet styleBold = new SimpleAttributeSet(styleNorm);
+	SimpleAttributeSet styleItalic = new SimpleAttributeSet(styleNorm);
+
+	/*	-------------------------------------------------------------------------- */
 
 //	TODO Pack the images
 //	The location of the image is also important. If the image is external to the application
@@ -81,35 +104,34 @@ public class ExplorationGui {
 		hero = game.getHero();
 		enemy = null;
 
+//		apply style
+//		StyleConstants.setBold(styleBold, true);
+		StyleConstants.setItalic(styleItalic, true);
+
 		$$$setupUI$$$();
+		setupUIManual();
+	}
+
+
+	private void setupUIManual() {
+
+		//		resize window
+		winWidth = (VIEW_SIZE * ICON_SIZE) + (SIDE_PANE_WIDTH * 2);
+		winHeight = VIEW_SIZE * ICON_SIZE + INFO_PANEL_HEIGHT;
+		mainPanel.setPreferredSize(new Dimension(winWidth, winHeight));
 
 		buildMap();
-
-		buildHeroPane();
-
-		resizePanels();
-		initFrame();
-
 		updateMap();
-
+		buildHeroPane();
 		createEventsListeners();
 
-	}
-
-	private void resizePanels() {
-		winWidth = (VIEW_SIZE * ICON_SIZE) + (SIDE_PANE_WIDTH * 2);
-		winHeight = VIEW_SIZE * ICON_SIZE;
-		mainPanel.setPreferredSize(new Dimension(winWidth, winHeight));
-	}
-
-	private void initFrame() {
-		//init frame
+//		init frame
 		frame = new JFrame("World Exploration");
-
 		frame.setContentPane(mainPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 //		frame.setVisible(true);
+
 	}
 
 	private void createEventsListeners() {
@@ -117,7 +139,6 @@ public class ExplorationGui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.moveHero('n');
-//				updateMap();
 			}
 		});
 
@@ -125,7 +146,6 @@ public class ExplorationGui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.moveHero('s');
-//				updateMap();
 			}
 		});
 
@@ -133,7 +153,6 @@ public class ExplorationGui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.moveHero('w');
-//				updateMap();
 			}
 		});
 
@@ -141,7 +160,6 @@ public class ExplorationGui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.moveHero('e');
-//				updateMap();
 			}
 		});
 
@@ -149,7 +167,6 @@ public class ExplorationGui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.battle(enemy);
-//				updateMap();
 				resetButtons();
 			}
 		});
@@ -164,7 +181,6 @@ public class ExplorationGui {
 				} else {
 					System.out.println(">> Sadly, your running is so sloooow...");
 					game.battle(enemy);
-//					updateMap();
 				}
 				resetButtons();
 			}
@@ -203,14 +219,50 @@ public class ExplorationGui {
 		hpBar.setString("HP: " + hero.getHp() + "/" + hero.getMaxHp());
 
 		heroStats.setText("");
-		SimpleAttributeSet atr = new SimpleAttributeSet();
 		Document statsDoc = heroStats.getStyledDocument();
 		try {
-			statsDoc.insertString(statsDoc.getLength(), "Attack: " + hero.getAttack() + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Defence: " + hero.getDefence() + "\n\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Weapon: " + hero.getWeapon() + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Armor: " + hero.getArmor() + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Helm: " + hero.getHelm() + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Attack: " + hero.getAttack() + "\n", styleBold);
+			statsDoc.insertString(statsDoc.getLength(), "Defence: " + hero.getDefence() + "\n\n", styleBold);
+			statsDoc.insertString(statsDoc.getLength(), "Weapon: " + hero.getWeapon() + "\n", styleBold);
+			statsDoc.insertString(statsDoc.getLength(), "Armor: " + hero.getArmor() + "\n", styleBold);
+			statsDoc.insertString(statsDoc.getLength(), "Helm: " + hero.getHelm() + "\n", styleBold);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateEnemyPane() {
+
+		if (enemy == null) {
+			enemyAvatar.setIcon(null);
+			enemyAvatar.setToolTipText(null);
+			enemyClass.setText(null);
+			enemyLevel.setText(null);
+			enemyStats.setText(null);
+		} else {
+			enemyAvatar.setIcon(enemy.getClas().getAvatar());
+			enemyAvatar.setToolTipText(enemy.getClas().getDescription());
+			enemyClass.setText(enemy.getClas().getClassName());
+			enemyLevel.setText("Level " + enemy.getLevel());
+
+			enemyStats.setText("");
+			Document statsDoc = enemyStats.getStyledDocument();
+			try {
+				statsDoc.insertString(statsDoc.getLength(), "HP: " + enemy.getHp() + " / " + enemy.getMaxHp() + "\n", styleBold);
+				statsDoc.insertString(statsDoc.getLength(), "Attack: " + enemy.getAttack() + "\n", styleBold);
+				statsDoc.insertString(statsDoc.getLength(), "Defence: " + enemy.getDefence() + "\n\n", styleBold);
+				statsDoc.insertString(statsDoc.getLength(), enemy.getClas().getDescription(), styleItalic);
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void printMessage(String msg) {
+		SimpleAttributeSet atr = new SimpleAttributeSet();
+		Document doc = info.getStyledDocument();
+		try {
+			doc.insertString(doc.getLength(), msg + "\n", atr);
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
@@ -257,47 +309,11 @@ public class ExplorationGui {
 		}
 	}
 
-/*
-	public void updateMap(int x, int y, int nx, int ny) {
-		Border whiteBorder = BorderFactory.createLineBorder(Color.white);
-		Border blueBorder = BorderFactory.createLineBorder(Color.blue);
-		Border blackBorder = BorderFactory.createLineBorder(Color.black);
-		Border redBorder = BorderFactory.createLineBorder(Color.red);
-
-		if (grid[y][x].getHero() == null) {
-			labels[y][x].setIcon(null);
-		}
-
-		if (grid[ny][nx].isExplored()) {
-			if (grid[ny][nx].getObstacle() != null) {
-				labels[ny][nx].setIcon(new StretchIcon("src/main/resources/img/obstacles/" + grid[ny][nx].getObstacle() + ".png"));
-				labels[ny][nx].setBorder(blackBorder);
-			} else if (grid[ny][nx].getHero() != null) {
-				labels[ny][nx].setIcon(hero.getClas().getIcon());
-				labels[ny][nx].setBorder(blueBorder);
-			} else if (grid[ny][nx].getEnemy() != null) {
-				labels[ny][nx].setIcon(grid[ny][nx].getEnemy().getClas().getIcon());
-				labels[ny][nx].setBorder(redBorder);
-			} else {
-				labels[ny][nx].setIcon(null);
-				labels[ny][nx].setBorder(whiteBorder);
-			}
-		}
-
-	}
-*/
-
-
 	public void updateMap() {
 
 //		update references if the map has changed
 		map = game.getMap();
 		grid = map.getGrid();
-
-		Border whiteBorder = BorderFactory.createLineBorder(Color.white);
-		Border blueBorder = BorderFactory.createLineBorder(Color.blue);
-		Border blackBorder = BorderFactory.createLineBorder(Color.black);
-		Border redBorder = BorderFactory.createLineBorder(Color.red);
 
 //		draw only part of the map around the hero
 		int y = game.getY() - VIEW_DISTANCE;
@@ -332,7 +348,6 @@ public class ExplorationGui {
 		}
 	}
 
-
 	public void fightOrFlee(Enemy e) {
 
 //		enable fight/flee buttons, disable all others
@@ -348,6 +363,9 @@ public class ExplorationGui {
 		bCons.setEnabled(false);
 
 		this.enemy = e;
+		updateEnemyPane();
+
+		printMessage("You encounter an enemy! Fight it bravely? Or try to run away like a coward?");
 	}
 
 	private void resetButtons() {
@@ -358,6 +376,35 @@ public class ExplorationGui {
 		bW.setEnabled(true);
 		bE.setEnabled(true);
 		bCons.setEnabled(true);
+	}
+
+	public void escapeBattle(String msg) {
+		enemy = null;
+		updateEnemyPane();
+		printMessage(msg);
+	}
+
+	public void winBattle(int expReward) {
+		updateMap();
+		updateHeroPane();
+		enemy = null;
+		updateEnemyPane();
+		printMessage("Glory to the victor! And " + expReward + " EXP!");
+	}
+
+
+	public void winMap(String msg, int expReward) {
+		printMessage("EDGE OF THE WORLD! You earned " + expReward + " EXP.");
+		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/mapWin.png");
+		JOptionPane.showMessageDialog(frame, msg, "End of the Nightmare",
+				JOptionPane.INFORMATION_MESSAGE, icon);
+	}
+
+	public void youDie(String msg) {
+		printMessage("YOU'RE DEAD, LOL :D");
+		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/death.png");
+		JOptionPane.showMessageDialog(frame, msg, "Remember: use drugs responsibly!",
+				JOptionPane.WARNING_MESSAGE, icon);
 	}
 
 
@@ -376,7 +423,12 @@ public class ExplorationGui {
 		mainPanel.setPreferredSize(new Dimension(1200, 800));
 		mainPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createRaisedBevelBorder(), null));
 		enemyPane = new JScrollPane();
-		mainPanel.add(enemyPane, new GridConstraints(1, 0, 5, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, 1, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(256, -1), new Dimension(256, -1), new Dimension(256, -1), 0, false));
+		mainPanel.add(enemyPane, new GridConstraints(3, 0, 3, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, 1, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(256, -1), new Dimension(256, -1), new Dimension(256, -1), 0, false));
+		enemyStats = new JTextPane();
+		enemyStats.setEditable(false);
+		Font enemyStatsFont = this.$$$getFont$$$("AppleGothic", -1, 14, enemyStats.getFont());
+		if (enemyStatsFont != null) enemyStats.setFont(enemyStatsFont);
+		enemyPane.setViewportView(enemyStats);
 		heroPane = new JScrollPane();
 		mainPanel.add(heroPane, new GridConstraints(5, 3, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, new Dimension(256, -1), new Dimension(256, -1), new Dimension(256, -1), 0, false));
 		heroStats = new JTextPane();
@@ -387,6 +439,45 @@ public class ExplorationGui {
 		heroAvatar = new JLabel();
 		heroAvatar.setText("");
 		mainPanel.add(heroAvatar, new GridConstraints(0, 3, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(256, -1), null, 0, false));
+		mapHolder = new JPanel();
+		mapHolder.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1, true, true));
+		mainPanel.add(mapHolder, new GridConstraints(0, 2, 6, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+		bW = new JButton();
+		bW.setText("West");
+		mainPanel.add(bW, new GridConstraints(7, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		bS = new JButton();
+		bS.setText("South");
+		mainPanel.add(bS, new GridConstraints(7, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		bE = new JButton();
+		bE.setText("East");
+		mainPanel.add(bE, new GridConstraints(7, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		bN = new JButton();
+		bN.setText("North");
+		mainPanel.add(bN, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		bCons = new JButton();
+		bCons.setText("TextMode");
+		mainPanel.add(bCons, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		bFlee = new JButton();
+		bFlee.setEnabled(false);
+		bFlee.setText("Flee");
+		mainPanel.add(bFlee, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		bFight = new JButton();
+		bFight.setEnabled(false);
+		bFight.setText("Fight");
+		mainPanel.add(bFight, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		enemyAvatar = new JLabel();
+		enemyAvatar.setText("");
+		mainPanel.add(enemyAvatar, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(256, -1), null, 0, false));
+		enemyClass = new JLabel();
+		Font enemyClassFont = this.$$$getFont$$$("Apple SD Gothic Neo", Font.BOLD, 16, enemyClass.getFont());
+		if (enemyClassFont != null) enemyClass.setFont(enemyClassFont);
+		enemyClass.setText("Class");
+		mainPanel.add(enemyClass, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+		enemyLevel = new JLabel();
+		Font enemyLevelFont = this.$$$getFont$$$("Apple SD Gothic Neo", Font.BOLD, 16, enemyLevel.getFont());
+		if (enemyLevelFont != null) enemyLevel.setFont(enemyLevelFont);
+		enemyLevel.setText("Level");
+		mainPanel.add(enemyLevel, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 		heroName = new JLabel();
 		Font heroNameFont = this.$$$getFont$$$("Apple SD Gothic Neo", Font.BOLD, 16, heroName.getFont());
 		if (heroNameFont != null) heroName.setFont(heroNameFont);
@@ -415,35 +506,11 @@ public class ExplorationGui {
 		hpBar.setStringPainted(true);
 		hpBar.setToolTipText("");
 		mainPanel.add(hpBar, new GridConstraints(4, 3, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-		mapHolder = new JPanel();
-		mapHolder.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1, true, true));
-		mainPanel.add(mapHolder, new GridConstraints(0, 2, 8, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-		bW = new JButton();
-		bW.setText("West");
-		mainPanel.add(bW, new GridConstraints(7, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-		bS = new JButton();
-		bS.setText("South");
-		mainPanel.add(bS, new GridConstraints(7, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-		bE = new JButton();
-		bE.setText("East");
-		mainPanel.add(bE, new GridConstraints(7, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-		bN = new JButton();
-		bN.setText("North");
-		mainPanel.add(bN, new GridConstraints(6, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-		bCons = new JButton();
-		bCons.setText("TextMode");
-		mainPanel.add(bCons, new GridConstraints(7, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-		bFlee = new JButton();
-		bFlee.setEnabled(false);
-		bFlee.setText("Flee");
-		mainPanel.add(bFlee, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-		bFight = new JButton();
-		bFight.setEnabled(false);
-		bFight.setText("Fight");
-		mainPanel.add(bFight, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-		enemyAvatar = new JLabel();
-		enemyAvatar.setText("Enemy");
-		mainPanel.add(enemyAvatar, new GridConstraints(0, 0, 1, 2, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(256, -1), null, 0, false));
+		infoPane = new JScrollPane();
+		mainPanel.add(infoPane, new GridConstraints(6, 2, 2, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(-1, 100), null, 0, false));
+		info = new JTextPane();
+		info.setEditable(false);
+		infoPane.setViewportView(info);
 	}
 
 	/**

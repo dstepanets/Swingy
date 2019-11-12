@@ -25,7 +25,8 @@ public enum EnemyClass {
 	EnemyClass() {
 		className = this.toString().substring(0, 1) + this.toString().substring(1).toLowerCase();
 
-		String avatarPath = "src/main/resources/img/enemyAvatars/" + className + ".jpg";
+//		String avatarPath = "src/main/resources/img/enemyAvatars/" + className + ".jpg";
+		String avatarPath = "src/main/resources/img/enemyAvatars/Placeholder.jpg";
 		avatar = new ImageIcon(avatarPath);
 		String iconPAth = "src/main/resources/img/enemyIcons/" + className + ".png";
 		icon = new StretchIcon(iconPAth);

@@ -1,10 +1,8 @@
 package unit.swingy.controller;
 
-import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.Getter;
 
-import javax.swing.*;
 import javax.validation.constraints.NotNull;
 
 import unit.swingy.model.Map;
@@ -15,7 +13,6 @@ import unit.swingy.model.characters.Hero;
 import unit.swingy.view.console.ExplorationCons;
 import unit.swingy.view.gui.ExplorationGui;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 @Getter @Setter
@@ -34,12 +31,6 @@ import java.util.Random;
 	private int x, y;
 //	new coordinates that player tries to move on
 	private int nx, ny;
-
-//	flags that control the game flow
-//	TODO: maybe no need in them
-	private boolean won;
-	private boolean lost;
-
 
 	public static Game getInstance() {
 		if (instance == null)
@@ -70,8 +61,6 @@ import java.util.Random;
 	}
 
 	private void resetMap() {
-		won = false;
-		lost = false;
 		hero.heal();
 		map = new Map(hero);
 		grid = map.getGrid();
@@ -106,12 +95,9 @@ import java.util.Random;
 				break;
 		}
 
-
+//		win the map if you have reached the end of it
 		if (nx < 0 || ny < 0 || nx >= map.getSize() || ny >= map.getSize()) {
-			//	if an argument is null gives end-of-map exp reward
-			hero.gainExp(null);
-			won = true;
-			startGame();
+			winMap();
 		} else {
 			grid[ny][nx].setExplored(true);
 			if (grid[ny][nx].getEnemy() != null) {
@@ -124,22 +110,23 @@ import java.util.Random;
 			}
 			if (guiMode) gui.updateMap();
 		}
-// 		TODO create better map update
+	}
 
+	private void winMap() {
+		//	if an argument is null gives end-of-map exp reward
+		int expReward = hero.gainExp(null);
 
+		String msg = "You have gracefully escaped this crazy nightmare!\nNow, will you finally wake up?";
+		if (isGuiMode()) gui.winMap(msg, expReward);
+		else console.winMap(msg, expReward);
+		startGame();
 	}
 
 	private void fightOrFlee() {
+		Enemy enemy = grid[ny][nx].getEnemy();
 
-		final Enemy enemy = grid[ny][nx].getEnemy();
-
-		if (isGuiMode()) {
-			gui.fightOrFlee(enemy);
-		} else {
-			console.fightOrFlee(enemy);
-		}
-
-
+		if (isGuiMode()) gui.fightOrFlee(enemy);
+		else console.fightOrFlee(enemy);
 	}
 
 	public boolean tryToFlee() {
@@ -149,6 +136,10 @@ import java.util.Random;
 
 	public void escapeBattle() {
 		ny = y; nx = x;
+
+		String msg = "You heroically escaped that filthy beast!";
+		if (isGuiMode()) gui.escapeBattle(msg);
+		else console.escapeBattle(msg);
 	}
 
 	public void battle(Enemy enemy) {
@@ -167,7 +158,7 @@ import java.util.Random;
 		System.out.println("## Victory: " + victory);
 
 		if (victory) {
-			hero.gainExp(enemy);
+			int expReward = hero.gainExp(enemy);
 			hero.heal();
 //			remove an enemy from the map
 			grid[ny][nx].setEnemy(null);
@@ -180,16 +171,21 @@ import java.util.Random;
 			grid[ny][nx].setHero(hero);
 			y = ny; x = nx;
 
-			if (guiMode) {
-				gui.updateMap();
-				gui.updateHeroPane();
-			}
-		} else {
-			lost = true;
-			startGame();
-		}
+			if (guiMode) gui.winBattle(expReward);
+			else console.winBattle(expReward);
 
+		} else youDie();
 
+	}
+
+	private void youDie() {
+
+		String msg = "Unfortunately, you died in the sleep \nchoked with your tongue while being impossibly intoxicated.";
+
+		if (isGuiMode()) gui.youDie(msg);
+		else console.youDie(msg);
+
+		startGame();
 	}
 
 

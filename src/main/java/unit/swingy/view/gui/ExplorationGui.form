@@ -13,7 +13,7 @@
     <children>
       <scrollpane id="25341" binding="enemyPane">
         <constraints>
-          <grid row="1" column="0" row-span="5" col-span="2" vsize-policy="7" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="3" column="0" row-span="3" col-span="2" vsize-policy="7" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <minimum-size width="256" height="-1"/>
             <preferred-size width="256" height="-1"/>
             <maximum-size width="256" height="-1"/>
@@ -21,7 +21,15 @@
         </constraints>
         <properties/>
         <border type="none"/>
-        <children/>
+        <children>
+          <component id="60f87" class="javax.swing.JTextPane" binding="enemyStats">
+            <constraints/>
+            <properties>
+              <editable value="false"/>
+              <font name="AppleGothic" size="14"/>
+            </properties>
+          </component>
+        </children>
       </scrollpane>
       <scrollpane id="c7195" binding="heroPane">
         <constraints>
@@ -53,54 +61,10 @@
           <text value=""/>
         </properties>
       </component>
-      <component id="4c272" class="javax.swing.JLabel" binding="heroName">
-        <constraints>
-          <grid row="1" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <font name="Apple SD Gothic Neo" size="16" style="1"/>
-          <horizontalAlignment value="10"/>
-          <horizontalTextPosition value="11"/>
-          <text value="Name"/>
-        </properties>
-      </component>
-      <component id="d4d9f" class="javax.swing.JLabel" binding="heroClass">
-        <constraints>
-          <grid row="2" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <font name="Apple SD Gothic Neo" size="16" style="1"/>
-          <text value="Class"/>
-        </properties>
-      </component>
-      <component id="dde7b" class="javax.swing.JProgressBar" binding="expBar">
-        <constraints>
-          <grid row="3" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <font name="Herculanum" size="16"/>
-          <string value="EXP"/>
-          <stringPainted value="true"/>
-        </properties>
-      </component>
-      <component id="cb425" class="javax.swing.JProgressBar" binding="hpBar">
-        <constraints>
-          <grid row="4" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <font name="Herculanum" size="16"/>
-          <foreground color="-8355712"/>
-          <indeterminate value="false"/>
-          <name value=""/>
-          <string value="HP"/>
-          <stringPainted value="true"/>
-          <toolTipText value=""/>
-        </properties>
-      </component>
       <grid id="8bb52" binding="mapHolder" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="true" same-size-vertically="true" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="0" column="2" row-span="8" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="2" row-span="6" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -166,14 +130,93 @@
       </component>
       <component id="489e5" class="javax.swing.JLabel" binding="enemyAvatar">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="256" height="-1"/>
           </grid>
         </constraints>
         <properties>
-          <text value="Enemy"/>
+          <text value=""/>
         </properties>
       </component>
+      <component id="9b2de" class="javax.swing.JLabel" binding="enemyClass">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Apple SD Gothic Neo" size="16" style="1"/>
+          <text value="Class"/>
+        </properties>
+      </component>
+      <component id="ccd92" class="javax.swing.JLabel" binding="enemyLevel">
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Apple SD Gothic Neo" size="16" style="1"/>
+          <text value="Level"/>
+        </properties>
+      </component>
+      <component id="4c272" class="javax.swing.JLabel" binding="heroName">
+        <constraints>
+          <grid row="1" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Apple SD Gothic Neo" size="16" style="1"/>
+          <horizontalAlignment value="10"/>
+          <horizontalTextPosition value="11"/>
+          <text value="Name"/>
+        </properties>
+      </component>
+      <component id="d4d9f" class="javax.swing.JLabel" binding="heroClass">
+        <constraints>
+          <grid row="2" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Apple SD Gothic Neo" size="16" style="1"/>
+          <text value="Class"/>
+        </properties>
+      </component>
+      <component id="dde7b" class="javax.swing.JProgressBar" binding="expBar">
+        <constraints>
+          <grid row="3" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Herculanum" size="16"/>
+          <string value="EXP"/>
+          <stringPainted value="true"/>
+        </properties>
+      </component>
+      <component id="cb425" class="javax.swing.JProgressBar" binding="hpBar">
+        <constraints>
+          <grid row="4" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Herculanum" size="16"/>
+          <foreground color="-8355712"/>
+          <indeterminate value="false"/>
+          <name value=""/>
+          <string value="HP"/>
+          <stringPainted value="true"/>
+          <toolTipText value=""/>
+        </properties>
+      </component>
+      <scrollpane id="aba79" binding="infoPane">
+        <constraints>
+          <grid row="6" column="2" row-span="2" col-span="1" vsize-policy="0" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="-1" height="100"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="7786e" class="javax.swing.JTextPane" binding="info">
+            <constraints/>
+            <properties>
+              <editable value="false"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>
