@@ -65,7 +65,7 @@ public enum EnemyClass {
 				description = "Moonshine is very strong. But you must destroy as much of it as possible.";
 				break;
 		}
-		return ("\"" + description + "\"");
+		return (description);
 	}
 
 }

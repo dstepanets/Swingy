@@ -25,6 +25,7 @@ import java.util.Random;
 	private ExplorationGui gui;
 
 	@NotNull private Hero hero;
+	private Enemy enemy;
 	@NotNull private Map map;
 	MapTile grid[][];
 //	player's current coordinates on the map
@@ -43,6 +44,7 @@ import java.util.Random;
 			if (gui == null) gui = new ExplorationGui();
 			gui.updateMap();
 			gui.updateHeroPane();
+			gui.updateEnemyPane();
 			gui.getFrame().setVisible(true);
 		} else {
 			if (console == null) console = new ExplorationCons();
@@ -64,6 +66,7 @@ import java.util.Random;
 		hero.heal();
 		map = new Map(hero);
 		grid = map.getGrid();
+		enemy = null;
 //		map.printMapTiles();
 	}
 
@@ -123,7 +126,7 @@ import java.util.Random;
 	}
 
 	private void fightOrFlee() {
-		Enemy enemy = grid[ny][nx].getEnemy();
+		enemy = grid[ny][nx].getEnemy();
 
 		if (isGuiMode()) gui.fightOrFlee(enemy);
 		else console.fightOrFlee(enemy);
@@ -136,25 +139,40 @@ import java.util.Random;
 
 	public void escapeBattle() {
 		ny = y; nx = x;
+		enemy = null;
 
 		String msg = "You heroically escaped that filthy beast!";
 		if (isGuiMode()) gui.escapeBattle(msg);
 		else console.escapeBattle(msg);
 	}
 
-	public void battle(Enemy enemy) {
+	public void initBattle() {
 
-		System.out.println("## You entered a battle.");
+		if (guiMode) gui.initBattle();
+		else console.initBattle();
+
+
+	}
+
+	public void battle(int dice) {
+
 		boolean victory = false;
 
 		do {
-			String s = enemy.takeDamage(hero);
-				System.out.println("## " + s);
-			s = hero.takeDamage(enemy);
-				System.out.println("## " + s);
+			int eDamage = enemy.takeDamage(hero);
+			int hDamage = hero.takeDamage(enemy);
+
+			if (guiMode) gui.battleRound(hDamage, eDamage);
+			else  console.battleRound(hDamage, eDamage);
+
+//			try {
+//				Thread.sleep(500);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 		} while ((hero.getHp() > 0) && (enemy.getHp() > 0));
 
-		victory = (enemy.getHp() <= 0) ? true : false;
+		victory = ((enemy.getHp() <= 0) && (hero.getHp() > 0)) ? true : false;
 		System.out.println("## Victory: " + victory);
 
 		if (victory) {
@@ -162,6 +180,7 @@ import java.util.Random;
 			hero.heal();
 //			remove an enemy from the map
 			grid[ny][nx].setEnemy(null);
+			enemy = null;
 
 //			update hero in the DataBase
 			db.updateHero(hero);
@@ -175,8 +194,8 @@ import java.util.Random;
 			else console.winBattle(expReward);
 
 		} else youDie();
-
 	}
+
 
 	private void youDie() {
 

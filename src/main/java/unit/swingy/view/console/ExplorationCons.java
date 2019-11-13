@@ -7,6 +7,7 @@ import unit.swingy.model.characters.Enemy;
 import unit.swingy.model.characters.Hero;
 import unit.swingy.view.IExploration;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class ExplorationCons implements IExploration {
@@ -155,19 +156,20 @@ public class ExplorationCons implements IExploration {
 
 		System.out.println("You encounter a " + enemy.getClas().getClassName() + " (Level " + enemy.getLevel() + ")");
 		System.out.println("[HP: " + enemy.getHp() + " | Attack: " + enemy.getAttack() + " | Defence: " + enemy.getDefence() + "]");
-		System.out.print("Fight it bravely? (Yes)\n"  +
+		System.out.println("\"" + enemy.getClas().getDescription() + "\"");
+		System.out.print("\nFight it bravely? (Yes)\n"  +
 							"Or try to run away like a coward? (No)\n" +
 							"Yes/No:> ");
 
 		if (scanYesOrNo()) {
-			printMessage("You rush into the battle!");
-			game.battle(enemy);
+			printMessage("You rush into the initBattle!");
+			game.initBattle();
 		} else {
 			if (game.tryToFlee()) {
 				game.escapeBattle();
 			} else {
 				printMessage("Sadly, your running is so sloooow...");
-				game.battle(enemy);
+				game.initBattle();
 			}
 		}
 	}
@@ -176,7 +178,13 @@ public class ExplorationCons implements IExploration {
 		printMessage(msg);
 	}
 
-	public void battle() {
+	public void initBattle() {
+		System.out.println(">> You entered a initBattle.");
+		int diceNum = new Random().nextInt(6) + 1;
+		game.battle(diceNum);
+	}
+
+	public void battleRound(int heroDamage, int enemyDamage) {
 
 	}
 

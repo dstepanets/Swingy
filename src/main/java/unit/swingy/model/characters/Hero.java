@@ -44,7 +44,7 @@ public class Hero extends ACharacter {
 		expToLevelUp = (level + 1) * 1000 + level * level * 450;
 	}
 
-	public String takeDamage(ACharacter enemy) {
+	public int takeDamage(ACharacter enemy) {
 
 		int damage = enemy.getAttack() - defence;
 		if (damage < 0)
@@ -52,7 +52,7 @@ public class Hero extends ACharacter {
 		String log = name + " (" + hp + "/" + maxHp + ") takes " + damage + " damage.";
 		hp -= damage;
 
-		return log;
+		return damage;
 	}
 
 	public void heal() {

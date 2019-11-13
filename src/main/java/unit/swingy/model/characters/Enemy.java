@@ -34,7 +34,7 @@ public class Enemy extends ACharacter {
 
 	}
 
-	public String takeDamage(ACharacter hero) {
+	public int takeDamage(ACharacter hero) {
 
 		int damage = hero.getAttack() - defence;
 		if (damage < 0)
@@ -42,7 +42,7 @@ public class Enemy extends ACharacter {
 		String log = clas.getClassName() + " (" + hp + "/" + maxHp + ") takes " + damage + " damage.";
 		hp -= damage;
 
-		return log;
+		return damage;
 	}
 
 }
