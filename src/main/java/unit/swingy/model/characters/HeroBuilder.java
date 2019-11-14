@@ -1,6 +1,10 @@
 package unit.swingy.model.characters;
 
 import lombok.Setter;
+import unit.swingy.model.artifacts.AArtifact;
+import unit.swingy.model.artifacts.Armor;
+import unit.swingy.model.artifacts.Helm;
+import unit.swingy.model.artifacts.Weapon;
 
 public class HeroBuilder {
 
@@ -64,16 +68,22 @@ public class HeroBuilder {
 		hero.setDefence(d);
 	}
 
-	public void setWeapon(String w) {
-
+	public void setWeapon(int power) {
+		AArtifact w;
+		w = (power == 0) ? null : new Weapon(power);
+		hero.setWeapon(w);
 	}
 
-	public void setArmor(String a) {
-
+	public void setArmor(int power) {
+		AArtifact a;
+		a = (power == 0) ? null : new Armor(power);
+		hero.setArmor(a);
 	}
 
-	public void setHelm(String h) {
-
+	public void setHelm(int power) {
+		AArtifact h;
+		h = (power == 0) ? null : new Helm(power);
+		hero.setHelm(h);
 	}
 
 }

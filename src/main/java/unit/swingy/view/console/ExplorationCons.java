@@ -184,8 +184,9 @@ public class ExplorationCons implements IExploration {
 		game.battle(diceNum);
 	}
 
-	public void battleRound(int heroDamage, int enemyDamage) {
-
+	public void battleRound(int enemyDamage, int heroDamage) {
+//		String log = clas.getClassName() + " (" + hp + "/" + maxHp + ") takes " + damage + " damage.";
+//		String log = name + " (" + hp + "/" + maxHp + ") takes " + damage + " damage.";
 	}
 
 	public void winBattle(int expReward) {

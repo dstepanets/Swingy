@@ -3,6 +3,10 @@ package unit.swingy.view.gui;
 import unit.swingy.controller.Game;
 import unit.swingy.model.Map;
 import unit.swingy.model.MapTile;
+import unit.swingy.model.artifacts.AArtifact;
+import unit.swingy.model.artifacts.Armor;
+import unit.swingy.model.artifacts.Helm;
+import unit.swingy.model.artifacts.Weapon;
 import unit.swingy.model.characters.Enemy;
 import unit.swingy.model.characters.Hero;
 import unit.swingy.view.IExploration;
@@ -16,6 +20,8 @@ import javax.swing.text.SimpleAttributeSet;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import com.intellij.uiDesigner.core.GridConstraints;
@@ -55,6 +61,10 @@ public class ExplorationGui implements IExploration {
 
 	private JScrollPane enemyPane;
 	private JLabel enemyAvatar;
+	private JLabel enemyClass;
+	private JLabel enemyLevel;
+	private JTextPane enemyStats;
+
 	private JButton bFight;
 	private JButton bFlee;
 	private JButton bCons;
@@ -66,13 +76,13 @@ public class ExplorationGui implements IExploration {
 	private JProgressBar expBar;
 	private JProgressBar hpBar;
 	private JTextPane heroStats;
+
 	private JButton bN;
 	private JButton bS;
 	private JButton bE;
 	private JButton bW;
-	private JLabel enemyClass;
-	private JLabel enemyLevel;
-	private JTextPane enemyStats;
+
+
 	private JScrollPane infoPane;
 	private JTextPane info;
 
@@ -114,18 +124,21 @@ public class ExplorationGui implements IExploration {
 		buildMap();
 		updateMap();
 		buildHeroPane();
-		createEventsListeners();
 
 //		init frame
 		frame = new JFrame("World Exploration");
 		frame.setContentPane(mainPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
+		frame.setLocationRelativeTo(null);    // center window on the screen
+		frame.setResizable(false);
 //		frame.setVisible(true);
 
+		createEventsListeners();
 	}
 
 	private void createEventsListeners() {
+
 		bN.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -168,7 +181,7 @@ public class ExplorationGui implements IExploration {
 				if (game.tryToFlee()) {
 					game.escapeBattle();
 				} else {
-					printMessage("Sadly, your running is so sloooow...");
+					printMessage("Sadly, your running is so sloooow...", TextStyle.red);
 					game.initBattle();
 				}
 				resetButtons();
@@ -182,11 +195,14 @@ public class ExplorationGui implements IExploration {
 				game.switchView();
 			}
 		});
-	}
 
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				game.exitGame();
+			}
+		});
 
-	public void destroyWindow() {
-		frame.dispose();
 	}
 
 	private void buildHeroPane() {
@@ -210,11 +226,11 @@ public class ExplorationGui implements IExploration {
 		heroStats.setText("");
 		Document statsDoc = heroStats.getStyledDocument();
 		try {
-			statsDoc.insertString(statsDoc.getLength(), "Attack: " + hero.getAttack() + "\n", TextStyle.styleBold);
-			statsDoc.insertString(statsDoc.getLength(), "Defence: " + hero.getDefence() + "\n\n", TextStyle.styleBold);
-			statsDoc.insertString(statsDoc.getLength(), "Weapon: " + hero.getWeapon() + "\n", TextStyle.styleBold);
-			statsDoc.insertString(statsDoc.getLength(), "Armor: " + hero.getArmor() + "\n", TextStyle.styleBold);
-			statsDoc.insertString(statsDoc.getLength(), "Helm: " + hero.getHelm() + "\n", TextStyle.styleBold);
+			statsDoc.insertString(statsDoc.getLength(), "Attack: " + hero.getAttack() + "\n", TextStyle.bold);
+			statsDoc.insertString(statsDoc.getLength(), "Defence: " + hero.getDefence() + "\n\n", TextStyle.bold);
+			statsDoc.insertString(statsDoc.getLength(), "Weapon: " + hero.getWeapon() + "\n", TextStyle.bold);
+			statsDoc.insertString(statsDoc.getLength(), "Armor: " + hero.getArmor() + "\n", TextStyle.bold);
+			statsDoc.insertString(statsDoc.getLength(), "Helm: " + hero.getHelm() + "\n", TextStyle.bold);
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
@@ -239,18 +255,17 @@ public class ExplorationGui implements IExploration {
 			enemyStats.setText("");
 			Document statsDoc = enemyStats.getStyledDocument();
 			try {
-				statsDoc.insertString(statsDoc.getLength(), "HP: " + enemy.getHp() + " / " + enemy.getMaxHp() + "\n", TextStyle.styleBold);
-				statsDoc.insertString(statsDoc.getLength(), "Attack: " + enemy.getAttack() + "\n", TextStyle.styleBold);
-				statsDoc.insertString(statsDoc.getLength(), "Defence: " + enemy.getDefence() + "\n\n", TextStyle.styleBold);
-				statsDoc.insertString(statsDoc.getLength(), enemy.getClas().getDescription(), TextStyle.styleItalic);
+				statsDoc.insertString(statsDoc.getLength(), "HP: " + enemy.getHp() + " / " + enemy.getMaxHp() + "\n", TextStyle.bold);
+				statsDoc.insertString(statsDoc.getLength(), "Attack: " + enemy.getAttack() + "\n", TextStyle.bold);
+				statsDoc.insertString(statsDoc.getLength(), "Defence: " + enemy.getDefence() + "\n\n", TextStyle.bold);
+				statsDoc.insertString(statsDoc.getLength(), enemy.getClas().getDescription(), TextStyle.italic);
 			} catch (BadLocationException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public void printMessage(String msg) {
-		SimpleAttributeSet atr = new SimpleAttributeSet();
+	public void printMessage(String msg, SimpleAttributeSet atr) {
 		Document doc = info.getStyledDocument();
 		try {
 			doc.insertString(doc.getLength(), msg + "\n", atr);
@@ -282,6 +297,7 @@ public class ExplorationGui implements IExploration {
 //		set map background and create grid to hold labels
 		mapBack = new MapBack();
 		mapBack.setLayout(new GridLayout(VIEW_SIZE, VIEW_SIZE));
+//		mapBack.setPreferredSize(new Dimension(VIEW_SIZE * ICON_SIZE, VIEW_SIZE * ICON_SIZE));
 		mapHolder.add(mapBack, new GridConstraints(0, 0, 1, 1,
 				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK |
 				GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
@@ -355,7 +371,8 @@ public class ExplorationGui implements IExploration {
 
 		updateEnemyPane();
 
-		printMessage("You encounter an enemy! Fight it bravely? Or try to run away like a coward?");
+		printMessage("You encounter an enemy! Fight it bravely?" +
+				" Or run away like a coward?", TextStyle.bold);
 	}
 
 	private void resetButtons() {
@@ -370,7 +387,7 @@ public class ExplorationGui implements IExploration {
 
 	public void escapeBattle(String msg) {
 		updateEnemyPane();
-		printMessage(msg);
+		printMessage(msg, TextStyle.cyan);
 	}
 
 	public void initBattle() {
@@ -378,42 +395,97 @@ public class ExplorationGui implements IExploration {
 		battle = new BattleGui(hero, game.getEnemy());
 	}
 
-	public void battleRound(int hDamage, int eDamage) {
+	public void battleRound(int eDamage, int hDamage) {
 		battle.updateStats();
 		String msg = game.getEnemy().getClas().getClassName() + " takes " + eDamage + " damage.";
-		battle.logMessage(msg, TextStyle.styleGreen);
+		battle.logMessage(msg, TextStyle.green);
 		msg = hero.getName() + " takes " + hDamage + " damage.";
-		battle.logMessage(msg, TextStyle.styleRed);
+		battle.logMessage(msg, TextStyle.red);
 
 	}
 
+	public void enableExitBattle(int expReward) {
+		battle.enableExit(expReward);
+	}
+
 	public void winBattle(int expReward) {
-		battle.enableExit();
 		battle = null;
 		frame.setEnabled(true);
+		printMessage("Glory to the victor! And " + expReward + " EXP!", TextStyle.green);
+
+		dropArtifact();
 
 		updateMap();
 		updateHeroPane();
 		updateEnemyPane();
-		printMessage("Glory to the victor! And " + expReward + " EXP!");
+
 	}
 
-	public void winMap(String msg, int expReward) {
-		printMessage("EDGE OF THE WORLD! You earned " + expReward + " EXP.");
-		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/mapWin.png");
-		JOptionPane.showMessageDialog(frame, msg, "End of the Nightmare",
-				JOptionPane.INFORMATION_MESSAGE, icon);
+	private void dropArtifact() {
+		AArtifact art = game.dropArtifact();
+		if (art != null) {
+
+			AArtifact.ArtifactType type = art.getType();
+			StringBuilder msg = new StringBuilder("You have found " + type.toString() + ":\n" + art.getName() + " (");
+			String msg2 = null;
+
+			switch (type) {
+				case WEAPON:
+					msg.append("Attack +" + art.getPower() + ")\n");
+					AArtifact w = hero.getWeapon();
+					if (w != null)
+						msg2 = "You have " + w.getName() + " (Attack +" + w.getPower() + ")";
+					break;
+				case ARMOR:
+					msg.append("Defence +" + art.getPower() + ")\n");
+					AArtifact a = hero.getArmor();
+					if (a != null)
+						msg2 = "You have " + a.getName() + " (Armor +" + a.getPower() + ")";
+					break;
+				case HELM:
+					msg.append("HP +" + art.getPower() + ")\n");
+					AArtifact h = hero.getHelm();
+					if (h != null)
+						msg2 = "You have " + h.getName() + " (HP +" + h.getPower() + ")";
+					break;
+			}
+
+			if (msg2 == null)
+				msg2 = "You don't have an artifact of this type.";
+			msg.append(msg2);
+
+			ImageIcon icon = new ImageIcon("src/main/resources/img/icons/gameWin.png");
+			Object[] options = {"Nuh, rubish", "Equip"};
+			int n = JOptionPane.showOptionDialog(frame, msg,
+					"You Found an Artifact",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE,
+					icon, options, options[1]);
+
+			hero.equipArtifact(art);
+		}
+
 	}
+
 
 	public void youDie(String msg) {
-		battle.enableExit();
+
 		battle = null;
 		frame.setEnabled(true);
 
-		printMessage("YOU'RE DEAD, LOL :D");
+		printMessage("YOU'RE DEAD, LOL :D", TextStyle.red);
+
 		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/death.png");
 		JOptionPane.showMessageDialog(frame, msg, "Remember: use drugs responsibly!",
 				JOptionPane.WARNING_MESSAGE, icon);
+	}
+
+
+	public void winMap(String msg, int expReward) {
+		printMessage("EDGE OF THE WORLD! You earned " + expReward + " EXP.", TextStyle.blue);
+		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/mapWin.png");
+		JOptionPane.showMessageDialog(frame, msg, "End of the Nightmare",
+				JOptionPane.INFORMATION_MESSAGE, icon);
 	}
 
 

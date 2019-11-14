@@ -48,7 +48,6 @@ public class DataBase {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException esql) {
-			System.out.println(esql.getMessage());
 //  			esql.printStackTrace();
 			resetDB();
 		}
@@ -115,9 +114,9 @@ public class DataBase {
 				builder.setHp(rs.getInt("hp"));
 				builder.setAttack(rs.getInt("attack"));
 				builder.setDefence(rs.getInt("defence"));
-				builder.setWeapon(rs.getString("weapon"));
-				builder.setArmor(rs.getString("armor"));
-				builder.setHelm(rs.getString("helm"));
+				builder.setWeapon(rs.getInt("weapon"));
+				builder.setArmor(rs.getInt("armor"));
+				builder.setHelm(rs.getInt("helm"));
 				heroesList.add(builder.getHero());
 			}
 		} catch (SQLException e) {
@@ -130,6 +129,10 @@ public class DataBase {
 
 		System.out.println(">> Adding a hero...");
 
+		int wepPow = (h.getWeapon() != null) ? h.getWeapon().getPower() : 0;
+		int armPow = (h.getArmor() != null) ? h.getArmor().getPower() : 0;
+		int helmPow = (h.getHelm() != null) ? h.getHelm().getPower() : 0;
+
 		String sql = "INSERT INTO Heroes (name, class, level, exp, hp, attack, defence, weapon, armor, helm) " +
 						"VALUES (\'" +
 						h.getName() + "\', \'" +
@@ -139,9 +142,9 @@ public class DataBase {
 						h.getMaxHp() + ", " +
 						h.getAttack() + ", " +
 						h.getDefence() + ", " +
-						h.getWeapon() + ", " +
-						h.getArmor() + ", " +
-						h.getHelm() + ");";
+						wepPow + ", " +
+						armPow + ", " +
+						helmPow + ");";
 		try {
 			statement.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -161,7 +164,7 @@ public class DataBase {
 	}
 
 	public void closeConnection() {
-
+		System.out.println(">> Closing DB connection...");
 		try {
 			if (statement != null)
 				statement.close();
@@ -189,15 +192,20 @@ public class DataBase {
 
 	public void updateHero(Hero h) {
 		System.out.println(">> Updating a hero in the DB...");
+
+		int wepPow = (h.getWeapon() != null) ? h.getWeapon().getPower() : 0;
+		int armPow = (h.getArmor() != null) ? h.getArmor().getPower() : 0;
+		int helmPow = (h.getHelm() != null) ? h.getHelm().getPower() : 0;
+
 		String sql = "UPDATE Heroes SET " +
 						"level = " + h.getLevel() +
 						", exp = " + h.getExp() +
 						", hp = " + h.getMaxHp() +
 						", attack = " + h.getAttack() +
 						", defence = " + h.getDefence() +
-						", weapon = " + h.getWeapon() +
-						", armor = " + h.getArmor() +
-						", helm = " + h.getHelm() +
+						", weapon = " + wepPow +
+						", armor = " + armPow +
+						", helm = " + helmPow +
 					" WHERE id = " + h.getId();
 		try {
 			statement = connection.createStatement();

@@ -6,26 +6,35 @@ import java.awt.*;
 
 public class TextStyle {
 
-	static public final SimpleAttributeSet styleNorm;
-	static public final SimpleAttributeSet styleBold;
-	static public final SimpleAttributeSet styleItalic;
-	static public final SimpleAttributeSet styleRed;
-	static public final SimpleAttributeSet styleGreen;
+	static public final SimpleAttributeSet norm;
+	static public final SimpleAttributeSet bold;
+	static public final SimpleAttributeSet italic;
+
+	static public final SimpleAttributeSet red;
+	static public final SimpleAttributeSet green;
+	static public final SimpleAttributeSet blue;
+	static public final SimpleAttributeSet cyan;
 
 	static {
-		styleNorm = new SimpleAttributeSet();
+		norm = new SimpleAttributeSet();
 
-		styleBold = new SimpleAttributeSet(styleNorm);
-		StyleConstants.setBold(styleBold, true);
+		bold = new SimpleAttributeSet(norm);
+		StyleConstants.setBold(bold, true);
 
-		styleItalic = new SimpleAttributeSet(styleNorm);
-		StyleConstants.setItalic(styleItalic, true);
+		italic = new SimpleAttributeSet(norm);
+		StyleConstants.setItalic(italic, true);
 
-		styleRed = new SimpleAttributeSet(styleNorm);
-		StyleConstants.setForeground(styleRed, Color.RED);
+		red = new SimpleAttributeSet(norm);
+		StyleConstants.setForeground(red, Color.RED);
 
-		styleGreen = new SimpleAttributeSet(styleNorm);
-		StyleConstants.setForeground(styleGreen, Color.GREEN);
+		green = new SimpleAttributeSet(norm);
+		StyleConstants.setForeground(green, Color.GREEN);
+
+		blue = new SimpleAttributeSet(norm);
+		StyleConstants.setForeground(blue, Color.BLUE);
+
+		cyan = new SimpleAttributeSet(norm);
+		StyleConstants.setForeground(cyan, Color.CYAN);
 	}
 
 

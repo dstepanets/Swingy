@@ -13,6 +13,6 @@ public abstract class ACharacter {
 	protected int attack;
 	protected int defence;
 
-	public abstract int takeDamage(ACharacter foe);
+	public abstract int takeDamage(ACharacter foe, int dice);
 
 }

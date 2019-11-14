@@ -6,7 +6,17 @@ import lombok.Setter;
 @Getter @Setter
 public abstract class AArtifact {
 
-	private String name;
-	private int power;
+	public enum ArtifactType {
+		WEAPON,
+		ARMOR,
+		HELM
+	}
+
+
+	protected String[] namesArr;
+
+	protected ArtifactType type;
+	protected String name;
+	protected int power;
 
 }

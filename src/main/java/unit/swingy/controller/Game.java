@@ -3,10 +3,15 @@ package unit.swingy.controller;
 import lombok.Setter;
 import lombok.Getter;
 
+import javax.swing.*;
 import javax.validation.constraints.NotNull;
 
 import unit.swingy.model.Map;
 import unit.swingy.model.MapTile;
+import unit.swingy.model.artifacts.AArtifact;
+import unit.swingy.model.artifacts.Armor;
+import unit.swingy.model.artifacts.Helm;
+import unit.swingy.model.artifacts.Weapon;
 import unit.swingy.model.characters.DataBase;
 import unit.swingy.model.characters.Enemy;
 import unit.swingy.model.characters.Hero;
@@ -72,6 +77,7 @@ import java.util.Random;
 
 //	TODO: Call this when GUI is closed
 	public void exitGame() {
+		System.out.println(">> Exiting the game...");
 		db.closeConnection();
 		System.exit(0);
 	}
@@ -154,50 +160,63 @@ import java.util.Random;
 
 	}
 
-	public void battle(int dice) {
+	public void battle(final int dice) {
 
-		boolean victory = false;
+//		create worker thread in order to make pauses during battle rounds but don't freeze the GUI
+		SwingWorker sw = new SwingWorker() {
 
-		do {
-			int eDamage = enemy.takeDamage(hero);
-			int hDamage = hero.takeDamage(enemy);
+			@Override
+			protected Void doInBackground() throws Exception {
+				do {
+//					calculate damage
+					int eDamage = enemy.takeDamage(hero, dice);
+					int hDamage = hero.takeDamage(enemy, 0);
+//					update UI
+					if (guiMode) gui.battleRound(eDamage, hDamage);
+					else  console.battleRound(eDamage, hDamage);
+//					delay between moves
+					Thread.sleep(500);
+				} while ((hero.getHp() > 0) && (enemy.getHp() > 0));
+				return null;
+			}
 
-			if (guiMode) gui.battleRound(hDamage, eDamage);
-			else  console.battleRound(hDamage, eDamage);
+//			this method is called when the background thread finishes execution
+			@Override
+			protected void done() {
 
-//			try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-		} while ((hero.getHp() > 0) && (enemy.getHp() > 0));
+				boolean victory = ((enemy.getHp() <= 0) && (hero.getHp() > 0)) ? true : false;
+				System.out.println("## Victory: " + victory);
 
-		victory = ((enemy.getHp() <= 0) && (hero.getHp() > 0)) ? true : false;
-		System.out.println("## Victory: " + victory);
+				int expReward = 0;
+				if (victory) {
 
-		if (victory) {
-			int expReward = hero.gainExp(enemy);
-			hero.heal();
-//			remove an enemy from the map
-			grid[ny][nx].setEnemy(null);
-			enemy = null;
+					expReward = hero.gainExp(enemy);
+					hero.heal();
 
-//			update hero in the DataBase
-			db.updateHero(hero);
+//					remove an enemy from the map
+					grid[ny][nx].setEnemy(null);
 
-//			move to the new location
-			grid[y][x].setHero(null);
-			grid[ny][nx].setHero(hero);
-			y = ny; x = nx;
+//					update hero in the DataBase
+					db.updateHero(hero);
 
-			if (guiMode) gui.winBattle(expReward);
-			else console.winBattle(expReward);
+//					move to the new location
+					grid[y][x].setHero(null);
+					grid[ny][nx].setHero(hero);
+					y = ny; x = nx;
 
-		} else youDie();
+//					battle outcome
+					if (!guiMode) console.winBattle(expReward);
+				} else if (!guiMode) youDie();
+//				delay GUI win and die methods until the battle window is closed
+				if (guiMode) gui.enableExitBattle(expReward);
+			}
+		};
+//		executes the swingworker on worker thread
+		sw.execute();
 	}
 
 
-	private void youDie() {
+	public void youDie() {
 
 		String msg = "Unfortunately, you died in the sleep \nchoked with your tongue while being impossibly intoxicated.";
 
@@ -205,6 +224,32 @@ import java.util.Random;
 		else console.youDie(msg);
 
 		startGame();
+	}
+
+	public AArtifact dropArtifact() {
+
+		AArtifact artifact = null;
+		Random rand =  new Random();
+
+		if (enemy.getLevel() >= hero.getLevel() && rand.nextBoolean()) {
+			int i = rand.nextInt(3);
+			switch (i) {
+				case 0:
+					artifact = new Weapon(enemy.getLevel() + 1);
+					break;
+				case 1:
+					artifact = new Armor(enemy.getLevel() + 1);
+					break;
+				case 2:
+					artifact = new Helm(enemy.getLevel() + 1);
+					break;
+			}
+		}
+
+//		remove enemy from the left panel
+		enemy = null;
+
+		return artifact;
 	}
 
 

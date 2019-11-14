@@ -2,7 +2,6 @@ package unit.swingy.view.gui;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 import darrylbu.icon.StretchIcon;
 import unit.swingy.controller.Game;
 import unit.swingy.model.characters.Enemy;
@@ -12,10 +11,11 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Random;
 
 public class BattleGui {
@@ -23,7 +23,6 @@ public class BattleGui {
 	private Game game;
 	private Hero hero;
 	private Enemy enemy;
-	private boolean diceRolled;
 
 	private JFrame frame;
 	private JPanel battlePanel;
@@ -46,12 +45,20 @@ public class BattleGui {
 	//	TODO: Fix all windows sizes!!!
 	BattleGui(Hero h, Enemy e) {
 
-		$$$setupUI$$$();
-
 		game = Game.getInstance();
 		hero = h;
 		enemy = e;
 
+		$$$setupUI$$$();
+		initComponents();
+		createListeners();
+		initFrame();
+
+		battleIntro();
+
+	}
+
+	private void initComponents() {
 		heroClass.setText(hero.getName() + ", " + hero.getClas().getClassName() + " (" + hero.getLevel() + " lvl)");
 		enemyClass.setText(enemy.getClas().getClassName() + " (" + enemy.getLevel() + " lvl)");
 		heroAttack.setText("Attack: " + hero.getAttack());
@@ -66,10 +73,6 @@ public class BattleGui {
 		enemyAvatar.setIcon(enemy.getClas().getAvatar());
 		dice.setPreferredSize(new Dimension(32, 32));
 		dice.setIcon(new StretchIcon("src/main/resources/img/dice/dice.png"));
-
-		createListeners();
-		initFrame();
-
 	}
 
 	void updateStats() {
@@ -85,6 +88,8 @@ public class BattleGui {
 		frame.setContentPane(battlePanel);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.pack();
+		frame.setLocationRelativeTo(null);	// center window on the screen
+		frame.setResizable(false);
 		frame.setVisible(true);
 	}
 
@@ -97,15 +102,7 @@ public class BattleGui {
 				int diceNum = new Random().nextInt(6) + 1;
 				showDice(diceNum);
 				bDice.setEnabled(false);
-				bDice.setText("End Battle");
 				game.battle(diceNum);
-			}
-		});
-
-		bExit.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
 			}
 		});
 
@@ -116,19 +113,55 @@ public class BattleGui {
 		Document doc = log.getStyledDocument();
 		try {
 			doc.insertString(doc.getLength(), msg + "\n", style);
+			log.setCaretPosition(doc.getLength());
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
 	}
 
+	private void battleIntro() {
+		logMessage("Roll the dice. Strength of your attacks depends on the result.", TextStyle.norm);
+	}
+
 	private void showDice(int num) {
 		StretchIcon icon = new StretchIcon("src/main/resources/img/dice/" + num + ".png");
 		dice.setIcon(icon);
+		if (num > 3)
+			logMessage("Your attacks are stronger.", TextStyle.bold);
+		else
+			logMessage("Your attacks are weaker.", TextStyle.bold);
 	}
 
-	public void enableExit() {
-		bExit.setEnabled(true);
+//	allow closing the window
+	public void enableExit(final int expReward) {
+
+//		close window with a standard cross button
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent event) {
+				if (expReward > 0)
+					game.getGui().winBattle(expReward);
+				else
+					game.youDie();
+			}
+		});
+
+//		close window with a custom button
+		bExit.setEnabled(true);
+		bExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (expReward > 0)
+					game.getGui().winBattle(expReward);
+				else
+					game.youDie();
+
+				frame.dispose();
+			}
+		});
+
+
 	}
 
 

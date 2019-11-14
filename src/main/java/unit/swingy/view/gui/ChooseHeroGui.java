@@ -101,6 +101,8 @@ public class ChooseHeroGui {
 		frame.setContentPane(mainPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
+		frame.setLocationRelativeTo(null);	// center window on the screen
+		frame.setResizable(false);
 		frame.setVisible(true);
 
 
@@ -211,6 +213,8 @@ public class ChooseHeroGui {
 
 		f.setSize(500, 500);
 		f.setLayout(null);
+		f.setLocationRelativeTo(null);	// center window on the screen
+		f.setResizable(false);
 		f.setVisible(true);
 
 		// display avatar and description when a list item is selected

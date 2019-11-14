@@ -7,9 +7,12 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 import javax.validation.constraints.NotNull;
 
+import unit.swingy.model.artifacts.AArtifact;
 import unit.swingy.model.artifacts.Helm;
 import unit.swingy.model.artifacts.Weapon;
 import unit.swingy.model.artifacts.Armor;
+
+import java.util.Random;
 
 
 @Getter @Setter
@@ -29,9 +32,9 @@ public class Hero extends ACharacter {
 //	private int attack;
 //	private int defence;
 
-	private Weapon weapon;
-	private Armor armor;
-	private Helm helm;
+	private AArtifact weapon;
+	private AArtifact armor;
+	private AArtifact helm;
 
 	Hero() {
 		level = 0;
@@ -44,13 +47,17 @@ public class Hero extends ACharacter {
 		expToLevelUp = (level + 1) * 1000 + level * level * 450;
 	}
 
-	public int takeDamage(ACharacter enemy) {
+	public int takeDamage(ACharacter enemy, int dice) {
 
-		int damage = enemy.getAttack() - defence;
+		double attackMultiplier = new Random().nextDouble() + 0.5;	// num in range 0.5 - 1.5
+
+		int damage = (int) (enemy.getAttack() * attackMultiplier) - defence;
 		if (damage < 0)
 			damage = 0;
-		String log = name + " (" + hp + "/" + maxHp + ") takes " + damage + " damage.";
+
 		hp -= damage;
+		if (hp < 0)
+			hp = 0;
 
 		return damage;
 	}
@@ -88,5 +95,23 @@ public class Hero extends ACharacter {
 		defence *= 1.25;
 	}
 
+	public void equipArtifact(AArtifact art) {
+
+		AArtifact.ArtifactType type = art.getType();
+
+		switch (type) {
+			case WEAPON:
+				weapon = art;
+				break;
+			case ARMOR:
+				armor = art;
+				break;
+			case HELM:
+				helm = art;
+				break;
+		}
+
+		DataBase.getInstance().updateHero(this);
+	}
 
 }

@@ -34,13 +34,19 @@ public class Enemy extends ACharacter {
 
 	}
 
-	public int takeDamage(ACharacter hero) {
+	public int takeDamage(ACharacter hero, int dice) {
 
-		int damage = hero.getAttack() - defence;
+		double d = (dice - 1)  / 10;	// num in range 0.0 - 0.5
+		double attackMultiplier = new Random().nextDouble() + 0.5;	// num in range 0.5 - 1.5
+		attackMultiplier += d; // num in range 0.5 - 2.0
+
+		int damage = (int) (hero.getAttack() * attackMultiplier) - defence;
 		if (damage < 0)
 			damage = 0;
-		String log = clas.getClassName() + " (" + hp + "/" + maxHp + ") takes " + damage + " damage.";
+
 		hp -= damage;
+		if (hp < 0)
+			hp = 0;
 
 		return damage;
 	}
