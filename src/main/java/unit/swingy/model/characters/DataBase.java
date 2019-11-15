@@ -139,7 +139,7 @@ public class DataBase {
 						h.getClas() + "\', " +
 						h.getLevel() + ", " +
 						h.getExp() + ", " +
-						h.getMaxHp() + ", " +
+						h.getBaseHp() + ", " +
 						h.getAttack() + ", " +
 						h.getDefence() + ", " +
 						wepPow + ", " +
@@ -200,7 +200,7 @@ public class DataBase {
 		String sql = "UPDATE Heroes SET " +
 						"level = " + h.getLevel() +
 						", exp = " + h.getExp() +
-						", hp = " + h.getMaxHp() +
+						", hp = " + h.getBaseHp() +
 						", attack = " + h.getAttack() +
 						", defence = " + h.getDefence() +
 						", weapon = " + wepPow +

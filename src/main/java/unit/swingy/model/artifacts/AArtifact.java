@@ -1,9 +1,10 @@
 package unit.swingy.model.artifacts;
 
+import darrylbu.icon.StretchIcon;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public abstract class AArtifact {
 
 	public enum ArtifactType {
@@ -13,10 +14,12 @@ public abstract class AArtifact {
 	}
 
 
-	protected String[] namesArr;
+	protected String[][] namesAdr;
 
 	protected ArtifactType type;
 	protected String name;
 	protected int power;
+
+	protected StretchIcon icon;
 
 }

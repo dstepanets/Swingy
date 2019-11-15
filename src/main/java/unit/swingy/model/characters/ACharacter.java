@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Range;
 public abstract class ACharacter {
 
 	@Range(min = 0) protected int level;
-	protected int maxHp;
+	protected int baseHp;
 	protected int hp;
 	protected int attack;
 	protected int defence;

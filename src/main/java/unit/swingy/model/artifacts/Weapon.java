@@ -1,10 +1,10 @@
 package unit.swingy.model.artifacts;
 
-import unit.swingy.model.characters.Enemy;
+import darrylbu.icon.StretchIcon;
 
 public class Weapon extends AArtifact {
 
-//	protected String[] namesArr;
+//	protected String[] namesAdr;
 //
 //	protected ArtifactType type;
 //	protected String name;
@@ -14,21 +14,23 @@ public class Weapon extends AArtifact {
 
 		this.type = ArtifactType.WEAPON;
 
-		namesArr = new String[] {
-				"Fork",
-				"Anti-President Egg",
-				"Dildo",
-				"Zippo Lighter",
-				"Cannabis Joint",
-				"Fender Stratocaster",
-				"Lightsaber",
-				"BM-21 Grad",
-				"Hydrogen Bomb",
-				"Supermassive Black Hole"
+		namesAdr = new String[][] {
+				{"Fork", "scr/main/resources/img/artifacts/weapon"},
+				{"Anti-President Egg", ""},
+				{"Dildo", ""},
+				{"Zippo Lighter", ""},
+				{"Cannabis Joint", ""},
+				{"Fender Stratocaster", ""},
+				{"Lightsaber", ""},
+				{"BM-21 Grad", ""},
+				{"Hydrogen Bomb", ""},
+				{"Supermassive Black Hole", ""},
 		};
 
-		this.name = namesArr[pow - 1];
+		this.name = namesAdr[pow - 1][0];
 		this.power = pow;
+
+		icon = new StretchIcon(namesAdr[pow - 1][1]);
 	}
 
 }

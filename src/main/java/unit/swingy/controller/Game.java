@@ -218,7 +218,7 @@ import java.util.Random;
 
 	public void youDie() {
 
-		String msg = "Unfortunately, you died in the sleep \nchoked with your tongue while being impossibly intoxicated.";
+		String msg = "Unfortunately, you died in the sleep choked with your tongue\nwhile being impossibly intoxicated.";
 
 		if (isGuiMode()) gui.youDie(msg);
 		else console.youDie(msg);

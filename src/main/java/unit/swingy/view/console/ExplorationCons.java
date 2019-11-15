@@ -142,7 +142,7 @@ public class ExplorationCons implements IExploration {
 		System.out.println("\n* * * * * * * * * * * HERO * * * * * * * * * * * * *");
 		System.out.println(hero.getName() + "\t" + hero.getClas().getClassName() +
 							"\t(" + hero.getLevel() + " level)\t Exp: " + hero.getExp() + "/" + hero.getExpToLevelUp());
-		System.out.println("HP: " + hero.getHp() + "/" + hero.getMaxHp() + "\t" + "Attack: " + hero.getAttack() +
+		System.out.println("HP: " + hero.getHp() + "/" + hero.getBaseHp() + "\t" + "Attack: " + hero.getAttack() +
 							"\t" + "Defence: " + hero.getDefence());
 		System.out.println("Weapon: " + hero.getWeapon());
 		System.out.println("Armor: " + hero.getArmor());
@@ -185,8 +185,8 @@ public class ExplorationCons implements IExploration {
 	}
 
 	public void battleRound(int enemyDamage, int heroDamage) {
-//		String log = clas.getClassName() + " (" + hp + "/" + maxHp + ") takes " + damage + " damage.";
-//		String log = name + " (" + hp + "/" + maxHp + ") takes " + damage + " damage.";
+//		String log = clas.getClassName() + " (" + hp + "/" + baseHp + ") takes " + damage + " damage.";
+//		String log = name + " (" + hp + "/" + baseHp + ") takes " + damage + " damage.";
 	}
 
 	public void winBattle(int expReward) {

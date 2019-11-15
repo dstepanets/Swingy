@@ -1,6 +1,6 @@
 package unit.swingy.model.artifacts;
 
-import unit.swingy.model.characters.Enemy;
+import darrylbu.icon.StretchIcon;
 
 public class Helm extends AArtifact {
 
@@ -8,20 +8,22 @@ public class Helm extends AArtifact {
 
 		this.type = ArtifactType.HELM;
 
-		namesArr = new String[] {
-				"Fork",
-				"Anti-President Egg",
-				"Dildo",
-				"Zippo Lighter",
-				"Cannabis Joint",
-				"Fender Stratocaster",
-				"Lightsaber",
-				"BM-21 Grad",
-				"Hydrogen Bomb",
-				"Supermassive Black Hole"
+		namesAdr = new String[][] {
+				{"helm", "scr/main/resources/img/artifacts/helm"},
+				{"helm", ""},
+				{"helm", ""},
+				{"helm", ""},
+				{"helm", ""},
+				{"helm", ""},
+				{"helm", ""},
+				{"helm", ""},
+				{"helm", ""},
+				{"helm", ""},
 		};
 
-		this.name = namesArr[pow - 1];
+		this.name = namesAdr[pow - 1][0];
 		this.power = pow;
+
+		icon = new StretchIcon(namesAdr[pow - 1][1]);
 	}
 }

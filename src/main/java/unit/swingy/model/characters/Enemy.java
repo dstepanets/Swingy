@@ -1,7 +1,6 @@
 package unit.swingy.model.characters;
 
 import lombok.Getter;
-import unit.swingy.model.artifacts.AArtifact;
 
 import java.util.Random;
 
@@ -10,7 +9,7 @@ public class Enemy extends ACharacter {
 
 //	@Range(min = 0) protected int level;
 	EnemyClass clas;
-//	private int maxHp;
+//	private int baseHp;
 //	protected int hp;
 //	protected int attack;
 //	protected int defence;
@@ -27,20 +26,21 @@ public class Enemy extends ACharacter {
 		clas = EnemyClass.values()[rand.nextInt(EnemyClass.count)];
 		System.out.println("> Class=" + clas);
 
-		hp = maxHp = (int) ((level + 1) * clas.getHpPL());
+		hp = baseHp = (int) ((level + 1) * clas.getHpPL());
 		attack = (int) ((level + 1) * clas.getAttackPL());
 		defence = (int) ((level + 1) * clas.getDefencePL());
-		System.out.println("> HP=" + maxHp + " | At=" + attack + " | Def=" + defence);
+		System.out.println("> HP=" + baseHp + " | At=" + attack + " | Def=" + defence);
 
 	}
 
-	public int takeDamage(ACharacter hero, int dice) {
+	public int takeDamage(ACharacter foe, int dice) {
 
 		double d = (dice - 1)  / 10;	// num in range 0.0 - 0.5
 		double attackMultiplier = new Random().nextDouble() + 0.5;	// num in range 0.5 - 1.5
 		attackMultiplier += d; // num in range 0.5 - 2.0
 
-		int damage = (int) (hero.getAttack() * attackMultiplier) - defence;
+		Hero hero = (Hero) foe;
+		int damage = (int) ((hero.getAttack() + hero.getBonusAttack()) * attackMultiplier) - defence;
 		if (damage < 0)
 			damage = 0;
 
