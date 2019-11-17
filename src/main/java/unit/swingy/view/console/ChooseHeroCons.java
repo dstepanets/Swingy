@@ -101,13 +101,18 @@ public class ChooseHeroCons {
 		System.out.println("HP:\t\t" + h.getHp());
 		System.out.println("Attack:\t\t" + h.getAttack());
 		System.out.println("Defence:\t" + h.getDefence());
-		System.out.println("Weapon:\t\t" + h.getWeapon());
-		System.out.println("Armor:\t\t" + h.getArmor());
-		System.out.println("Helm:\t\t" + h.getHelm());
+
+		if (h.getWeapon() == null) System.out.println("Weapon:\t\tnone");
+		else System.out.println("Weapon:\t\t" + h.getWeapon().getName() + " (Attack +" + h.getBonusAttack() + ")");
+
+		if (h.getArmor() == null) System.out.println("Armor:\t\tnone");
+		else System.out.println("Armor:\t\t" + h.getArmor().getName() + " (Defence +" + h.getBonusDefence() + ")");
+
+		if (h.getHelm() == null) System.out.println("Helm:\t\tnone");
+		else System.out.println("Helm:\t\t" + h.getHelm().getName() + " (HP +" + h.getBonusHp() + ")");
+
 		System.out.println(h.getClas().getDescription());
 	}
-
-
 
 	public String getNewHeroName() {
 
@@ -117,7 +122,10 @@ public class ChooseHeroCons {
 			System.out.println("Type your hero's name and press Enter:");
 			System.out.print(":> ");
 			name = scanner.nextLine();
-		} while (name.isEmpty() || name.trim().isEmpty());
+			name = name.trim();
+			if (name.length() > 20)
+				System.out.println("Name must be no more then 20 characters long!");
+		} while (name.isEmpty() || name.length() > 20);
 
 		return name;
 	}

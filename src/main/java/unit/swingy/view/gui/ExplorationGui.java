@@ -91,14 +91,13 @@ public class ExplorationGui implements IExploration {
 
 
 	/*	------------------------- FORMATTING AND STYLING ------------------------- */
-	//	TODO: clean the mess with style attributes
 
 	private Border whiteBorder = BorderFactory.createLineBorder(Color.white);
 	private Border blueBorder = BorderFactory.createLineBorder(Color.blue);
 	private Border blackBorder = BorderFactory.createLineBorder(Color.black);
 	private Border redBorder = BorderFactory.createLineBorder(Color.red);
 
-	/*	-------------------------------------------------------------------------- */
+	/*	---------------------- BUILD AND UPDATE COMPONENTS ----------------------- */
 
 //	TODO Pack the images
 //	The location of the image is also important. If the image is external to the application
@@ -230,20 +229,32 @@ public class ExplorationGui implements IExploration {
 		heroAttack.setText("Attack: " + (hero.getAttack() + hero.getBonusAttack()));
 		heroDefence.setText("Defence: " + (hero.getDefence() + hero.getBonusDefence()));
 
-		if (hero.getWeapon() == null)
+		if (hero.getWeapon() == null) {
 			weapon.setIcon(new StretchIcon("src/main/resources/img/artifacts/weapon.png"));
-		else
+			weaponTxt.setText("No Weapon");
+		}
+		else {
 			weapon.setIcon(hero.getWeapon().getIcon());
+			weaponTxt.setText("<html><body>" + hero.getWeapon().getName() + "<br>(Attack +" + hero.getBonusAttack() + ")</body></html>");
+		}
 
-		if (hero.getArmor() == null)
+		if (hero.getArmor() == null) {
 			armor.setIcon(new StretchIcon("src/main/resources/img/artifacts/armor.png"));
-		else
+			armorTxt.setText("No Armor");
+		}
+		else {
 			armor.setIcon(hero.getArmor().getIcon());
+			armorTxt.setText("<html><body>" + hero.getArmor().getName() + "<br>(Defence +" + hero.getBonusDefence() + ")</body></html>");
+		}
 
-		if (hero.getHelm() == null)
+		if (hero.getHelm() == null) {
 			helm.setIcon(new StretchIcon("src/main/resources/img/artifacts/helm.png"));
-		else
+			helmTxt.setText("No Helm");
+		}
+		else {
 			helm.setIcon(hero.getHelm().getIcon());
+			helmTxt.setText("<html><body>" + hero.getHelm().getName() + "<br>(HP +" + hero.getBonusHp() + ")</body></html>");
+		}
 
 	}
 
@@ -276,14 +287,6 @@ public class ExplorationGui implements IExploration {
 		}
 	}
 
-	public void printMessage(String msg, SimpleAttributeSet atr) {
-		Document doc = info.getStyledDocument();
-		try {
-			doc.insertString(doc.getLength(), msg + "\n", atr);
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-	}
 
 	private class MapBack extends JPanel {
 		Image img;
@@ -366,6 +369,17 @@ public class ExplorationGui implements IExploration {
 		}
 	}
 
+	/*	----------------------------- GAMEPLAY MECHANICS ---------------------------- */
+
+	public void printMessage(String msg, SimpleAttributeSet atr) {
+		Document doc = info.getStyledDocument();
+		try {
+			doc.insertString(doc.getLength(), msg + "\n", atr);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void fightOrFlee(Enemy e) {
 
 //		enable fight/flee buttons, disable all others
@@ -433,39 +447,14 @@ public class ExplorationGui implements IExploration {
 	}
 
 	private void dropArtifact() {
+
 		AArtifact art = game.dropArtifact();
+
 		if (art != null) {
 
-			AArtifact.ArtifactType type = art.getType();
-			StringBuilder msg = new StringBuilder("You have found " + type.toString() + ":\n" + art.getName() + " (");
-			String msg2 = null;
+			String msg = game.generateArtifactMessage(art);
 
-			switch (type) {
-				case WEAPON:
-					msg.append("Attack +" + art.getPower() + ")\n");
-					AArtifact w = hero.getWeapon();
-					if (w != null)
-						msg2 = "You have " + w.getName() + " (Attack +" + w.getPower() + ")";
-					break;
-				case ARMOR:
-					msg.append("Defence +" + art.getPower() + ")\n");
-					AArtifact a = hero.getArmor();
-					if (a != null)
-						msg2 = "You have " + a.getName() + " (Armor +" + a.getPower() + ")";
-					break;
-				case HELM:
-					msg.append("HP +" + art.getPower() + ")\n");
-					AArtifact h = hero.getHelm();
-					if (h != null)
-						msg2 = "You have " + h.getName() + " (HP +" + h.getPower() + ")";
-					break;
-			}
-
-			if (msg2 == null)
-				msg2 = "You don't have an artifact of this type.";
-			msg.append(msg2);
-
-			ImageIcon icon = new ImageIcon("src/main/resources/img/icons/gameWin.png");
+			ImageIcon icon = art.getIcon();
 			Object[] options = {"Nuh, rubish", "Equip"};
 			int n = JOptionPane.showOptionDialog(frame, msg,
 					"You Found an Artifact",
@@ -473,22 +462,22 @@ public class ExplorationGui implements IExploration {
 					JOptionPane.QUESTION_MESSAGE,
 					icon, options, options[1]);
 
-			if (n == 1)
-				hero.equipArtifact(art);
+			if (n == 1) {
+				game.equipArtifact(art);
+			}
 		}
-
 	}
 
 
-	public void youDie(String msg) {
+	public void youDie(String msg, String msg2) {
 
 		battle = null;
 		frame.setEnabled(true);
 
-		printMessage("YOU'RE DEAD, LOL :D", TextStyle.red);
+		printMessage(msg, TextStyle.red);
 
 		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/death.png");
-		JOptionPane.showMessageDialog(frame, "<html>" + msg + "</html>", "Remember: use drugs responsibly!",
+		JOptionPane.showMessageDialog(frame, msg2, "Remember: use drugs responsibly!",
 				JOptionPane.WARNING_MESSAGE, icon);
 	}
 
@@ -500,6 +489,9 @@ public class ExplorationGui implements IExploration {
 				JOptionPane.INFORMATION_MESSAGE, icon);
 	}
 
+
+
+	/*	----------------------------- AUTOMATICALLY GENERATED GUI INITIAL SETUP ---------------------------- */
 
 	/**
 	 * Method generated by IntelliJ IDEA GUI Designer

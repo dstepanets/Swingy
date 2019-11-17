@@ -33,7 +33,6 @@ public class ChooseHeroDirector {
 				gui = new ChooseHeroGui();
 				gui.chooseHero();
 				
-//				TODO Try multithreading tools like wait() and notify() instead of the loop
 //				wait till user has chosen a hero
 				while (game.getHero() == null) {
 					try {

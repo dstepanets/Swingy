@@ -158,12 +158,16 @@ public class ChooseHeroGui {
 			statsDoc.insertString(statsDoc.getLength(), "Class: " + hero.getClas() + "\n\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Level: " + hero.getLevel() + "\n", atr);
 			statsDoc.insertString(statsDoc.getLength(), "Exp: " + hero.getExp() + "\n\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "HP: " + hero.getBaseHp() + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Attack: " + hero.getAttack() + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Defence: " + hero.getDefence() + "\n\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Weapon: " + hero.getWeapon() + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Armor: " + hero.getArmor() + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Helm: " + hero.getHelm() + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "HP: " + (hero.getBaseHp() + hero.getBonusHp()) + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Attack: " + (hero.getAttack() + hero.getBonusAttack()) + "\n", atr);
+			statsDoc.insertString(statsDoc.getLength(), "Defence: " + (hero.getDefence() + hero.getBonusDefence()) + "\n\n", atr);
+
+			String str = (hero.getWeapon() == null) ? "none\n" : hero.getWeapon().getName() + " (Attack +" + hero.getBonusAttack() + ")\n";
+			statsDoc.insertString(statsDoc.getLength(), "Weapon: " + str, atr);
+			str = (hero.getArmor() == null) ? "none\n" : hero.getArmor().getName() + " (Defence +" + hero.getBonusDefence() + ")\n";
+			statsDoc.insertString(statsDoc.getLength(), "Armor: " + str, atr);
+			str = (hero.getHelm() == null) ? "none\n" : hero.getHelm().getName() + " (HP +" + hero.getBonusHp() + ")\n";
+			statsDoc.insertString(statsDoc.getLength(), "Helm: " + str, atr);
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
@@ -174,11 +178,10 @@ public class ChooseHeroGui {
 //		get a name from input
 		String input = "";
 		do {
-			input = (String) JOptionPane.showInputDialog(frame, "Enter your Hero's name:",
+			input = (String) JOptionPane.showInputDialog(frame, "Enter your Hero's name (20 characters max):",
 					"New Hero's Name", JOptionPane.PLAIN_MESSAGE);
-			if (input == null)
-				return;
-		} while (input.trim().isEmpty());
+			input = input.trim();
+		} while (input.isEmpty() || input.length() > 20);
 		final String name = input;
 
 

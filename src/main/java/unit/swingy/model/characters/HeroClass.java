@@ -5,16 +5,21 @@ import lombok.Getter;
 
 import javax.swing.*;
 
+// TODO add Sorceress (lowers enemy attack and defence)
 @Getter
 public enum HeroClass {
-	REGULAR,
-	BERSERK,
-	TANK;
+	SadCat,
+	ParanoidAndroid,
+	Traveler,
+	JudeoMason,
+	Tank,
+	AngryBird,
+	Sorceress;
 
 	public static final int count = HeroClass.values().length;
 
 	private String	className;
-	private int 	maxHp;
+	private int 	baseHp;
 	private int		attack;
 	private int		defence;
 
@@ -22,7 +27,7 @@ public enum HeroClass {
 	private ImageIcon icon;
 
 	HeroClass() {
-		className = this.toString().substring(0, 1) + this.toString().substring(1).toLowerCase();
+		className = this.toString();
 
 		String avatarPath = "src/main/resources/img/heroAvatars/" + className + ".jpg";
 		avatar = new ImageIcon(avatarPath);
@@ -30,19 +35,39 @@ public enum HeroClass {
 		icon = new StretchIcon(iconPath);
 
 		switch (className) {
-			case "Regular":
-				maxHp = 100;
-				attack = 10;
+			case "SadCat":
+				baseHp = 80;
+				attack = 8;
+				defence = 6;
+				break;
+			case "ParanoidAndroid":
+				baseHp = 110;
+				attack = 7;
+				defence = 6;
+				break;
+			case "Traveler":
+				baseHp = 50;
+				attack = 5;
 				defence = 5;
 				break;
-			case "Berserk":
-				maxHp = 80;
-				attack = 14;
-				defence = 4;
+			case "JudeoMason":
+				baseHp = 100;
+				attack = 8;
+				defence = 6;
 				break;
 			case "Tank":
-				maxHp = 120;
-				attack = 8;
+				baseHp = 120;
+				attack = 7;
+				defence = 8;
+				break;
+			case "AngryBird":
+				baseHp = 80;
+				attack = 11;
+				defence = 4;
+				break;
+			case "Sorceress":
+				baseHp = 90;
+				attack = 7;
 				defence = 6;
 				break;
 		}
@@ -53,31 +78,36 @@ public enum HeroClass {
 		String description = null;
 
 		switch (this) {
-			case REGULAR:
-				description = "* I'm just a regular everyday normal guy\n" +
-						"Nothin' special 'bout me, motherfucker * (c) Jon Lajoie\n" +
-						"It's hard to notice me in a crowd. Even on an empty street. " +
-						"And still harder to remember. But that's OK. Whatever.";
+			case SadCat:
+				description = "Only a total asshole would attack you. (Higher chance to escape battle)";
 				break;
-			case BERSERK:
-				description = "Arrrgh! You, filthy pig! Oh, you drive me crazy! I’ll smash your head! " +
-						"No, I’ll cut it off and play football with it. " +
-						"But first, I will feed you with your own balls, ha-ha! " +
-						"If you have those, bitch. Ah, bummer, this is just a mirror…";
+			case ParanoidAndroid:
+				description = "You have a metal body and constant depression.";
 				break;
-			case TANK:
+			case Traveler:
+				description = "You level up when reach the Edge of the World.";
+				break;
+			case JudeoMason:
+				description = "You control the world. But avoid the Fuhrer!";
+				break;
+			case Tank:
 				description = "I eat a cow, drink a barrel of beer, fuck a horse, and go looking for a good brawl. " +
-						"When I find one, I don't rush. Usually, my opponents die exhausted, " +
-						"while trying to break my 100-kilos armor with their toy sticks.";
+						"In my 100-kilos armor.";
+				break;
+			case AngryBird:
+				description = "Hits strong, but weak in defence. For reasons unknown, it has complicated relationships with green pigs.";
+				break;
+			case Sorceress:
+				description = "Weakens her enemies with powerful blowjob magic";
 				break;
 		}
-		return ("\"" + description + "\"");
+		return (description);
 	}
 
 
 	public String getStartingStatsInfo() {
 		String startingStats = "STARTING STATS (";
-		startingStats += "HP: " + maxHp + " || " + "Attack: " + attack + " || " + "Defence: " + defence + ")";
+		startingStats += "HP: " + baseHp + " || " + "Attack: " + attack + " || " + "Defence: " + defence + ")";
 		return (startingStats);
 	}
 

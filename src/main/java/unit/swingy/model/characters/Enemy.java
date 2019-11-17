@@ -1,6 +1,7 @@
 package unit.swingy.model.characters;
 
 import lombok.Getter;
+import unit.swingy.controller.Game;
 
 import java.util.Random;
 
@@ -18,9 +19,12 @@ public class Enemy extends ACharacter {
 
 		System.out.println(">> Building an enemy...");
 
+		int maxLvl = Game.getInstance().getHero().getLevel() + 5;
+		if (maxLvl > 10) maxLvl = 10;
+
 		Random rand = new Random();
-//		set random level in range 0-9
-		level= rand.nextInt(10);
+//		set random level in range 0 to (maxLvl - 1)
+		level = rand.nextInt(maxLvl);
 		System.out.println("> Level=" + level);
 //		set random class from enum constants
 		clas = EnemyClass.values()[rand.nextInt(EnemyClass.count)];

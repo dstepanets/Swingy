@@ -5,11 +5,16 @@ import lombok.Getter;
 
 import javax.swing.*;
 
+// TODO add Elephant very strong and peaceful
 @Getter
 public enum EnemyClass {
-	COCKROACH,
-	MUSHROOM,
-	MOONSHINE;
+	Cockroach,
+	Mushroom,
+	Moonshine,
+	Java,
+	FSM,
+	Reptiloid,
+	Fuhrer;
 
 	public static final int count = EnemyClass.values().length;
 
@@ -23,7 +28,7 @@ public enum EnemyClass {
 	private ImageIcon icon;
 
 	EnemyClass() {
-		className = this.toString().substring(0, 1) + this.toString().substring(1).toLowerCase();
+		className = this.toString();
 
 		String avatarPath = null;
 		String iconPAth = null;
@@ -38,17 +43,46 @@ public enum EnemyClass {
 				break;
 			case "Mushroom":
 				hpPL = 7.0;
-				attackPL = 1.5;
+				attackPL = 1.7;
 				defencePL = 2.0;
 				avatarPath = "src/main/resources/img/enemyAvatars/Mushroom.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Mushroom.png";
 				break;
 			case "Moonshine":
-				hpPL = 9.0;
-				attackPL = 3;
+				hpPL = 8.0;
+				attackPL = 2.5;
 				defencePL = 0.0;
 				avatarPath = "src/main/resources/img/enemyAvatars/Moonshine.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Moonshine.png";
+				break;
+			case "Java":
+				hpPL = 8.0;
+				attackPL = 3.0;
+				defencePL = 2.5;
+				avatarPath = "src/main/resources/img/enemyAvatars/Java.jpg";
+				iconPAth  = "src/main/resources/img/enemyIcons/Java.png";
+				break;
+			case "FSM":
+				hpPL = 9.0;
+				attackPL = 3.5;
+				defencePL = 2.0;
+				className = "Flying Spaghetti Monster";
+				avatarPath = "src/main/resources/img/enemyAvatars/FSM.jpg";
+				iconPAth  = "src/main/resources/img/enemyIcons/FSM.png";
+				break;
+			case "Reptiloid":
+				hpPL = 10.0;
+				attackPL = 4.0;
+				defencePL = 3.0;
+				avatarPath = "src/main/resources/img/enemyAvatars/Reptiloid.jpg";
+				iconPAth  = "src/main/resources/img/enemyIcons/Reptiloid.png";
+				break;
+			case "Fuhrer":
+				hpPL = 12.0;
+				attackPL = 4.0;
+				defencePL = 2.0;
+				avatarPath = "src/main/resources/img/enemyAvatars/Fuhrer.jpg";
+				iconPAth  = "src/main/resources/img/enemyIcons/Fuhrer.png";
 				break;
 		}
 
@@ -61,14 +95,26 @@ public enum EnemyClass {
 		String description = null;
 
 		switch (this) {
-			case COCKROACH:
+			case Cockroach:
 				description = "The terrible ancient monster who saw dinosaurs walking on Earth.";
 				break;
-			case MUSHROOM:
+			case Mushroom:
 				description = "It can be tasty or lethal. Or both.";
 				break;
-			case MOONSHINE:
+			case Moonshine:
 				description = "Moonshine is very strong. But you must destroy as much of it as possible.";
+				break;
+			case Java:
+				description = "Java is the best programming language. Why would you fight it?";
+				break;
+			case FSM:
+				description = "There is only one God. And that is His Macaroni Holiness FSM.";
+				break;
+			case Reptiloid:
+				description = "True ruler of the world. Makes conspiracy to kill you.";
+				break;
+			case Fuhrer:
+				description = "Deutschland uber alles. Has the Final Solution to the Jewish Question";
 				break;
 		}
 		return (description);

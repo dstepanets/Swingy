@@ -28,7 +28,7 @@ public class HeroBuilder {
 	public void setUpNewHero(String name, HeroClass c) {
 		hero.setName(name);
 		hero.setClas(c);
-		this.setHp(c.getMaxHp());
+		this.setHp(c.getBaseHp());
 		hero.setAttack(c.getAttack());
 		hero.setDefence(c.getDefence());
 	}
@@ -42,7 +42,7 @@ public class HeroBuilder {
 	}
 
 	public void setClas(String classStr) {
-		HeroClass c = HeroClass.valueOf(classStr.toUpperCase());
+		HeroClass c = HeroClass.valueOf(classStr);
 		hero.setClas(c);
 	}
 
@@ -71,19 +71,19 @@ public class HeroBuilder {
 	public void setWeapon(int power) {
 		AArtifact w;
 		w = (power == 0) ? null : new Weapon(power);
-		hero.setWeapon(w);
+		hero.equipArtifact(w);
 	}
 
 	public void setArmor(int power) {
 		AArtifact a;
 		a = (power == 0) ? null : new Armor(power);
-		hero.setArmor(a);
+		hero.equipArtifact(a);
 	}
 
 	public void setHelm(int power) {
 		AArtifact h;
 		h = (power == 0) ? null : new Helm(power);
-		hero.setHelm(h);
+		hero.equipArtifact(h);
 	}
 
 }

@@ -12,6 +12,6 @@ public interface IExploration {
 	void battleRound(int enemyDamage, int heroDamage);
 	void winBattle(int expReward);
 	void winMap(String msg, int expReward);
-	void youDie(String msg);
+	void youDie(String msg, String msg2);
 
 }

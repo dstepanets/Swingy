@@ -42,7 +42,6 @@ public class BattleGui {
 	private JLabel enemyClass;
 	private JLabel heroClass;
 
-	//	TODO: Fix all windows sizes!!!
 	BattleGui(Hero h, Enemy e) {
 
 		game = Game.getInstance();
@@ -59,7 +58,7 @@ public class BattleGui {
 	}
 
 	private void initComponents() {
-		heroClass.setText(hero.getName() + ", " + hero.getClas().getClassName() + " (" + hero.getLevel() + " lvl)");
+		heroClass.setText("<html>" + hero.getName() + "<br>" + hero.getClas().getClassName() + " (" + hero.getLevel() + " lvl)</html>");
 		heroAttack.setText("Attack: " + (hero.getAttack() + hero.getBonusAttack()));
 		heroDefence.setText("Defence: " + (hero.getDefence() + hero.getBonusDefence()));
 		heroHP.setMaximum(hero.getBaseHp() + hero.getBonusHp());
@@ -90,7 +89,7 @@ public class BattleGui {
 		frame.setContentPane(battlePanel);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.pack();
-		frame.setLocationRelativeTo(null);	// center window on the screen
+		frame.setLocationRelativeTo(null);    // center window on the screen
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
@@ -134,7 +133,7 @@ public class BattleGui {
 			logMessage("Your attacks are weaker.", TextStyle.bold);
 	}
 
-//	allow closing the window
+	//	allow closing the window
 	public void enableExit(final int expReward) {
 
 //		close window with a standard cross button
@@ -221,11 +220,14 @@ public class BattleGui {
 		enemyClass = new JLabel();
 		Font enemyClassFont = this.$$$getFont$$$(null, Font.BOLD, -1, enemyClass.getFont());
 		if (enemyClassFont != null) enemyClass.setFont(enemyClassFont);
+		enemyClass.setHorizontalAlignment(0);
 		enemyClass.setText("Class");
 		battlePanel.add(enemyClass, new GridConstraints(1, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 		heroClass = new JLabel();
 		Font heroClassFont = this.$$$getFont$$$(null, Font.BOLD, -1, heroClass.getFont());
 		if (heroClassFont != null) heroClass.setFont(heroClassFont);
+		heroClass.setHorizontalAlignment(0);
+		heroClass.setHorizontalTextPosition(11);
 		heroClass.setText("Class");
 		battlePanel.add(heroClass, new GridConstraints(1, 5, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
 	}

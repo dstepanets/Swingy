@@ -15,9 +15,9 @@ public class Weapon extends AArtifact {
 		this.type = ArtifactType.WEAPON;
 
 		namesAdr = new String[][] {
-				{"Fork", "scr/main/resources/img/artifacts/weapon"},
-				{"Anti-President Egg", ""},
-				{"Dildo", ""},
+				{"Fork", "src/main/resources/img/artifacts/weapon/fork.png"},
+				{"Anti-President Eggs", "src/main/resources/img/artifacts/weapon/eggs.png"},
+				{"Dildo", "src/main/resources/img/artifacts/weapon/dildo.png"},
 				{"Zippo Lighter", ""},
 				{"Cannabis Joint", ""},
 				{"Fender Stratocaster", ""},

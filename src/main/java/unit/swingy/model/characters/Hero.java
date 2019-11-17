@@ -2,10 +2,12 @@ package unit.swingy.model.characters;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
-import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import unit.swingy.controller.Game;
 import unit.swingy.model.artifacts.AArtifact;
 
 import java.util.Random;
@@ -15,7 +17,7 @@ import java.util.Random;
 public class Hero extends ACharacter {
 	private int id;
 
-	@Range(min=1, max = 50, message = "Hero's name must be 1-50 character long")
+	@Size(min=1, max = 20, message = "Hero's name must be 1-20 character long")
 	@NotBlank(message = "Hero's name can't be blank")
 	private String name;
 
@@ -51,13 +53,20 @@ public class Hero extends ACharacter {
 		expToLevelUp = (level + 1) * 1000 + level * level * 450;
 	}
 
-	public int takeDamage(ACharacter enemy, int dice) {
+	public int takeDamage(ACharacter e, int dice) {
 
+		Enemy enemy = (Enemy) e;
 		double attackMultiplier = new Random().nextDouble() + 0.5;	// num in range 0.5 - 1.5
 
-		int damage = (int) (enemy.getAttack() * attackMultiplier) - (defence + bonusDefence);
-		if (damage < 0)
-			damage = 0;
+		int damage;
+//		Hitler kills the JudeoMason immediately :(
+		if (clas == HeroClass.JudeoMason && enemy.getClas() == EnemyClass.Fuhrer)
+			damage = hp;
+		else {
+			damage = (int) (enemy.getAttack() * attackMultiplier) - (defence + bonusDefence);
+			if (damage < 0)
+				damage = 0;
+		}
 
 		hp -= damage;
 		if (hp < 0)
@@ -66,19 +75,28 @@ public class Hero extends ACharacter {
 		return damage;
 	}
 
+//	damage when visiting Ukraine
+	public int takeDamage(int damage) {
+		hp -= damage;
+		if (hp < 0)
+			hp = 0;
+		return damage;
+	}
+
+
 	public void heal() {
 		hp = baseHp + bonusHp;
 	}
 
 	public int gainExp(Enemy enemy) {
 
-		int expReward = 0;
+		int expReward;
 
 //		if enemy is null it's the end-of-map reward
 		if (enemy == null) {
-			expReward += expToLevelUp / 10;
+			expReward = (this.clas == HeroClass.Traveler) ? expToLevelUp : (expToLevelUp / 5);
 		} else {
-			expReward += (enemy.getAttack() + enemy.getDefence()) * enemy.getLevel() + enemy.getBaseHp();
+			expReward = (enemy.getAttack() + enemy.getDefence()) * enemy.getLevel() + enemy.getBaseHp();
 		}
 
 		exp += expReward;
@@ -97,28 +115,29 @@ public class Hero extends ACharacter {
 		baseHp *= 1.25;
 		attack *= 1.25;
 		defence *= 1.25;
+
+		Game.getInstance().levelUp();
 	}
 
 	public void equipArtifact(AArtifact art) {
 
-		AArtifact.ArtifactType type = art.getType();
-
-		switch (type) {
-			case WEAPON:
-				weapon = art;
-				bonusAttack = weapon.getPower();
-				break;
-			case ARMOR:
-				armor = art;
-				bonusDefence = armor.getPower();
-				break;
-			case HELM:
-				helm = art;
-				bonusHp = helm.getPower();
-				break;
+		if (art != null) {
+			AArtifact.ArtifactType type = art.getType();
+			switch (type) {
+				case WEAPON:
+					weapon = art;
+					bonusAttack = weapon.getPower();
+					break;
+				case ARMOR:
+					armor = art;
+					bonusDefence = armor.getPower();
+					break;
+				case HELM:
+					helm = art;
+					bonusHp = helm.getPower() * 10;
+					break;
+			}
 		}
-
-		DataBase.getInstance().updateHero(this);
 	}
 
 }

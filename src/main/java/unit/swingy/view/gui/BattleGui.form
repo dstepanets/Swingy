@@ -126,6 +126,7 @@
         </constraints>
         <properties>
           <font style="1"/>
+          <horizontalAlignment value="0"/>
           <text value="Class"/>
         </properties>
       </component>
@@ -135,6 +136,8 @@
         </constraints>
         <properties>
           <font style="1"/>
+          <horizontalAlignment value="0"/>
+          <horizontalTextPosition value="11"/>
           <text value="Class"/>
         </properties>
       </component>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -14,6 +15,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+
 	<build>
 		<plugins>
 <!--			<plugin>-->
@@ -26,7 +28,7 @@
 <!--						<manifest>-->
 <!--							<addClasspath>true</addClasspath>-->
 <!--							<classpathPrefix>lib/</classpathPrefix>-->
-<!--							<mainClass>unit.swingy.Main</mainClass>-->
+<!--							<mainClass>unit.swingy.controller.Main</mainClass>-->
 <!--						</manifest>-->
 <!--					</archive>-->
 <!--				</configuration>-->
@@ -56,7 +58,7 @@
 					<!-- MainClass in mainfest make a executable jar -->
 					<archive>
 						<manifest>
-							<mainClass>unit.swingy.Main</mainClass>
+							<mainClass>unit.swingy.controller.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -109,6 +111,20 @@
 			<scope>provided</scope>
 		</dependency>
 
+
+		<!-- Java eXtensions for Validation API -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
+		</dependency>
+		<!-- Hibernate Validator also requires an implementation of the Unified Expression Language (JSR 341)
+		for evaluating dynamic expressions in constraint violation messages. -->
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>javax.el</artifactId>
+			<version>3.0.1-b08</version>
+		</dependency>
 		<!-- Provides  annotations to validate input fields of a form against constraints -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -122,28 +138,12 @@
 			<artifactId>hibernate-validator-annotation-processor</artifactId>
 			<version>5.4.3.Final</version>
 		</dependency>
-
-		<!-- Hibernate Validator also requires an implementation of the Unified Expression Language (JSR 341)
-		for evaluating dynamic expressions in constraint violation messages. -->
-		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.el</artifactId>
-			<version>3.0.1-b08</version>
-		</dependency>
 		<!-- Hibernate Validator CDI portable extension by -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator-cdi</artifactId>
 			<version>5.4.3.Final</version>
 		</dependency>
-
-<!--		<dependency>-->
-<!--			<groupId>javax.validation</groupId>-->
-<!--			<artifactId>validation-api</artifactId>-->
-<!--			<version>1.1.0.Final</version>-->
-<!--		</dependency>-->
-
-
 
 
 		<!-- Database Engine -->
@@ -153,6 +153,7 @@
 			<artifactId>h2</artifactId>
 			<version>1.4.200</version>
 		</dependency>
+
 
 		<!-- Jetbrains UiDesigner -->
 		<!-- https://mvnrepository.com/artifact/com.intellij/forms_rt -->

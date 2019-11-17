@@ -1,9 +1,7 @@
-package unit.swingy;
+package unit.swingy.controller;
 
-import unit.swingy.controller.ChooseHeroDirector;
-import unit.swingy.controller.Game;
-import unit.swingy.model.Map;
-import unit.swingy.model.characters.DataBase;
+import unit.swingy.model.characters.Hero;
+import unit.swingy.model.characters.HeroBuilder;
 
 public class Main {
 
@@ -30,10 +28,15 @@ public class Main {
 		} else {
 			printUsage();
 		}
+
 		Game game = Game.getInstance();
 		game.setGuiMode(guiMode);
 		System.out.println(">> GUI mode: " + game.isGuiMode());
 
+
+
+
+//		TODO restrict hero name length
 //		set up the hero
 		ChooseHeroDirector director = new ChooseHeroDirector();
 		director.chooseHero();
@@ -45,14 +48,16 @@ public class Main {
 			System.out.println(">> No hero is selected.");
 		}
 
+
 //		TODO Annotation validation of the chosen hero
+//		HeroBuilder hb = new HeroBuilder();
+//			hb.reset();
+//			game.setHero(hb.getHero());
 
-//		temp
-//		game.getHero().setLevel(2);
-
-		game.startGame();
-
-
+		AnnoValidation validate = new AnnoValidation();
+		if (validate.validateHero(game.getHero())) {
+			game.startGame();
+		}
 
 	}
 
@@ -60,11 +65,3 @@ public class Main {
 }
 
 
-//		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-//		Validator validator = factory.getValidator();
-//		Set<ConstraintViolation<String>> errors;
-//		errors = validator.validate(name);
-//
-//		for (ConstraintViolation e : errors) {
-//			System.err.println(e.getMessage());
-//		}

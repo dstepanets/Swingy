@@ -43,7 +43,6 @@ public class Map {
 		maxObstacles = size * size / 5;
 		obstacles = 0;
 
-//		TODO: set obstacles
 		putHero();
 		putObstacles();
 		putEnemies();
@@ -62,7 +61,7 @@ public class Map {
 
 	private void putObstacles() {
 
-		String[] terrains = {"mountains", "tree", "water", "Ukraine"};
+		String[] terrains = {"mountains", "water", "Ukraine", "wall", "sinkhole", "tape", "stop", "dog"};
 
 		while (obstacles < maxObstacles) {
 			int index = rand.nextInt(size * size);
