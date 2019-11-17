@@ -4,15 +4,15 @@ import darrylbu.icon.StretchIcon;
 
 public class Armor extends AArtifact {
 
-	public Armor(int pow) {
+	public Armor(int lvl) {
 
 		this.type = ArtifactType.ARMOR;
 
 		namesAdr = new String[][] {
-				{"armor", "scr/main/resources/img/artifacts/armor"},
-				{"armor", ""},
-				{"Towel", "scr/main/resources/img/artifacts/armor/Towel.jpg"},
-				{"armor", ""},
+				{"Armour of the Brave", "scr/main/resources/img/artifacts/armor/bikini.png"},
+				{"Super-Pijama", "scr/main/resources/img/artifacts/armor/pijama.png"},
+				{"Towel", "scr/main/resources/img/artifacts/armor/towel.jpg"},
+				{"armor", "scr/main/resources/img/artifacts//armor/pijama.png"},
 				{"armor", ""},
 				{"armor", ""},
 				{"armor", ""},
@@ -21,10 +21,10 @@ public class Armor extends AArtifact {
 				{"armor", ""},
 		};
 
-		this.name = namesAdr[pow - 1][0];
+		this.name = namesAdr[lvl][0];
 		this.power = pow;
 
-		icon = new StretchIcon(namesAdr[pow - 1][1]);
+		icon = new StretchIcon(namesAdr[lvl][1]);
 
 	}
 

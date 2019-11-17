@@ -158,7 +158,9 @@ import java.util.Random;
 //		SadCat has 60% chance to escape, instead of 50% for others
 		if (hero.getClas() == HeroClass.SadCat) {
 			return (new Random().nextInt(10) > 3);
-		}
+//		Elephants are not agressive, unless attacked
+		} else if (enemy.getClas() == EnemyClass.Elephant)
+			return true;
 		return new Random().nextBoolean();
 	}
 
@@ -288,13 +290,13 @@ import java.util.Random;
 			int i = rand.nextInt(3);
 			switch (i) {
 				case 0:
-					artifact = new Weapon(enemy.getLevel() + 1);
+					artifact = new Weapon(enemy.getLevel());
 					break;
 				case 1:
-					artifact = new Armor(enemy.getLevel() + 1);
+					artifact = new Armor(enemy.getLevel());
 					break;
 				case 2:
-					artifact = new Helm(enemy.getLevel() + 1);
+					artifact = new Helm(enemy.getLevel());
 					break;
 			}
 		}

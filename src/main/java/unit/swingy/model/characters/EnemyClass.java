@@ -14,7 +14,8 @@ public enum EnemyClass {
 	Java,
 	FSM,
 	Reptiloid,
-	Fuhrer;
+	Fuhrer,
+	Elephant;
 
 	public static final int count = EnemyClass.values().length;
 
@@ -84,6 +85,13 @@ public enum EnemyClass {
 				avatarPath = "src/main/resources/img/enemyAvatars/Fuhrer.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Fuhrer.png";
 				break;
+			case "Elephant":
+				hpPL = 30.0;
+				attackPL = 15.0;
+				defencePL = 15.0;
+				avatarPath = "src/main/resources/img/enemyAvatars/Elephant.jpg";
+				iconPAth  = "src/main/resources/img/enemyIcons/Elephant.png";
+				break;
 		}
 
 		avatar = new ImageIcon(avatarPath);
@@ -115,6 +123,9 @@ public enum EnemyClass {
 				break;
 			case Fuhrer:
 				description = "Deutschland uber alles. Has the Final Solution to the Jewish Question";
+				break;
+			case Elephant:
+				description = "Normally, nice and friendly creature. If not provoked.";
 				break;
 		}
 		return (description);

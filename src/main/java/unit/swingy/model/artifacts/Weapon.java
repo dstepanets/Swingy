@@ -15,16 +15,16 @@ public class Weapon extends AArtifact {
 		this.type = ArtifactType.WEAPON;
 
 		namesAdr = new String[][] {
-				{"Fork", "src/main/resources/img/artifacts/weapon/fork.png"},
+				{"Trident", "src/main/resources/img/artifacts/weapon/fork.png"},
 				{"Anti-President Eggs", "src/main/resources/img/artifacts/weapon/eggs.png"},
-				{"Dildo", "src/main/resources/img/artifacts/weapon/dildo.png"},
-				{"Zippo Lighter", ""},
-				{"Cannabis Joint", ""},
-				{"Fender Stratocaster", ""},
-				{"Lightsaber", ""},
-				{"BM-21 Grad", ""},
-				{"Hydrogen Bomb", ""},
-				{"Supermassive Black Hole", ""},
+				{"Flamethrower", "src/main/resources/img/artifacts/weapon/zippo.png"},
+				{"Black Hammer", "src/main/resources/img/artifacts/weapon/dildo.png"},
+				{"Chemical Weapon", "src/main/resources/img/artifacts/weapon/bong.png"},
+				{"Axe of Thunder", "src/main/resources/img/artifacts/weapon/axe.png"},
+				{"Lightsaber", "src/main/resources/img/artifacts/weapon/lightsaber.png"},
+				{"BM-21 Grad", "src/main/resources/img/artifacts/weapon/grad.jpg"},
+				{"Hydrogen Bomb", "src/main/resources/img/artifacts/weapon/bomb.png"},
+				{"Supermassive Black Hole", "src/main/resources/img/artifacts/weapon/black-hole.png"},
 		};
 
 		this.name = namesAdr[pow - 1][0];
