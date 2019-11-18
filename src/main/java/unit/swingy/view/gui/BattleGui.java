@@ -61,12 +61,12 @@ public class BattleGui {
 		heroClass.setText("<html>" + hero.getName() + "<br>" + hero.getClas().getClassName() + " (" + hero.getLevel() + " lvl)</html>");
 		heroAttack.setText("Attack: " + (hero.getAttack() + hero.getBonusAttack()));
 		heroDefence.setText("Defence: " + (hero.getDefence() + hero.getBonusDefence()));
-		heroHP.setMaximum(hero.getBaseHp() + hero.getBonusHp());
+		heroHP.setMaximum(hero.getMaxHp() + hero.getBonusHp());
 
 		enemyClass.setText(enemy.getClas().getClassName() + " (" + enemy.getLevel() + " lvl)");
 		enemyAttack.setText("Attack: " + enemy.getAttack());
 		enemyDefence.setText("Defence: " + enemy.getDefence());
-		enemyHP.setMaximum(enemy.getBaseHp());
+		enemyHP.setMaximum(enemy.getMaxHp());
 
 		updateStats();
 
@@ -79,8 +79,8 @@ public class BattleGui {
 	void updateStats() {
 		heroHP.setValue(hero.getHp());
 		enemyHP.setValue(enemy.getHp());
-		heroHP.setString("HP: " + hero.getHp() + "/" + hero.getBaseHp());
-		enemyHP.setString("HP: " + enemy.getHp() + "/" + enemy.getBaseHp());
+		heroHP.setString("HP: " + hero.getHp() + "/" + hero.getMaxHp());
+		enemyHP.setString("HP: " + enemy.getHp() + "/" + enemy.getMaxHp());
 	}
 
 	private void initFrame() {

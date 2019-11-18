@@ -10,7 +10,7 @@ public class Weapon extends AArtifact {
 //	protected String name;
 //	protected int power;
 
-	public Weapon(int pow) {
+	public Weapon(int lvl) {
 
 		this.type = ArtifactType.WEAPON;
 
@@ -27,10 +27,10 @@ public class Weapon extends AArtifact {
 				{"Supermassive Black Hole", "src/main/resources/img/artifacts/weapon/black-hole.png"},
 		};
 
-		this.name = namesAdr[pow - 1][0];
-		this.power = pow;
+		this.name = namesAdr[lvl][0];
+		this.power = lvl + 1;
 
-		icon = new StretchIcon(namesAdr[pow - 1][1]);
+		icon = new StretchIcon(namesAdr[lvl][1]);
 	}
 
 }

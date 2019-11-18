@@ -12,10 +12,7 @@ import unit.swingy.model.artifacts.AArtifact;
 import unit.swingy.model.artifacts.Armor;
 import unit.swingy.model.artifacts.Helm;
 import unit.swingy.model.artifacts.Weapon;
-import unit.swingy.model.characters.DataBase;
-import unit.swingy.model.characters.Enemy;
-import unit.swingy.model.characters.Hero;
-import unit.swingy.model.characters.HeroClass;
+import unit.swingy.model.characters.*;
 import unit.swingy.view.console.ExplorationCons;
 import unit.swingy.view.gui.ExplorationGui;
 import unit.swingy.view.gui.TextStyle;
@@ -140,6 +137,7 @@ import java.util.Random;
 	private void winMap() {
 		//	if an argument is null gives end-of-map exp reward
 		int expReward = hero.gainExp(null);
+		db.updateHero(hero);
 
 		String msg = "You have gracefully escaped this crazy nightmare!\nNow, will you finally wake up?";
 		if (isGuiMode()) gui.winMap(msg, expReward);
@@ -221,9 +219,11 @@ import java.util.Random;
 //			update UI
 			if (isGuiMode()) gui.battleRound(eDamage, hDamage);
 			else console.battleRound(eDamage, hDamage);
-//			delay between moves
+
+//			delay between moves lower if the damage is low to make battle faster
+			int delay = ((eDamage < 3) && (hDamage < 3)) ? 200 : 500;
 			try {
-				Thread.sleep(500);
+				Thread.sleep(delay);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -268,6 +268,7 @@ import java.util.Random;
 
 //		reset exp
 		hero.setExp(0);
+		db.updateHero(hero);
 
 		String msg = "YOU'RE DEAD, LOL :D (And lost your leveling progress)";
 		String msg2 = "Unfortunately, you died in the sleep choked with your tongue\nwhile being impossibly intoxicated.";

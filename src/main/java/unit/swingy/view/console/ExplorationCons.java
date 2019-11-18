@@ -152,7 +152,7 @@ public class ExplorationCons implements IExploration {
 		System.out.println("\n* * * * * * * * * * * HERO * * * * * * * * * * * * *");
 		System.out.println(hero.getName() + "\t" + hero.getClas().getClassName() +
 							"\t(" + hero.getLevel() + " level)\t Exp: " + hero.getExp() + "/" + hero.getExpToLevelUp());
-		System.out.println("HP: " + hero.getHp() + "/" + hero.getBaseHp() + "\t" + "Attack: " + hero.getAttack() +
+		System.out.println("HP: " + hero.getHp() + "/" + hero.getMaxHp() + "\t" + "Attack: " + hero.getAttack() +
 							"\t" + "Defence: " + hero.getDefence());
 		System.out.println("Weapon:\t\t" + hero.getWeapon().getName() + " (Attack +" + hero.getBonusAttack() + ")");
 		System.out.println("Armor:\t\t" + hero.getArmor().getName() + " (Defence +" + hero.getBonusDefence() + ")");

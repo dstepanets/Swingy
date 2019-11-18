@@ -56,7 +56,7 @@ public class HeroBuilder {
 	}
 
 	public void setHp(int maxHp) {
-		hero.setBaseHp(maxHp);
+		hero.setMaxHp(maxHp);
 		hero.heal();
 	}
 

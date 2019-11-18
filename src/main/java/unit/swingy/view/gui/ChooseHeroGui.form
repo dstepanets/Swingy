@@ -70,7 +70,7 @@
             <constraints/>
             <properties>
               <editable value="false"/>
-              <font name="Ayuthaya" size="14" style="1"/>
+              <font/>
               <text value="Select a hero"/>
             </properties>
           </component>

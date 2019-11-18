@@ -28,7 +28,7 @@ public class Hero extends ACharacter {
 	private int exp;
 	private int expToLevelUp;
 
-//	private int baseHp;
+//	private int maxHp;
 //	private int hp;
 	private int bonusHp;
 
@@ -64,8 +64,8 @@ public class Hero extends ACharacter {
 			damage = hp;
 		else {
 			damage = (int) (enemy.getAttack() * attackMultiplier) - (defence + bonusDefence);
-			if (damage < 0)
-				damage = 0;
+			if (damage <= 0)
+				damage = 1;
 		}
 
 		hp -= damage;
@@ -78,16 +78,17 @@ public class Hero extends ACharacter {
 //	damage when visiting Ukraine
 	public int takeDamage(int damage) {
 		hp -= damage;
-		if (hp < 0)
-			hp = 0;
+		if (hp <= 0)
+			hp = 1;
 		return damage;
 	}
 
 
 	public void heal() {
-		hp = baseHp + bonusHp;
+		hp = maxHp + bonusHp;
 	}
 
+//	TODO increase reward
 	public int gainExp(Enemy enemy) {
 
 		int expReward;
@@ -96,7 +97,7 @@ public class Hero extends ACharacter {
 		if (enemy == null) {
 			expReward = (this.clas == HeroClass.Traveler) ? expToLevelUp : (expToLevelUp / 5);
 		} else {
-			expReward = (enemy.getAttack() + enemy.getDefence()) * enemy.getLevel() + enemy.getBaseHp();
+			expReward = (enemy.getAttack() + enemy.getDefence()) * enemy.getLevel() + enemy.getMaxHp();
 		}
 
 		exp += expReward;
@@ -112,9 +113,9 @@ public class Hero extends ACharacter {
 		level++;
 		setExpToLevelUp();
 
-		baseHp *= 1.25;
-		attack *= 1.25;
-		defence *= 1.25;
+		maxHp *= 1.2;
+		attack *= 1.2;
+		defence *= 1.2;
 
 		Game.getInstance().levelUp();
 	}

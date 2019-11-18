@@ -4,26 +4,26 @@ import darrylbu.icon.StretchIcon;
 
 public class Helm extends AArtifact {
 
-	public Helm(int pow) {
+	public Helm(int lvl) {
 
 		this.type = ArtifactType.HELM;
 
 		namesAdr = new String[][] {
-				{"helm", "scr/main/resources/img/artifacts/helm"},
-				{"helm", ""},
-				{"helm", ""},
-				{"helm", ""},
-				{"helm", ""},
-				{"helm", ""},
-				{"helm", ""},
-				{"helm", ""},
-				{"helm", ""},
-				{"helm", ""},
+				{"Shampoo", "src/main/resources/img/artifacts/helm/shampoo.png"},
+				{"Birds Nest", "src/main/resources/img/artifacts/helm/nest.png"},
+				{"Clown's Wig", "src/main/resources/img/artifacts/helm/wig.png"},
+				{"Santa Hat", "src/main/resources/img/artifacts/helm/santa-hat.png"},
+				{"Headache Protection", "src/main/resources/img/artifacts/helm/condom.png"},
+				{"Umbrella", "src/main/resources/img/artifacts/helm/umbrella.png"},
+				{"Mortarboard", "src/main/resources/img/artifacts/helm/mortarboard.png"},
+				{"Papal Mitre", "src/main/resources/img/artifacts/helm/mitre.png"},
+				{"Anti-Aircraft Missile", "src/main/resources/img/artifacts/helm/missile.png"},
+				{"NATO Membership", "src/main/resources/img/artifacts/helm/nato.png"},
 		};
 
-		this.name = namesAdr[pow - 1][0];
-		this.power = pow;
+		this.name = namesAdr[lvl][0];
+		this.power = lvl + 1;
 
-		icon = new StretchIcon(namesAdr[pow - 1][1]);
+		icon = new StretchIcon(namesAdr[lvl][1]);
 	}
 }

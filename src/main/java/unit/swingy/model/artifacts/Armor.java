@@ -9,20 +9,20 @@ public class Armor extends AArtifact {
 		this.type = ArtifactType.ARMOR;
 
 		namesAdr = new String[][] {
-				{"Armour of the Brave", "scr/main/resources/img/artifacts/armor/bikini.png"},
-				{"Super-Pijama", "scr/main/resources/img/artifacts/armor/pijama.png"},
-				{"Towel", "scr/main/resources/img/artifacts/armor/towel.jpg"},
-				{"armor", "scr/main/resources/img/artifacts//armor/pijama.png"},
-				{"armor", ""},
-				{"armor", ""},
-				{"armor", ""},
-				{"armor", ""},
-				{"armor", ""},
-				{"armor", ""},
+				{"Armour of the Brave", "src/main/resources/img/artifacts/armor/bikini.png"},
+				{"Super-Pajama", "src/main/resources/img/artifacts/armor/pajama.png"},
+				{"Towel", "src/main/resources/img/artifacts/armor/towel.jpg"},
+				{"Old-School Toga", "src/main/resources/img/artifacts//armor/toga.png"},
+				{"Life Jacket", "src/main/resources/img/artifacts//armor/life-jacket.png"},
+				{"Namaz", "src/main/resources/img/artifacts//armor/namaz.png"},
+				{"Space Suit", "src/main/resources/img/artifacts//armor/space-suit.png"},
+				{"Bunker", "src/main/resources/img/artifacts//armor/bunker.png"},
+				{"Your Mom", "src/main/resources/img/artifacts//armor/mother.png"},
+				{"Life Insurance", "src/main/resources/img/artifacts//armor/insurance.png"},
 		};
 
 		this.name = namesAdr[lvl][0];
-		this.power = pow;
+		this.power = lvl + 1;
 
 		icon = new StretchIcon(namesAdr[lvl][1]);
 

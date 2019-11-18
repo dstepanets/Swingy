@@ -15,18 +15,20 @@ public enum EnemyClass {
 	FSM,
 	Reptiloid,
 	Fuhrer,
-	Elephant;
+	Elephant,
+	Cthulhu,
+	UFO;
 
 	public static final int count = EnemyClass.values().length;
 
 	private String		className;
-//	PL - per level
-	private double		hpPL;
-	private double		attackPL;
-	private double		defencePL;
 
-	private ImageIcon avatar;
-	private ImageIcon icon;
+	private int		baseHp;
+	private int 		baseAttack;
+	private int 		baseDefence;
+
+	private ImageIcon 	avatar;
+	private ImageIcon 	icon;
 
 	EnemyClass() {
 		className = this.toString();
@@ -36,61 +38,75 @@ public enum EnemyClass {
 
 		switch (className) {
 			case "Cockroach":
-				hpPL = 5.0;
-				attackPL = 1.2;
-				defencePL = 0.8;
+				baseHp = 50;
+				baseAttack = 5;
+				baseDefence = 5;
 				avatarPath = "src/main/resources/img/enemyAvatars/Cockroach.png";
 				iconPAth  = "src/main/resources/img/enemyIcons/Cockroach.png";
 				break;
 			case "Mushroom":
-				hpPL = 7.0;
-				attackPL = 1.7;
-				defencePL = 2.0;
+				baseHp = 70;
+				baseAttack = 6;
+				baseDefence = 7;
 				avatarPath = "src/main/resources/img/enemyAvatars/Mushroom.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Mushroom.png";
 				break;
 			case "Moonshine":
-				hpPL = 8.0;
-				attackPL = 2.5;
-				defencePL = 0.0;
+				baseHp = 90;
+				baseAttack = 8;
+				baseDefence = 0;
 				avatarPath = "src/main/resources/img/enemyAvatars/Moonshine.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Moonshine.png";
 				break;
 			case "Java":
-				hpPL = 8.0;
-				attackPL = 3.0;
-				defencePL = 2.5;
+				baseHp = 80;
+				baseAttack = 8;
+				baseDefence = 7;
 				avatarPath = "src/main/resources/img/enemyAvatars/Java.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Java.png";
 				break;
 			case "FSM":
-				hpPL = 9.0;
-				attackPL = 3.5;
-				defencePL = 2.0;
+				baseHp = 100;
+				baseAttack = 8;
+				baseDefence = 8;
 				className = "Flying Spaghetti Monster";
 				avatarPath = "src/main/resources/img/enemyAvatars/FSM.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/FSM.png";
 				break;
 			case "Reptiloid":
-				hpPL = 10.0;
-				attackPL = 4.0;
-				defencePL = 3.0;
+				baseHp = 90;
+				baseAttack = 9;
+				baseDefence = 6;
 				avatarPath = "src/main/resources/img/enemyAvatars/Reptiloid.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Reptiloid.png";
 				break;
 			case "Fuhrer":
-				hpPL = 12.0;
-				attackPL = 4.0;
-				defencePL = 2.0;
+				baseHp = 110;
+				baseAttack = 10;
+				baseDefence = 6;
 				avatarPath = "src/main/resources/img/enemyAvatars/Fuhrer.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Fuhrer.png";
 				break;
 			case "Elephant":
-				hpPL = 30.0;
-				attackPL = 15.0;
-				defencePL = 15.0;
+				baseHp = 150;
+				baseAttack = 10;
+				baseDefence = 12;
 				avatarPath = "src/main/resources/img/enemyAvatars/Elephant.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Elephant.png";
+				break;
+			case "Cthulhu":
+				baseHp = 120;
+				baseAttack = 9;
+				baseDefence = 9;
+				avatarPath = "src/main/resources/img/enemyAvatars/Cthulhu.jpg";
+				iconPAth  = "src/main/resources/img/enemyIcons/Cthulhu.png";
+				break;
+			case "UFO":
+				baseHp = 100;
+				baseAttack = 8;
+				baseDefence = 10;
+				avatarPath = "src/main/resources/img/enemyAvatars/UFO.jpg";
+				iconPAth  = "src/main/resources/img/enemyIcons/UFO.png";
 				break;
 		}
 
@@ -126,6 +142,12 @@ public enum EnemyClass {
 				break;
 			case Elephant:
 				description = "Normally, nice and friendly creature. If not provoked.";
+				break;
+			case Cthulhu:
+				description = "Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn";
+				break;
+			case UFO:
+				description = "They abduct heroes to film for their pervert extraterrestrial porn";
 				break;
 		}
 		return (description);

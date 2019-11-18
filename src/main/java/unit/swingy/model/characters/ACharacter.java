@@ -13,7 +13,7 @@ public abstract class ACharacter {
 	@Min(value=0)
 	protected int level;
 	@Min(value=1, message = "Invalid base HP")
-	protected int baseHp;
+	protected int maxHp;
 	@Min(value=1, message = "Invalid HP")
 	protected int hp;
 	@Min(value=0, message = "Invalid attack value ")

@@ -1,7 +1,5 @@
 package unit.swingy.controller;
 
-import unit.swingy.model.characters.Hero;
-import unit.swingy.model.characters.HeroBuilder;
 
 public class Main {
 
@@ -34,9 +32,6 @@ public class Main {
 		System.out.println(">> GUI mode: " + game.isGuiMode());
 
 
-
-
-//		TODO restrict hero name length
 //		set up the hero
 		ChooseHeroDirector director = new ChooseHeroDirector();
 		director.chooseHero();
@@ -49,7 +44,8 @@ public class Main {
 		}
 
 
-//		TODO Annotation validation of the chosen hero
+
+//		TODO hide intro message from hibernate
 //		HeroBuilder hb = new HeroBuilder();
 //			hb.reset();
 //			game.setHero(hb.getHero());
