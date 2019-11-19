@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import javax.swing.*;
 
-// TODO add Sorceress (lowers enemy attack and defence)
 @Getter
 public enum HeroClass {
 	SadCat,
@@ -36,38 +35,38 @@ public enum HeroClass {
 
 		switch (className) {
 			case "SadCat":
-				baseHp = 80;
+				baseHp = 90;
 				attack = 8;
 				defence = 6;
 				break;
 			case "ParanoidAndroid":
 				baseHp = 110;
-				attack = 7;
-				defence = 6;
+				attack = 8;
+				defence = 7;
 				break;
 			case "Traveler":
-				baseHp = 50;
-				attack = 5;
-				defence = 5;
+				baseHp = 70;
+				attack = 6;
+				defence = 8;
 				break;
 			case "JudeoMason":
 				baseHp = 100;
-				attack = 8;
-				defence = 6;
+				attack = 9;
+				defence = 7;
 				break;
 			case "Tank":
 				baseHp = 120;
 				attack = 7;
-				defence = 8;
+				defence = 10;
 				break;
 			case "AngryBird":
 				baseHp = 80;
-				attack = 11;
-				defence = 4;
+				attack = 12;
+				defence = 6;
 				break;
 			case "Sorceress":
 				baseHp = 90;
-				attack = 7;
+				attack = 6;
 				defence = 6;
 				break;
 		}
@@ -82,7 +81,7 @@ public enum HeroClass {
 				description = "Only a total asshole would attack you. (Higher chance to escape battle)";
 				break;
 			case ParanoidAndroid:
-				description = "You have a metal body and constant depression.";
+				description = "You have a brain the size of a planet and constant depression.";
 				break;
 			case Traveler:
 				description = "You level up when reach the Edge of the World.";

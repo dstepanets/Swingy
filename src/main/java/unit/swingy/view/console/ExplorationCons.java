@@ -82,10 +82,14 @@ public class ExplorationCons implements IExploration {
 					gotIt = true;
 					printHero();
 					break;
+				case "l":
+					gotIt = true;
+					mapLegend();
+					break;
 				case "gui":
 					gotIt = true;
 					game.setGuiMode(true);
-					game.switchView();
+					game.switchView(false);
 					break;
 				case "exit":
 					gotIt = true;
@@ -99,6 +103,9 @@ public class ExplorationCons implements IExploration {
 
 /*	----------------------------- EXPLORATION ---------------------------- */
 
+	public void showIntro(String msg) {
+		System.out.println(msg + "\n");
+	}
 
 	public void printExplorationPage() {
 		do {
@@ -154,12 +161,29 @@ public class ExplorationCons implements IExploration {
 							"\t(" + hero.getLevel() + " level)\t Exp: " + hero.getExp() + "/" + hero.getExpToLevelUp());
 		System.out.println("HP: " + hero.getHp() + "/" + hero.getMaxHp() + "\t" + "Attack: " + hero.getAttack() +
 							"\t" + "Defence: " + hero.getDefence());
-		System.out.println("Weapon:\t\t" + hero.getWeapon().getName() + " (Attack +" + hero.getBonusAttack() + ")");
-		System.out.println("Armor:\t\t" + hero.getArmor().getName() + " (Defence +" + hero.getBonusDefence() + ")");
-		System.out.println("Helm:\t\t" + hero.getHelm().getName() + " (HP +" + hero.getBonusHp() + ")");
+
+		if (hero.getWeapon() == null) System.out.println("Weapon:\t\tnone");
+		else System.out.println("Weapon:\t\t" + hero.getWeapon().getName() + " (Attack +" + hero.getBonusAttack() + ")");
+
+		if (hero.getArmor() == null) System.out.println("Armor:\t\tnone");
+		else System.out.println("Armor:\t\t" + hero.getArmor().getName() + " (Defence +" + hero.getBonusDefence() + ")");
+
+		if (hero.getHelm() == null) System.out.println("Helm:\t\tnone");
+		else System.out.println("Helm:\t\t" + hero.getHelm().getName() + " (HP +" + hero.getBonusHp() + ")");
 		System.out.println("* * * * * * * * * * * * *  * * * * * * * * * * * * *");
 	}
 
+
+	private void mapLegend() {
+		System.out.println("\n= = = = = = = = = MAP LEGEND = = = = = = = = = =");
+		System.out.println("[@]	- Hero");
+		System.out.println("[.]	- unexplored place");
+		System.out.println("[ ]	- explored place");
+		System.out.println("[E]	- enemy");
+		System.out.println("[X]	- obstacle");
+		System.out.println("[U]	- Ukrainian territory");
+		System.out.println("= = = = = = = = = = = = = = = = = = = = = = = = =\n");
+	}
 
 /*	------------------------------- BATTLE -------------------------------- */
 
@@ -181,7 +205,7 @@ public class ExplorationCons implements IExploration {
 			if (game.tryToFlee()) {
 				game.escapeBattle();
 			} else {
-				System.out.println("Sadly, your running is so sloooow...");
+				System.out.println("Sadly, you were running so sloooowly...");
 				game.initBattle();
 			}
 		}
@@ -241,4 +265,17 @@ public class ExplorationCons implements IExploration {
 		System.out.println(msg);
 		System.out.println(msg2);
 	}
+
+
+	public void winGame(String title, String outro) {
+		System.out.println("\n@ @ @ @ @ @ @ @ @ @ @ @ " + title + " @ @ @ @ @ @ @ @ @ @ @ @");
+		System.out.println(outro);
+		System.out.println("@ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @@ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @ @");
+		System.out.println("\n\n(Press Enter to exit the game)");
+		scan.nextLine();
+		game.exitGame();
+	}
+
+
+
 }

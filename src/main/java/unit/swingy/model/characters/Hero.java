@@ -88,16 +88,15 @@ public class Hero extends ACharacter {
 		hp = maxHp + bonusHp;
 	}
 
-//	TODO increase reward
 	public int gainExp(Enemy enemy) {
 
 		int expReward;
 
 //		if enemy is null it's the end-of-map reward
 		if (enemy == null) {
-			expReward = (this.clas == HeroClass.Traveler) ? expToLevelUp : (expToLevelUp / 5);
+			expReward = (this.clas == HeroClass.Traveler) ? expToLevelUp : (expToLevelUp / 3);
 		} else {
-			expReward = (enemy.getAttack() + enemy.getDefence()) * enemy.getLevel() + enemy.getMaxHp();
+			expReward = (expToLevelUp / 5) + (enemy.getAttack() + enemy.getDefence() + enemy.getMaxHp()) * (enemy.getLevel() + 1);
 		}
 
 		exp += expReward;
@@ -113,9 +112,9 @@ public class Hero extends ACharacter {
 		level++;
 		setExpToLevelUp();
 
-		maxHp *= 1.2;
-		attack *= 1.2;
-		defence *= 1.2;
+		maxHp *= 1.25;
+		attack *= 1.25;
+		defence *= 1.25;
 
 		Game.getInstance().levelUp();
 	}

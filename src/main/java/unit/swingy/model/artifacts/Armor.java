@@ -24,7 +24,7 @@ public class Armor extends AArtifact {
 		this.name = namesAdr[lvl][0];
 		this.power = lvl + 1;
 
-		icon = new StretchIcon(namesAdr[lvl][1]);
+		iconAddr = namesAdr[lvl][1];
 
 	}
 

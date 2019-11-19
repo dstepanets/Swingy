@@ -27,6 +27,7 @@ import java.util.Random;
 	private boolean guiMode;
 	private ExplorationCons console;
 	private ExplorationGui gui;
+	Random rand = new Random();
 
 	@NotNull private Hero hero;
 	private Enemy enemy;
@@ -37,44 +38,52 @@ import java.util.Random;
 //	new coordinates that player tries to move on
 	private int nx, ny;
 
+
+
 	public static Game getInstance() {
 		if (instance == null)
 			instance = new Game();
 		return instance;
 	}
 
-	public void switchView() {
+	public void switchView(boolean intro) {
 		if (guiMode) {
 			if (gui == null) gui = new ExplorationGui();
 			gui.updateMap();
 			gui.updateHeroPane();
 			gui.updateEnemyPane();
 			gui.getFrame().setVisible(true);
+			if (intro) showIntro();
 		} else {
 			if (console == null) console = new ExplorationCons();
 			if (gui != null) gui.getFrame().setVisible(false);
+			if (intro) showIntro();
 			console.printExplorationPage();
 		}
 	}
 
 
-//	TODO intro and outro
-	public void startGame() {
+	void newMap(boolean intro) {
 
-		System.out.println(">> startGame Thr: " + Thread.currentThread().getName());
+		System.out.println(">> newMap Thr: " + Thread.currentThread().getName());
 
-		resetMap();
-		switchView();
-
-	}
-
-	private void resetMap() {
+//		new map
 		hero.heal();
 		map = new Map(hero);
 		grid = map.getGrid();
 		enemy = null;
 //		map.printMapTiles();
+
+		switchView(intro);
+
 	}
+
+	private void showIntro() {
+		String msg = "You've been partying too hard that night. And got to a weird place. Try to explore it.";
+		if (isGuiMode()) gui.showIntro(msg);
+		else console.showIntro(msg);
+	}
+
 
 	public void exitGame() {
 		System.out.println(">> Exiting the game...");
@@ -83,6 +92,11 @@ import java.util.Random;
 	}
 
 	public void moveHero(char direction) {
+
+////		temp test CHEAT
+//		while (hero.getLevel() < 10) {
+//			hero.gainExp(null);
+//		}
 
 		System.out.println(">> You are moving to: " + direction);
 
@@ -110,15 +124,57 @@ import java.util.Random;
 		} else {
 			grid[ny][nx].setExplored(true);
 			if (grid[ny][nx].getEnemy() != null) {
-				fightOrFlee();
+//				UFO has 50% chance to teleport hero to random location and damage
+				if (grid[ny][nx].getEnemy().getClas() == EnemyClass.UFO && rand.nextBoolean())
+					alienAbduction();
+				else
+					fightOrFlee();
 			} else if (grid[ny][nx].getObstacle() == null) {
 //				move to new location if no obstacle is there
-				grid[y][x].setHero(null);
-				grid[ny][nx].setHero(hero);
-				y = ny; x = nx;
+				moveToNewCoords();
 			} else if (grid[ny][nx].getObstacle() == "Ukraine")
 				visitUkraine();
 			if (guiMode) gui.updateMap();
+		}
+	}
+
+	private void moveToNewCoords() {
+		grid[y][x].setHero(null);
+		grid[ny][nx].setHero(hero);
+		y = ny; x = nx;
+
+//		ParanoidAdroid occasionally gives depressed quotes
+		if ((hero.getClas() == HeroClass.ParanoidAndroid) && (rand.nextInt(3) == 0)) {
+			String msg = hero.getName() + ": \'" + MarvinPersonality.giveMarvinQuote() + "\'";
+			if (guiMode) gui.printMessage(msg, TextStyle.italic);
+			else console.printMessage("\n" + msg);
+		}
+	}
+
+	private void alienAbduction() {
+//		show UFO on map before teleportation
+		if (isGuiMode()) gui.updateMap();
+//		make sure new coords are free
+		while (!(grid[ny][nx].getEnemy() == null && grid[ny][nx].getObstacle() == null)) {
+			ny = rand.nextInt(map.getSize());
+			nx = rand.nextInt(map.getSize());
+		}
+		grid[ny][nx].setExplored(true);
+		int damage = hero.takeDamage(hero.getHp() / 2);
+		moveToNewCoords();
+
+//		display messages
+		String msg = "You was abducted by aliens!\nYou're ashamed to speak about the ugly experiments " +
+				"that they conducted on you...";
+		String msg2 = "You lost " + damage + " HP and was thrown out in the unknown place.";
+		if (isGuiMode()) {
+			gui.showMessageDialog("ALIENS!!!", msg, new ImageIcon("src/main/resources/img/enemyIcons/UFO.png"));
+			gui.printMessage(msg2, TextStyle.red);
+			gui.updateHeroPane();
+		}
+		else {
+			console.printMessage(msg);
+			console.printMessage(msg2);
 		}
 	}
 
@@ -142,7 +198,7 @@ import java.util.Random;
 		String msg = "You have gracefully escaped this crazy nightmare!\nNow, will you finally wake up?";
 		if (isGuiMode()) gui.winMap(msg, expReward);
 		else console.winMap(msg, expReward);
-		startGame();
+		newMap(false);
 	}
 
 	private void fightOrFlee() {
@@ -153,12 +209,12 @@ import java.util.Random;
 	}
 
 	public boolean tryToFlee() {
-//		SadCat has 60% chance to escape, instead of 50% for others
-		if (hero.getClas() == HeroClass.SadCat) {
-			return (new Random().nextInt(10) > 3);
 //		Elephants are not agressive, unless attacked
-		} else if (enemy.getClas() == EnemyClass.Elephant)
+		if (enemy.getClas() == EnemyClass.Elephant)
 			return true;
+//		SadCat has 70% chance to escape, instead of 50% for others
+		if (hero.getClas() == HeroClass.SadCat)
+			return (new Random().nextInt(10) > 2);
 		return new Random().nextBoolean();
 	}
 
@@ -167,7 +223,7 @@ import java.util.Random;
 		enemy = null;
 
 		String msg = "You heroically escaped that filthy beast!";
-		if (isGuiMode()) gui.escapeBattle(msg);
+		if (guiMode) gui.escapeBattle(msg);
 		else console.escapeBattle(msg);
 	}
 
@@ -179,11 +235,24 @@ import java.util.Random;
 			enemy.setDefence(enemy.getDefence() - enemy.getDefence() / 6);
 			if (guiMode) gui.printMessage("Sorceress lowered the enemy's attack and defence", TextStyle.blue);
 			else console.printMessage("Sorceress lowered the enemy's attack and defence");
+
+//		Paranoid Android has 20% chance to have weaker attack in battle because of depression
+		} else if (hero.getClas() == HeroClass.ParanoidAndroid) {
+			MarvinPersonality.setSavedAttack(hero.getAttack());
+			if (rand.nextInt(5) == 0) {
+				int penalty = hero.getAttack() / 5;
+				hero.setAttack(hero.getAttack() - penalty);
+				String msg = "Paranoid Android is very depressed. Attack -" + penalty + " :(";
+				if (guiMode) {
+					gui.printMessage(msg, TextStyle.red);
+					gui.updateHeroPane();
+				}
+				else console.printMessage(msg);
+			}
 		}
 
 		if (guiMode) gui.initBattle();
 		else console.initBattle();
-
 	}
 
 	public void battle(final int dice) {
@@ -217,11 +286,11 @@ import java.util.Random;
 			int eDamage = enemy.takeDamage(hero, dice);
 			int hDamage = hero.takeDamage(enemy, 0);
 //			update UI
-			if (isGuiMode()) gui.battleRound(eDamage, hDamage);
+			if (guiMode) gui.battleRound(eDamage, hDamage);
 			else console.battleRound(eDamage, hDamage);
 
 //			delay between moves lower if the damage is low to make battle faster
-			int delay = ((eDamage < 3) && (hDamage < 3)) ? 200 : 500;
+			int delay = ((eDamage < 3) || (hDamage < 3)) ? 100 : 300;
 			try {
 				Thread.sleep(delay);
 			} catch (InterruptedException e) {
@@ -231,12 +300,15 @@ import java.util.Random;
 	}
 
 	private void battleResult() {
+//		restore Paranoid Android attack after penalty
+		if (hero.getClas() == HeroClass.ParanoidAndroid) {
+			hero.setAttack(MarvinPersonality.getSavedAttack());
+		}
+
 		boolean victory = ((enemy.getHp() <= 0) && (hero.getHp() > 0)) ? true : false;
 		System.out.println("## Victory: " + victory);
-
 		int expReward = 0;
 		if (victory) {
-
 			expReward = hero.gainExp(enemy);
 			hero.heal();
 
@@ -260,8 +332,12 @@ import java.util.Random;
 
 	public void levelUp() {
 		String msg = "Yo, yo, yo! You have reached " + hero.getLevel() + " level!";
-		if (isGuiMode()) gui.printMessage(msg, TextStyle.blue);
+		if (guiMode) gui.printMessage(msg, TextStyle.blue);
 		else console.printMessage(msg);
+
+		if (hero.getLevel() >= 10) {
+			winGame();
+		}
 	}
 
 	public void youDie() {
@@ -271,15 +347,16 @@ import java.util.Random;
 		db.updateHero(hero);
 
 		String msg = "YOU'RE DEAD, LOL :D (And lost your leveling progress)";
-		String msg2 = "Unfortunately, you died in the sleep choked with your tongue\nwhile being impossibly intoxicated.";
-		if (isGuiMode()){
+		String msg2 = "Unfortunately, you died in the sleep choked with your tongue" +
+				"\nwhile being impossibly intoxicated.\nBut you shall finally rest in peace...";
+		if (guiMode){
 			gui.youDie(msg, msg2);
 		}
 		else {
 			console.youDie(msg, msg2);
 		}
 
-		startGame();
+		newMap(false);
 	}
 
 	public AArtifact dropArtifact() {
@@ -347,6 +424,16 @@ import java.util.Random;
 		db.updateHero(hero);
 	}
 
+
+	private void winGame() {
+		String title = "Good morning, psychonaut!";
+		String outro = "You wake up with a terrible nausea and headache.\n" +
+				"You barely can think. And the thoughts are:\n" +
+				"\'NO MORE DRUGS! Except for that cool little pills from the bartender...\n" +
+				"They WERE fun!\'";
+		if (guiMode) gui.winGame(title, outro);
+		else console.winGame(title, outro);
+	}
 
 
 }

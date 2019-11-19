@@ -1,8 +1,8 @@
 package unit.swingy.model.artifacts;
 
-import darrylbu.icon.StretchIcon;
 import lombok.Getter;
-import lombok.Setter;
+
+import javax.swing.*;
 
 @Getter
 public abstract class AArtifact {
@@ -20,6 +20,6 @@ public abstract class AArtifact {
 	protected String name;
 	protected int power;
 
-	protected StretchIcon icon;
+	protected String iconAddr;
 
 }

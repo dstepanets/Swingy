@@ -70,19 +70,19 @@ public class HeroBuilder {
 
 	public void setWeapon(int power) {
 		AArtifact w;
-		w = (power == 0) ? null : new Weapon(power);
+		w = (power == 0) ? null : new Weapon(power - 1);
 		hero.equipArtifact(w);
 	}
 
 	public void setArmor(int power) {
 		AArtifact a;
-		a = (power == 0) ? null : new Armor(power);
+		a = (power == 0) ? null : new Armor(power - 1);
 		hero.equipArtifact(a);
 	}
 
 	public void setHelm(int power) {
 		AArtifact h;
-		h = (power == 0) ? null : new Helm(power);
+		h = (power == 0) ? null : new Helm(power - 1);
 		hero.equipArtifact(h);
 	}
 

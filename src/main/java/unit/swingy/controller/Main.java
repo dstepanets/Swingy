@@ -50,9 +50,10 @@ public class Main {
 //			hb.reset();
 //			game.setHero(hb.getHero());
 
+
 		AnnoValidation validate = new AnnoValidation();
 		if (validate.validateHero(game.getHero())) {
-			game.startGame();
+			game.newMap(true);
 		}
 
 	}

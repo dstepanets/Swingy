@@ -77,7 +77,6 @@ public class ExplorationGui implements IExploration {
 	private JButton bE;
 	private JButton bW;
 
-
 	private JScrollPane infoPane;
 	private JTextPane info;
 	private JLabel heroAttack;
@@ -183,7 +182,7 @@ public class ExplorationGui implements IExploration {
 				if (game.tryToFlee()) {
 					game.escapeBattle();
 				} else {
-					printMessage("Sadly, your running is so sloooow...", TextStyle.red);
+					printMessage("Sadly, you were running so sloooowly...", TextStyle.red);
 					game.initBattle();
 				}
 				resetButtons();
@@ -194,7 +193,7 @@ public class ExplorationGui implements IExploration {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				game.setGuiMode(false);
-				game.switchView();
+				game.switchView(false);
 			}
 		});
 
@@ -233,7 +232,7 @@ public class ExplorationGui implements IExploration {
 			weapon.setIcon(new StretchIcon("src/main/resources/img/artifacts/weapon.png"));
 			weaponTxt.setText("No Weapon");
 		} else {
-			weapon.setIcon(hero.getWeapon().getIcon());
+			weapon.setIcon(new StretchIcon(hero.getWeapon().getIconAddr()));
 			weaponTxt.setText("<html><body>" + hero.getWeapon().getName() + "<br>(Attack +" + hero.getBonusAttack() + ")</body></html>");
 		}
 
@@ -241,7 +240,7 @@ public class ExplorationGui implements IExploration {
 			armor.setIcon(new StretchIcon("src/main/resources/img/artifacts/armor.png"));
 			armorTxt.setText("No Armor");
 		} else {
-			armor.setIcon(hero.getArmor().getIcon());
+			armor.setIcon(new StretchIcon(hero.getArmor().getIconAddr()));
 			armorTxt.setText("<html><body>" + hero.getArmor().getName() + "<br>(Defence +" + hero.getBonusDefence() + ")</body></html>");
 		}
 
@@ -249,7 +248,7 @@ public class ExplorationGui implements IExploration {
 			helm.setIcon(new StretchIcon("src/main/resources/img/artifacts/helm.png"));
 			helmTxt.setText("No Helm");
 		} else {
-			helm.setIcon(hero.getHelm().getIcon());
+			helm.setIcon(new StretchIcon(hero.getHelm().getIconAddr()));
 			helmTxt.setText("<html><body>" + hero.getHelm().getName() + "<br>(HP +" + hero.getBonusHp() + ")</body></html>");
 		}
 
@@ -284,8 +283,232 @@ public class ExplorationGui implements IExploration {
 		}
 	}
 
+	private class MapBack extends JPanel {
+		Image img;
+
+		public MapBack() {
+			try {
+				img = ImageIO.read(new File("src/main/resources/img/mapBack/Grass00.jpg"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		@Override
+		public void paintComponent(Graphics g) {
+			Graphics2D g2 = (Graphics2D) g;
+			g2.drawImage(img, 0, 0, this);
+		}
+	}
+
+	public void buildMap() {
+
+//		set map background and create grid to hold labels
+		mapBack = new MapBack();
+		mapBack.setLayout(new GridLayout(VIEW_SIZE, VIEW_SIZE));
+//		mapBack.setPreferredSize(new Dimension(VIEW_SIZE * ICON_SIZE, VIEW_SIZE * ICON_SIZE));
+		mapHolder.add(mapBack, new GridConstraints(0, 0, 1, 1,
+				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK |
+				GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
+				null, new Dimension(VIEW_SIZE * ICON_SIZE, VIEW_SIZE * ICON_SIZE), null, 0, false));
+
+//		create array of labels that will contain game icons
+		labels = new JLabel[VIEW_SIZE][VIEW_SIZE];
+		for (int y = 0; y < VIEW_SIZE; y++) {
+			for (int x = 0; x < VIEW_SIZE; x++) {
+				labels[y][x] = new JLabel();
+				labels[y][x].setHorizontalAlignment(SwingConstants.CENTER);
+				labels[y][x].setVerticalAlignment(SwingConstants.CENTER);
+				labels[y][x].setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
+				mapBack.add(labels[y][x]);
+			}
+		}
+	}
+
+	public void updateMap() {
+
+//		update references if the map has changed
+		map = game.getMap();
+		grid = map.getGrid();
+
+//		draw only part of the map around the hero
+		int y = game.getY() - VIEW_DISTANCE;
+		for (int i = 0; i < VIEW_SIZE; i++, y++) {
+			int x = game.getX() - VIEW_DISTANCE;
+			for (int j = 0; j < VIEW_SIZE; j++, x++) {
+
+				if (x < 0 || y < 0 || x >= map.getSize() || y >= map.getSize()) {
+					labels[i][j].setIcon(new StretchIcon("src/main/resources/img/obstacles/space.png"));
+					labels[i][j].setBorder(null);
+//					if explored set corresponding icon
+				} else if (grid[y][x].isExplored()) {
+					if (grid[y][x].getObstacle() != null) {
+						labels[i][j].setIcon(new StretchIcon("src/main/resources/img/obstacles/" + grid[y][x].getObstacle() + ".png"));
+						labels[i][j].setBorder(blackBorder);
+					} else if (grid[y][x].getHero() != null) {
+						labels[i][j].setIcon(hero.getClas().getIcon());
+						labels[i][j].setBorder(blueBorder);
+					} else if (grid[y][x].getEnemy() != null) {
+						labels[i][j].setIcon(grid[y][x].getEnemy().getClas().getIcon());
+						labels[i][j].setBorder(redBorder);
+					} else {
+						labels[i][j].setIcon(null);
+						labels[i][j].setBorder(whiteBorder);
+					}
+//				if not explored, set fog
+				} else {
+					labels[i][j].setIcon(new StretchIcon("src/main/resources/img/obstacles/fog.png"));
+					labels[i][j].setBorder(null);
+				}
+			}
+		}
+	}
+
+	/*	----------------------------- UTILS ---------------------------- */
+
+	public void printMessage(String msg, SimpleAttributeSet atr) {
+		Document doc = info.getStyledDocument();
+		try {
+			doc.insertString(doc.getLength(), msg + "\n", atr);
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void showMessageDialog(String title, String msg, ImageIcon icon) {
+		JOptionPane.showMessageDialog(frame, msg, title, JOptionPane.INFORMATION_MESSAGE, icon);
+	}
+
+	/*	----------------------------- GAMEPLAY MECHANICS ---------------------------- */
 
 
+	public void showIntro(String msg) {
+		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/intro.png");
+		JOptionPane.showMessageDialog(frame,
+				msg, "Gosh, where am I?..",
+				JOptionPane.INFORMATION_MESSAGE, icon);
+	}
+
+	public void fightOrFlee(Enemy e) {
+
+//		enable fight/flee buttons, disable all others
+		bFight.setEnabled(true);
+		bFight.setForeground(Color.RED);
+		bFlee.setEnabled(true);
+		bFlee.setForeground(Color.CYAN);
+
+		bN.setEnabled(false);
+		bS.setEnabled(false);
+		bW.setEnabled(false);
+		bE.setEnabled(false);
+		bCons.setEnabled(false);
+
+		updateEnemyPane();
+
+		printMessage("You encounter an enemy! Fight it bravely?" +
+				" Or run away like a coward?", TextStyle.bold);
+	}
+
+	private void resetButtons() {
+		bFight.setEnabled(false);
+		bFlee.setEnabled(false);
+		bN.setEnabled(true);
+		bS.setEnabled(true);
+		bW.setEnabled(true);
+		bE.setEnabled(true);
+		bCons.setEnabled(true);
+	}
+
+	public void escapeBattle(String msg) {
+		updateEnemyPane();
+		printMessage(msg, TextStyle.cyan);
+	}
+
+	public void initBattle() {
+		frame.setEnabled(false);
+		battle = new BattleGui(hero, game.getEnemy());
+	}
+
+	public void battleRound(int eDamage, int hDamage) {
+		battle.updateStats();
+		String msg = game.getEnemy().getClas().getClassName() + " takes " + eDamage + " damage.";
+		battle.logMessage(msg, TextStyle.green);
+		msg = hero.getName() + " takes " + hDamage + " damage.";
+		battle.logMessage(msg, TextStyle.red);
+
+	}
+
+	public void enableExitBattle(int expReward) {
+		if (battle != null)
+			battle.enableExit(expReward);
+	}
+
+	public void winBattle(int expReward) {
+		battle = null;
+		frame.setEnabled(true);
+		printMessage("Glory to the victor! And " + expReward + " EXP!", TextStyle.green);
+
+		dropArtifact();
+
+		updateMap();
+		updateHeroPane();
+		updateEnemyPane();
+
+	}
+
+	private void dropArtifact() {
+
+		AArtifact art = game.dropArtifact();
+
+		if (art != null) {
+
+			String msg = game.generateArtifactMessage(art);
+
+			ImageIcon icon = new ImageIcon(art.getIconAddr());
+			Object[] options = {"Nuh, rubish", "Equip"};
+			int n = JOptionPane.showOptionDialog(frame, msg,
+					"You Found an Artifact",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE,
+					icon, options, options[1]);
+
+			if (n == 1) {
+				game.equipArtifact(art);
+			}
+		}
+	}
+
+
+	public void youDie(String msg, String msg2) {
+
+		battle = null;
+		frame.setEnabled(true);
+
+		printMessage(msg, TextStyle.red);
+
+		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/death.png");
+		JOptionPane.showMessageDialog(frame, msg2, "Remember: use drugs responsibly!",
+				JOptionPane.WARNING_MESSAGE, icon);
+	}
+
+
+	public void winMap(String msg, int expReward) {
+		printMessage("EDGE OF THE WORLD! You earned " + expReward + " EXP.", TextStyle.blue);
+		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/mapWin.png");
+		JOptionPane.showMessageDialog(frame, msg, "End of the Nightmare",
+				JOptionPane.INFORMATION_MESSAGE, icon);
+	}
+
+	public void winGame(String title, String outro) {
+		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/gameWin.png");
+		JOptionPane.showMessageDialog(frame, outro, title, JOptionPane.INFORMATION_MESSAGE, icon);
+		game.exitGame();
+	}
+
+
+
+
+	/*	----------------------------- AUTOMATICALLY GENERATED GUI INITIAL SETUP ---------------------------- */
 
 	/**
 	 * Method generated by IntelliJ IDEA GUI Designer
@@ -444,212 +667,6 @@ public class ExplorationGui implements IExploration {
 	public JComponent $$$getRootComponent$$$() {
 		return mainPanel;
 	}
-
-
-	private class MapBack extends JPanel {
-		Image img;
-
-		public MapBack() {
-			try {
-				img = ImageIO.read(new File("src/main/resources/img/mapBack/Grass00.jpg"));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		@Override
-		public void paintComponent(Graphics g) {
-			Graphics2D g2 = (Graphics2D) g;
-			g2.drawImage(img, 0, 0, this);
-		}
-	}
-
-	public void buildMap() {
-
-//		set map background and create grid to hold labels
-		mapBack = new MapBack();
-		mapBack.setLayout(new GridLayout(VIEW_SIZE, VIEW_SIZE));
-//		mapBack.setPreferredSize(new Dimension(VIEW_SIZE * ICON_SIZE, VIEW_SIZE * ICON_SIZE));
-		mapHolder.add(mapBack, new GridConstraints(0, 0, 1, 1,
-				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK |
-				GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,
-				null, new Dimension(VIEW_SIZE * ICON_SIZE, VIEW_SIZE * ICON_SIZE), null, 0, false));
-
-//		create array of labels that will contain game icons
-		labels = new JLabel[VIEW_SIZE][VIEW_SIZE];
-		for (int y = 0; y < VIEW_SIZE; y++) {
-			for (int x = 0; x < VIEW_SIZE; x++) {
-				labels[y][x] = new JLabel();
-				labels[y][x].setHorizontalAlignment(SwingConstants.CENTER);
-				labels[y][x].setVerticalAlignment(SwingConstants.CENTER);
-				labels[y][x].setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
-				mapBack.add(labels[y][x]);
-			}
-		}
-	}
-
-	public void updateMap() {
-
-//		update references if the map has changed
-		map = game.getMap();
-		grid = map.getGrid();
-
-//		draw only part of the map around the hero
-		int y = game.getY() - VIEW_DISTANCE;
-		for (int i = 0; i < VIEW_SIZE; i++, y++) {
-			int x = game.getX() - VIEW_DISTANCE;
-			for (int j = 0; j < VIEW_SIZE; j++, x++) {
-
-				if (x < 0 || y < 0 || x >= map.getSize() || y >= map.getSize()) {
-					labels[i][j].setIcon(new StretchIcon("src/main/resources/img/obstacles/space.png"));
-					labels[i][j].setBorder(null);
-//					if explored set corresponding icon
-				} else if (grid[y][x].isExplored()) {
-					if (grid[y][x].getObstacle() != null) {
-						labels[i][j].setIcon(new StretchIcon("src/main/resources/img/obstacles/" + grid[y][x].getObstacle() + ".png"));
-						labels[i][j].setBorder(blackBorder);
-					} else if (grid[y][x].getHero() != null) {
-						labels[i][j].setIcon(hero.getClas().getIcon());
-						labels[i][j].setBorder(blueBorder);
-					} else if (grid[y][x].getEnemy() != null) {
-						labels[i][j].setIcon(grid[y][x].getEnemy().getClas().getIcon());
-						labels[i][j].setBorder(redBorder);
-					} else {
-						labels[i][j].setIcon(null);
-						labels[i][j].setBorder(whiteBorder);
-					}
-//				if not explored, set fog
-				} else {
-					labels[i][j].setIcon(new StretchIcon("src/main/resources/img/obstacles/fog.png"));
-					labels[i][j].setBorder(null);
-				}
-			}
-		}
-	}
-
-	/*	----------------------------- GAMEPLAY MECHANICS ---------------------------- */
-
-	public void printMessage(String msg, SimpleAttributeSet atr) {
-		Document doc = info.getStyledDocument();
-		try {
-			doc.insertString(doc.getLength(), msg + "\n", atr);
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void fightOrFlee(Enemy e) {
-
-//		enable fight/flee buttons, disable all others
-		bFight.setEnabled(true);
-		bFight.setForeground(Color.RED);
-		bFlee.setEnabled(true);
-		bFlee.setForeground(Color.CYAN);
-
-		bN.setEnabled(false);
-		bS.setEnabled(false);
-		bW.setEnabled(false);
-		bE.setEnabled(false);
-		bCons.setEnabled(false);
-
-		updateEnemyPane();
-
-		printMessage("You encounter an enemy! Fight it bravely?" +
-				" Or run away like a coward?", TextStyle.bold);
-	}
-
-	private void resetButtons() {
-		bFight.setEnabled(false);
-		bFlee.setEnabled(false);
-		bN.setEnabled(true);
-		bS.setEnabled(true);
-		bW.setEnabled(true);
-		bE.setEnabled(true);
-		bCons.setEnabled(true);
-	}
-
-	public void escapeBattle(String msg) {
-		updateEnemyPane();
-		printMessage(msg, TextStyle.cyan);
-	}
-
-	public void initBattle() {
-		frame.setEnabled(false);
-		battle = new BattleGui(hero, game.getEnemy());
-	}
-
-	public void battleRound(int eDamage, int hDamage) {
-		battle.updateStats();
-		String msg = game.getEnemy().getClas().getClassName() + " takes " + eDamage + " damage.";
-		battle.logMessage(msg, TextStyle.green);
-		msg = hero.getName() + " takes " + hDamage + " damage.";
-		battle.logMessage(msg, TextStyle.red);
-
-	}
-
-	public void enableExitBattle(int expReward) {
-		battle.enableExit(expReward);
-	}
-
-	public void winBattle(int expReward) {
-		battle = null;
-		frame.setEnabled(true);
-		printMessage("Glory to the victor! And " + expReward + " EXP!", TextStyle.green);
-
-		dropArtifact();
-
-		updateMap();
-		updateHeroPane();
-		updateEnemyPane();
-
-	}
-
-	private void dropArtifact() {
-
-		AArtifact art = game.dropArtifact();
-
-		if (art != null) {
-
-			String msg = game.generateArtifactMessage(art);
-
-			ImageIcon icon = art.getIcon();
-			Object[] options = {"Nuh, rubish", "Equip"};
-			int n = JOptionPane.showOptionDialog(frame, msg,
-					"You Found an Artifact",
-					JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE,
-					icon, options, options[1]);
-
-			if (n == 1) {
-				game.equipArtifact(art);
-			}
-		}
-	}
-
-
-	public void youDie(String msg, String msg2) {
-
-		battle = null;
-		frame.setEnabled(true);
-
-		printMessage(msg, TextStyle.red);
-
-		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/death.png");
-		JOptionPane.showMessageDialog(frame, msg2, "Remember: use drugs responsibly!",
-				JOptionPane.WARNING_MESSAGE, icon);
-	}
-
-
-	public void winMap(String msg, int expReward) {
-		printMessage("EDGE OF THE WORLD! You earned " + expReward + " EXP.", TextStyle.blue);
-		ImageIcon icon = new ImageIcon("src/main/resources/img/icons/mapWin.png");
-		JOptionPane.showMessageDialog(frame, msg, "End of the Nightmare",
-				JOptionPane.INFORMATION_MESSAGE, icon);
-	}
-
-
-
-	/*	----------------------------- AUTOMATICALLY GENERATED GUI INITIAL SETUP ---------------------------- */
 
 
 }

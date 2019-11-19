@@ -1,5 +1,10 @@
 package unit.swingy.model.characters;
 
+import org.h2.jdbc.JdbcException;
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
+import org.h2.jdbc.JdbcSQLNonTransientConnectionException;
+import unit.swingy.controller.Game;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -33,7 +38,6 @@ public class DataBase {
 
 	public void connectToDB() {
 
-
 		try {
 			// STEP 1: Register JDBC driver
 			Class.forName(JDBC_DRIVER);
@@ -45,10 +49,13 @@ public class DataBase {
 			//test
 //			printTable();
 
+		} catch (JdbcSQLNonTransientConnectionException e) {
+			System.err.println("Hero Database is unavailable. Close all other instances of the game.");
+			System.exit(-1);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException esql) {
-//  			esql.printStackTrace();
+//  		esql.printStackTrace();
 			resetDB();
 		}
 	}
@@ -147,6 +154,8 @@ public class DataBase {
 						helmPow + ");";
 		try {
 			statement.executeUpdate(sql);
+		} catch (JdbcSQLIntegrityConstraintViolationException e) {
+			System.err.println("Hero's name must be unique!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -158,7 +167,6 @@ public class DataBase {
 		try {
 			statement.executeUpdate(sql);
 		} catch (SQLException e) {
-
 			e.printStackTrace();
 		}
 	}
