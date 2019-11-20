@@ -288,7 +288,7 @@ import java.util.Random;
 //			update UI
 			if (guiMode) gui.battleRound(eDamage, hDamage);
 			else console.battleRound(eDamage, hDamage);
-
+			
 //			delay between moves lower if the damage is low to make battle faster
 			int delay = ((eDamage < 3) || (hDamage < 3)) ? 100 : 300;
 			try {
@@ -363,18 +363,19 @@ import java.util.Random;
 
 		AArtifact artifact = null;
 		Random rand =  new Random();
+		int level = (enemy.getLevel() > 9) ? 9 : enemy.getLevel();
 
-		if (enemy.getLevel() >= hero.getLevel() && rand.nextBoolean()) {
+		if (enemy.getLevel() >= (hero.getLevel() - 2) && rand.nextBoolean()) {
 			int i = rand.nextInt(3);
 			switch (i) {
 				case 0:
-					artifact = new Weapon(enemy.getLevel());
+					artifact = new Weapon(level);
 					break;
 				case 1:
-					artifact = new Armor(enemy.getLevel());
+					artifact = new Armor(level);
 					break;
 				case 2:
-					artifact = new Helm(enemy.getLevel());
+					artifact = new Helm(level);
 					break;
 			}
 		}
@@ -387,7 +388,7 @@ import java.util.Random;
 
 	public String generateArtifactMessage(AArtifact art) {
 		AArtifact.ArtifactType type = art.getType();
-		StringBuilder msg = new StringBuilder("You have found " + type.toString() + ":\n" + art.getName() + " (");
+		StringBuilder msg = new StringBuilder("You found " + type.toString() + ":\n" + art.getName() + " (");
 		String msg2 = null;
 
 		switch (type) {
@@ -395,19 +396,19 @@ import java.util.Random;
 				msg.append("Attack +" + art.getPower() + ")\n");
 				AArtifact w = hero.getWeapon();
 				if (w != null)
-					msg2 = "You have " + w.getName() + " (Attack +" + w.getPower() + ")";
+					msg2 = "You have equipped " + w.getName() + " (Attack +" + w.getPower() + ")";
 				break;
 			case ARMOR:
 				msg.append("Defence +" + art.getPower() + ")\n");
 				AArtifact a = hero.getArmor();
 				if (a != null)
-					msg2 = "You have " + a.getName() + " (Defence +" + a.getPower() + ")";
+					msg2 = "You have equipped " + a.getName() + " (Defence +" + a.getPower() + ")";
 				break;
 			case HELM:
 				msg.append("HP +" + (art.getPower() * 10) + ")\n");
 				AArtifact h = hero.getHelm();
 				if (h != null)
-					msg2 = "You have " + h.getName() + " (HP +" + (h.getPower() * 10) + ")";
+					msg2 = "You have equipped " + h.getName() + " (HP +" + (h.getPower() * 10) + ")";
 				break;
 		}
 

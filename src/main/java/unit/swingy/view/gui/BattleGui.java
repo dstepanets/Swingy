@@ -79,7 +79,7 @@ public class BattleGui {
 	void updateStats() {
 		heroHP.setValue(hero.getHp());
 		enemyHP.setValue(enemy.getHp());
-		heroHP.setString("HP: " + hero.getHp() + "/" + hero.getMaxHp());
+		heroHP.setString("HP: " + hero.getHp() + "/" + (hero.getMaxHp() + hero.getBonusHp()));
 		enemyHP.setString("HP: " + enemy.getHp() + "/" + enemy.getMaxHp());
 	}
 

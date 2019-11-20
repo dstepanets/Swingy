@@ -76,6 +76,8 @@
 			</plugin>
 
 
+
+
 			<!-- for GUI builder -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -102,6 +104,8 @@
 
 
 	<dependencies>
+
+
 
 		<!-- Automatic Getters / Setters -->
 		<dependency>

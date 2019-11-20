@@ -135,6 +135,7 @@ public class Hero extends ACharacter {
 				case HELM:
 					helm = art;
 					bonusHp = helm.getPower() * 10;
+					heal();
 					break;
 			}
 		}

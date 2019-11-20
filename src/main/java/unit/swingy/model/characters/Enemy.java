@@ -29,8 +29,7 @@ public class Enemy extends ACharacter {
 		level = rand.nextInt(maxLvl - minLvl + 1) + minLvl;
 		System.out.println("> Level=" + level);
 //		get random class from enum constants
-		clas = EnemyClass.Cthulhu;
-//		clas = EnemyClass.values()[rand.nextInt(EnemyClass.count)];
+		clas = EnemyClass.values()[rand.nextInt(EnemyClass.count)];
 		System.out.println("> Class=" + clas);
 
 //		init stats
@@ -39,10 +38,15 @@ public class Enemy extends ACharacter {
 		defence =  clas.getBaseDefence();
 //		level up in the same pace as hero
 		for (int i = 0; i < level; i++) {
-			hp = maxHp *= 1.25;
-			attack *= 1.25;
-			defence *= 1.25;
+			hp = maxHp = (int) (maxHp * 1.25);
+			attack = (int) (attack * 1.25);
+			defence = (int) (defence * 1.25);
 		}
+
+		hp = maxHp += level * 10;
+		attack += level;
+		defence += level;
+
 		System.out.println("> HP=" + maxHp + " | At=" + attack + " | Def=" + defence);
 	}
 

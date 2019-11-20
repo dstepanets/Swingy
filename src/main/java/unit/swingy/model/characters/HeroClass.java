@@ -35,39 +35,39 @@ public enum HeroClass {
 
 		switch (className) {
 			case "SadCat":
-				baseHp = 90;
-				attack = 8;
+				baseHp = 100;
+				attack = 7;
 				defence = 6;
 				break;
 			case "ParanoidAndroid":
 				baseHp = 110;
-				attack = 8;
+				attack = 9;
 				defence = 7;
 				break;
 			case "Traveler":
-				baseHp = 70;
+				baseHp = 80;
 				attack = 6;
 				defence = 8;
 				break;
 			case "JudeoMason":
 				baseHp = 100;
-				attack = 9;
+				attack = 8;
 				defence = 7;
 				break;
 			case "Tank":
 				baseHp = 120;
-				attack = 7;
+				attack = 6;
 				defence = 10;
 				break;
 			case "AngryBird":
-				baseHp = 80;
+				baseHp = 70;
 				attack = 12;
 				defence = 6;
 				break;
 			case "Sorceress":
-				baseHp = 90;
-				attack = 6;
-				defence = 6;
+				baseHp = 100;
+				attack = 7;
+				defence = 7;
 				break;
 		}
 	}
@@ -81,7 +81,7 @@ public enum HeroClass {
 				description = "Only a total asshole would attack you. (Higher chance to escape battle)";
 				break;
 			case ParanoidAndroid:
-				description = "You have a brain the size of a planet and constant depression.";
+				description = "You have a brain the size of a planet and constant depression. (Which can lower your attack sometimes.)";
 				break;
 			case Traveler:
 				description = "You level up when reach the Edge of the World.";
@@ -90,14 +90,14 @@ public enum HeroClass {
 				description = "You control the world. But avoid the Fuhrer!";
 				break;
 			case Tank:
-				description = "I eat a cow, drink a barrel of beer, fuck a horse, and go looking for a good brawl. " +
-						"In my 100-kilos armor.";
+				description = "You eat a cow, drink a barrel of beer, fuck a horse, and go looking for a good brawl. " +
+						"In your 100-kilos armor.";
 				break;
 			case AngryBird:
-				description = "Hits strong, but weak in defence. For reasons unknown, it has complicated relationships with green pigs.";
+				description = "You hit strong, but are weak in defence. For reasons unknown, you have complicated relationships with green pigs.";
 				break;
 			case Sorceress:
-				description = "Weakens her enemies with powerful blowjob magic";
+				description = "You weaken your enemies with powerful blowjob magic";
 				break;
 		}
 		return (description);

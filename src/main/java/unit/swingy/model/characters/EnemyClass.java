@@ -37,36 +37,36 @@ public enum EnemyClass {
 
 		switch (className) {
 			case "Cockroach":
-				baseHp = 50;
-				baseAttack = 5;
-				baseDefence = 5;
+				baseHp = 60;
+				baseAttack = 6;
+				baseDefence = 4;
 				avatarPath = "src/main/resources/img/enemyAvatars/Cockroach.png";
 				iconPAth  = "src/main/resources/img/enemyIcons/Cockroach.png";
 				break;
 			case "Mushroom":
 				baseHp = 80;
-				baseAttack = 4;
+				baseAttack = 5;
 				baseDefence = 6;
 				avatarPath = "src/main/resources/img/enemyAvatars/Mushroom.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Mushroom.png";
 				break;
 			case "Moonshine":
-				baseHp = 120;
-				baseAttack = 9;
+				baseHp = 150;
+				baseAttack = 10;
 				baseDefence = 0;
 				avatarPath = "src/main/resources/img/enemyAvatars/Moonshine.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Moonshine.png";
 				break;
 			case "Java":
 				baseHp = 70;
-				baseAttack = 7;
+				baseAttack = 8;
 				baseDefence = 5;
 				avatarPath = "src/main/resources/img/enemyAvatars/Java.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Java.png";
 				break;
 			case "FSM":
-				baseHp = 80;
-				baseAttack = 8;
+				baseHp = 90;
+				baseAttack = 7;
 				baseDefence = 6;
 				className = "Flying Spaghetti Monster";
 				avatarPath = "src/main/resources/img/enemyAvatars/FSM.jpg";
@@ -74,27 +74,27 @@ public enum EnemyClass {
 				break;
 			case "Reptiloid":
 				baseHp = 70;
-				baseAttack = 9;
-				baseDefence = 5;
+				baseAttack = 8;
+				baseDefence = 7;
 				avatarPath = "src/main/resources/img/enemyAvatars/Reptiloid.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Reptiloid.png";
 				break;
 			case "Fuhrer":
-				baseHp = 90;
-				baseAttack = 8;
-				baseDefence = 5;
+				baseHp = 80;
+				baseAttack = 7;
+				baseDefence = 6;
 				avatarPath = "src/main/resources/img/enemyAvatars/Fuhrer.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Fuhrer.png";
 				break;
 			case "Elephant":
-				baseHp = 130;
-				baseAttack = 7;
+				baseHp = 120;
+				baseAttack = 5;
 				baseDefence = 9;
 				avatarPath = "src/main/resources/img/enemyAvatars/Elephant.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/Elephant.png";
 				break;
 			case "Cthulhu":
-				baseHp = 85;
+				baseHp = 100;
 				baseAttack = 6;
 				baseDefence = 8;
 				avatarPath = "src/main/resources/img/enemyAvatars/Cthulhu.jpg";
@@ -103,7 +103,7 @@ public enum EnemyClass {
 			case "UFO":
 				baseHp = 100;
 				baseAttack = 8;
-				baseDefence = 9;
+				baseDefence = 7;
 				avatarPath = "src/main/resources/img/enemyAvatars/UFO.jpg";
 				iconPAth  = "src/main/resources/img/enemyIcons/UFO.png";
 				break;

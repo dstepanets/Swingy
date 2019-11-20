@@ -76,7 +76,9 @@ public class ChooseHeroGui {
 		bDeleteHero.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				deleteHero();
+				if (hero != null) {
+					deleteHero();
+				}
 			}
 		});
 

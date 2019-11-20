@@ -29,28 +29,12 @@ public class Main {
 
 		Game game = Game.getInstance();
 		game.setGuiMode(guiMode);
-		System.out.println(">> GUI mode: " + game.isGuiMode());
-
 
 //		set up the hero
 		ChooseHeroDirector director = new ChooseHeroDirector();
 		director.chooseHero();
 
-		if (game.getHero() != null) {
-			System.out.println(">> Hero's Name: " + game.getHero().getName());
-			System.out.println(">> Hero's Class: " + game.getHero().getClas().getClassName());
-		} else {
-			System.out.println(">> No hero is selected.");
-		}
-
-
-
-//		TODO hide intro message from hibernate
-//		HeroBuilder hb = new HeroBuilder();
-//			hb.reset();
-//			game.setHero(hb.getHero());
-
-
+//		validate annotation constrains
 		AnnoValidation validate = new AnnoValidation();
 		if (validate.validateHero(game.getHero())) {
 			game.newMap(true);
