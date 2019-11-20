@@ -18,4 +18,4 @@ create table HEROES
 );
 
 INSERT INTO PUBLIC.HEROES (id, name, class, level, exp, hp, attack, defence, weapon, armor, helm)
-    VALUES (0, 'Murzik', 'SadCat', 0, 0, 100, 10, 5, 0, 0, 0);
+    				VALUES (0, 'Murzik', 'SadCat', 0, 0, 100, 7, 6, 0, 0, 0);

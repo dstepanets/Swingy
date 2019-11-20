@@ -271,14 +271,10 @@ public class ChooseHeroGui {
 				options,
 				options[1]);
 
-		System.out.println("> pressed = " + n);
-
 		//	remove hero from the Database
 		if (n == 0) {
 			int row = table.getSelectedRow();
-			System.out.println("> selected row = " + row);
 			int id = heroesList.get(row).getId();
-			System.out.println("> hero's id = " + id);
 			db.removeHero(id);
 			updateTable();
 		}

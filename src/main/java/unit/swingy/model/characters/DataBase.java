@@ -44,9 +44,6 @@ public class DataBase {
 			System.out.println(">>> Connecting to database...");
 			connection = DriverManager.getConnection(DB_URL + ";IFEXISTS=TRUE", USER, PASS);
 
-		} catch (JdbcSQLNonTransientConnectionException e) {
-			System.err.println("Hero Database is unavailable. Close all other instances of the game.");
-			System.exit(-1);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException esql) {
@@ -83,6 +80,9 @@ public class DataBase {
 				}
 			}
 
+		} catch (JdbcSQLNonTransientConnectionException e) {
+			System.err.println("Hero Database is unavailable. Close all other instances of the game.");
+			System.exit(-1);
 		} catch (SQLException esql) {
 			esql.printStackTrace();
 		} catch (IOException e) {
