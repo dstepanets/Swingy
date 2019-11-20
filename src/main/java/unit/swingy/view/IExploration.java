@@ -1,7 +1,6 @@
 package unit.swingy.view;
 
 import unit.swingy.model.characters.Enemy;
-import unit.swingy.model.characters.Hero;
 
 public interface IExploration {
 
@@ -14,6 +13,6 @@ public interface IExploration {
 	void winBattle(int expReward);
 	void winMap(String msg, int expReward);
 	void youDie(String msg, String msg2);
-	public void winGame(String title, String outro);
+	void winGame(String title, String outro);
 
 }

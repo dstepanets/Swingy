@@ -35,9 +35,8 @@ import java.util.Random;
 	MapTile grid[][];
 //	player's current coordinates on the map
 	private int x, y;
-//	new coordinates that player tries to move on
+//	new coordinates that player tries to move to
 	private int nx, ny;
-
 
 
 	public static Game getInstance() {
@@ -65,17 +64,13 @@ import java.util.Random;
 
 	void newMap(boolean intro) {
 
-		System.out.println(">> newMap Thr: " + Thread.currentThread().getName());
-
 //		new map
 		hero.heal();
 		map = new Map(hero);
 		grid = map.getGrid();
 		enemy = null;
-//		map.printMapTiles();
 
 		switchView(intro);
-
 	}
 
 	private void showIntro() {
@@ -86,19 +81,12 @@ import java.util.Random;
 
 
 	public void exitGame() {
-		System.out.println(">> Exiting the game...");
 		db.closeConnection();
+		System.out.println(">>> Exiting the game...");
 		System.exit(0);
 	}
 
 	public void moveHero(char direction) {
-
-////		temp test CHEAT
-//		while (hero.getLevel() < 10) {
-//			hero.gainExp(null);
-//		}
-
-		System.out.println(">> You are moving to: " + direction);
 
 		nx = x;
 		ny = y;
@@ -288,7 +276,7 @@ import java.util.Random;
 //			update UI
 			if (guiMode) gui.battleRound(eDamage, hDamage);
 			else console.battleRound(eDamage, hDamage);
-			
+
 //			delay between moves lower if the damage is low to make battle faster
 			int delay = ((eDamage < 3) || (hDamage < 3)) ? 100 : 300;
 			try {
@@ -306,7 +294,6 @@ import java.util.Random;
 		}
 
 		boolean victory = ((enemy.getHp() <= 0) && (hero.getHp() > 0)) ? true : false;
-		System.out.println("## Victory: " + victory);
 		int expReward = 0;
 		if (victory) {
 			expReward = hero.gainExp(enemy);

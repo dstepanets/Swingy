@@ -6,8 +6,6 @@ import unit.swingy.model.characters.HeroBuilder;
 import unit.swingy.view.console.ChooseHeroCons;
 import unit.swingy.view.gui.ChooseHeroGui;
 
-import java.util.ArrayList;
-
 public class ChooseHeroDirector {
 
 	private Game game;
@@ -22,37 +20,36 @@ public class ChooseHeroDirector {
 		builder.reset();
 		db = DataBase.getInstance();
 		console = new ChooseHeroCons(db, builder);
-//		gui = new ChooseHeroGui();
 	}
 
 	public void chooseHero() {
 
-			Hero hero = null;
+		Hero hero = null;
 
-			if (game.isGuiMode()) {
-				gui = new ChooseHeroGui();
-				gui.chooseHero();
-				
+		if (game.isGuiMode()) {
+			gui = new ChooseHeroGui();
+			gui.chooseHero();
+
 //				wait till user has chosen a hero
-				while (game.getHero() == null) {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+			while (game.getHero() == null) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-			} else {
-				do {
-					hero = console.chooseHero();
-					if (hero != null) {
-						game.setHero(hero);
-					} else {
-						builder.setUpNewHero(console.getNewHeroName(), console.getNewHeroClas());
-						db.addHero(builder.getHero());
-					}
-				} while (game.getHero() == null);
 			}
+		} else {
+			do {
+				hero = console.chooseHero();
+				if (hero != null) {
+					game.setHero(hero);
+				} else {
+					builder.setUpNewHero(console.getNewHeroName(), console.getNewHeroClas());
+					db.addHero(builder.getHero());
+				}
+			} while (game.getHero() == null);
+		}
 
-//		db.closeConnection();
 	}
+
 }

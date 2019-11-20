@@ -1,7 +1,5 @@
 package unit.swingy.model.artifacts;
 
-import darrylbu.icon.StretchIcon;
-
 public class Helm extends AArtifact {
 
 	public Helm(int lvl) {

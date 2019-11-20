@@ -8,8 +8,8 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.util.Set;
 
-class AnnoValidation {
 
+class AnnoValidation {
 
 	//	Create ValidatorFactory which returns validator
 	ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

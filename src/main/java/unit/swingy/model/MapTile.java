@@ -13,12 +13,4 @@ public class MapTile {
 	private Hero hero;
 	private Enemy enemy;
 
-//	MapTile() {
-//		terrain = "Default";
-//		obstacle = false;
-//		explored = false;
-//		hero = null;
-//		enemy = null;
-//	}
-
 }

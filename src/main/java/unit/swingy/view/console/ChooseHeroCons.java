@@ -8,7 +8,6 @@ import unit.swingy.model.characters.HeroClass;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//	TODO make a common interface for console classes
 public class ChooseHeroCons {
 
 	private DataBase db;

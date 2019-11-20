@@ -2,8 +2,6 @@ package unit.swingy.model.artifacts;
 
 import lombok.Getter;
 
-import javax.swing.*;
-
 @Getter
 public abstract class AArtifact {
 

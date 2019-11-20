@@ -44,12 +44,6 @@ public class ExplorationGui implements IExploration {
 	private int winWidth;
 	private int winHeight;
 
-	//	test
-	@Getter
-	private boolean clicked = false;
-	@Getter
-	private boolean choice = false;
-
 	@Getter
 	private JFrame frame;
 	private JPanel mainPanel;
@@ -98,14 +92,8 @@ public class ExplorationGui implements IExploration {
 
 	/*	---------------------- BUILD AND UPDATE COMPONENTS ----------------------- */
 
-//	TODO Pack the images
-//	The location of the image is also important. If the image is external to the application
-//	(somewhere on the file system), you can use ImageIO.read(new File("/path/to/image")).
-//	However, if the the image is embedded within your application (stored within the Jar for example),
-//	you will need to use something more like ImageIO.read(getClass().getResource("/path/to/image")) instead...
 
 	public ExplorationGui() {
-		System.out.println(">> Constructing Exploration GUI...");
 
 		game = Game.getInstance();
 		hero = game.getHero();
@@ -133,7 +121,6 @@ public class ExplorationGui implements IExploration {
 		frame.pack();
 		frame.setLocationRelativeTo(null);    // center window on the screen
 		frame.setResizable(false);
-//		frame.setVisible(true);
 
 		createEventsListeners();
 	}
@@ -306,7 +293,6 @@ public class ExplorationGui implements IExploration {
 //		set map background and create grid to hold labels
 		mapBack = new MapBack();
 		mapBack.setLayout(new GridLayout(VIEW_SIZE, VIEW_SIZE));
-//		mapBack.setPreferredSize(new Dimension(VIEW_SIZE * ICON_SIZE, VIEW_SIZE * ICON_SIZE));
 		mapHolder.add(mapBack, new GridConstraints(0, 0, 1, 1,
 				GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK |
 				GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW,

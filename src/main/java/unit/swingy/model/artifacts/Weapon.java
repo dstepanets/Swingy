@@ -4,12 +4,6 @@ import darrylbu.icon.StretchIcon;
 
 public class Weapon extends AArtifact {
 
-//	protected String[] namesAdr;
-//
-//	protected ArtifactType type;
-//	protected String name;
-//	protected int power;
-
 	public Weapon(int lvl) {
 
 		this.type = ArtifactType.WEAPON;

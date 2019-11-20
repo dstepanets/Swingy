@@ -4,7 +4,6 @@ import lombok.Getter;
 import unit.swingy.controller.Game;
 import unit.swingy.model.characters.Enemy;
 import unit.swingy.model.characters.Hero;
-
 import java.util.Random;
 
 public class Map {
@@ -22,11 +21,8 @@ public class Map {
 	public Map(Hero hero) {
 		int lvl = hero.getLevel();
 		size = (lvl - 1) * 5 + 10 - (lvl % 2);
-		System.out.println(">> Map size: " + size);
 		grid = new MapTile[size][size];
-
 		rand = new Random();
-
 		initMap();
 	}
 

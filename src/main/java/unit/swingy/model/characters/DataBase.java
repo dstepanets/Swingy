@@ -1,9 +1,7 @@
 package unit.swingy.model.characters;
 
-import org.h2.jdbc.JdbcException;
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.h2.jdbc.JdbcSQLNonTransientConnectionException;
-import unit.swingy.controller.Game;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,11 +41,8 @@ public class DataBase {
 			Class.forName(JDBC_DRIVER);
 
 			//STEP 2: Open a connection
-			System.out.println(">> Connecting to database...");
+			System.out.println(">>> Connecting to database...");
 			connection = DriverManager.getConnection(DB_URL + ";IFEXISTS=TRUE", USER, PASS);
-
-			//test
-//			printTable();
 
 		} catch (JdbcSQLNonTransientConnectionException e) {
 			System.err.println("Hero Database is unavailable. Close all other instances of the game.");
@@ -55,13 +50,12 @@ public class DataBase {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException esql) {
-//  		esql.printStackTrace();
 			resetDB();
 		}
 	}
 
 	private void resetDB() {
-		System.out.println(">> Making new DB");
+		System.out.println(">>> Making a new DataBase...");
 
 		try {
 
@@ -101,16 +95,8 @@ public class DataBase {
 		ArrayList<Hero> heroesList = new ArrayList<>();
 
 		try {
-
 			statement = connection.createStatement();
-
-//			temporary count
-			ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM HEROES");
-			rs.next();
-			int rows = rs.getInt("count(*)");
-			System.out.println(">> Table contains " + rows + " rows");
-
-			rs = statement.executeQuery("SELECT * FROM HEROES");
+			ResultSet rs = statement.executeQuery("SELECT * FROM HEROES");
 
 			while (rs.next()) {
 				builder.setId(rs.getInt("id"));
@@ -133,8 +119,6 @@ public class DataBase {
 	}
 
 	public void addHero(Hero h) {
-
-		System.out.println(">> Adding a hero...");
 
 		int wepPow = (h.getWeapon() != null) ? h.getWeapon().getPower() : 0;
 		int armPow = (h.getArmor() != null) ? h.getArmor().getPower() : 0;
@@ -162,7 +146,6 @@ public class DataBase {
 	}
 
 	public void  removeHero(int id) {
-		System.out.println(">> Removing a hero...");
 		String sql = "DELETE FROM Heroes WHERE id = " + id;
 		try {
 			statement.executeUpdate(sql);
@@ -172,7 +155,7 @@ public class DataBase {
 	}
 
 	public void closeConnection() {
-		System.out.println(">> Closing DB connection...");
+		System.out.println(">>> Closing DB connection...");
 		try {
 			if (statement != null)
 				statement.close();
@@ -183,23 +166,8 @@ public class DataBase {
 		}
 	}
 
-	public String[] getColumnNames() {
-		String[] columnNames = null;
-		try {
-			statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery("SELECT * FROM Heroes");
-			columnNames = new String[rs.getMetaData().getColumnCount()];
-			for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) {
-				columnNames[i - 1] = rs.getMetaData().getColumnName(i);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return columnNames;
-	}
 
 	public void updateHero(Hero h) {
-		System.out.println(">> Updating a hero in the DB...");
 
 		int wepPow = (h.getWeapon() != null) ? h.getWeapon().getPower() : 0;
 		int armPow = (h.getArmor() != null) ? h.getArmor().getPower() : 0;
@@ -223,7 +191,25 @@ public class DataBase {
 		}
 	}
 
-	//for debugging
+
+
+	/*	====================  FOR DEBUGGING ========================	*/
+
+	public String[] getColumnNames() {
+		String[] columnNames = null;
+		try {
+			statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery("SELECT * FROM Heroes");
+			columnNames = new String[rs.getMetaData().getColumnCount()];
+			for (int i = 1; i < rs.getMetaData().getColumnCount() + 1; i++) {
+				columnNames[i - 1] = rs.getMetaData().getColumnName(i);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return columnNames;
+	}
+
 	private void printTable() {
 
 		System.out.println("====================DB=======================");

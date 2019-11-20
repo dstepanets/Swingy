@@ -97,8 +97,6 @@ public class ChooseHeroGui {
 
 	public void chooseHero() {
 
-		System.out.println(">> Starting GUI ChooseHero method...");
-
 		//init frame
 		frame.setContentPane(mainPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,7 +104,6 @@ public class ChooseHeroGui {
 		frame.setLocationRelativeTo(null);    // center window on the screen
 		frame.setResizable(false);
 		frame.setVisible(true);
-
 
 	}
 

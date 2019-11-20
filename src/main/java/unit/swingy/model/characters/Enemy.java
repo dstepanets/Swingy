@@ -8,16 +8,9 @@ import java.util.Random;
 @Getter
 public class Enemy extends ACharacter {
 
-//	@Range(min = 0) protected int level;
 	EnemyClass clas;
-//	private int maxHp;
-//	protected int hp;
-//	protected int attack;
-//	protected int defence;
 
 	public Enemy() {
-
-		System.out.println(">> Building an enemy...");
 
 		int maxLvl = Game.getInstance().getHero().getLevel() + 2;
 		if (maxLvl > 10) maxLvl = 10;
@@ -27,10 +20,8 @@ public class Enemy extends ACharacter {
 		Random rand = new Random();
 //		set random level in range of 2 levels from the hero's level
 		level = rand.nextInt(maxLvl - minLvl + 1) + minLvl;
-		System.out.println("> Level=" + level);
 //		get random class from enum constants
 		clas = EnemyClass.values()[rand.nextInt(EnemyClass.count)];
-		System.out.println("> Class=" + clas);
 
 //		init stats
 		hp = maxHp = clas.getBaseHp();
@@ -42,12 +33,10 @@ public class Enemy extends ACharacter {
 			attack = (int) (attack * 1.25);
 			defence = (int) (defence * 1.25);
 		}
-
+//		correction to compensate for hero's artifacts
 		hp = maxHp += level * 10;
 		attack += level;
 		defence += level;
-
-		System.out.println("> HP=" + maxHp + " | At=" + attack + " | Def=" + defence);
 	}
 
 	public int takeDamage(ACharacter foe, int dice) {
