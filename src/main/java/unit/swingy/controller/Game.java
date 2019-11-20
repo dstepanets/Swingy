@@ -227,7 +227,7 @@ import java.util.Random;
 //		Paranoid Android has 20% chance to have weaker attack in battle because of depression
 		} else if (hero.getClas() == HeroClass.ParanoidAndroid) {
 			MarvinPersonality.setSavedAttack(hero.getAttack());
-			if (rand.nextInt(5) == 0) {
+			if (rand.nextInt(4) == 0) {
 				int penalty = hero.getAttack() / 5;
 				hero.setAttack(hero.getAttack() - penalty);
 				String msg = "Paranoid Android is very depressed. Attack -" + penalty + " :(";

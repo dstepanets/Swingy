@@ -20,6 +20,8 @@ import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class ChooseHeroGui {
@@ -76,7 +78,7 @@ public class ChooseHeroGui {
 		bDeleteHero.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (hero != null) {
+				if (hero != null && table.getSelectedRow() >= 0) {
 					deleteHero();
 				}
 			}
@@ -86,12 +88,20 @@ public class ChooseHeroGui {
 		bPlay.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (hero != null) {
+				if (hero != null && table.getSelectedRow() >= 0) {
 					Game.getInstance().setHero(hero);
 					frame.dispose();
 				}
 			}
 		});
+
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Game.getInstance().exitGame();
+			}
+		});
+
 	}
 
 
@@ -99,6 +109,7 @@ public class ChooseHeroGui {
 
 		//init frame
 		frame.setContentPane(mainPanel);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setLocationRelativeTo(null);    // center window on the screen
@@ -135,41 +146,49 @@ public class ChooseHeroGui {
 	}
 
 	private void displayHeroStats() {
-//		display avatar
-		avatar.setIcon(hero.getClas().getAvatar());
+//		clear panes when hero removed
+		if (hero == null) {
+			avatar.setIcon(null);
+			bio.setText("");
+			stats.setText("");
 
-		bio.setText("");
-		stats.setText("");
+		} else {
+			avatar.setIcon(hero.getClas().getAvatar());
 
-		SimpleAttributeSet atr = new SimpleAttributeSet();
-		StyleConstants.setFontSize(atr, 13);
-		StyleConstants.setItalic(atr, true);
+			bio.setText("");
+			stats.setText("");
 
-		Document bioDoc = bio.getStyledDocument();
-		Document statsDoc = stats.getStyledDocument();
+			SimpleAttributeSet atr = new SimpleAttributeSet();
+			StyleConstants.setFontSize(atr, 13);
+			StyleConstants.setItalic(atr, true);
 
-		try {
-			bioDoc.insertString(statsDoc.getLength(), hero.getClas().getDescription() + "\n\n", atr);
-			StyleConstants.setFontSize(atr, 14);
-			StyleConstants.setItalic(atr, false);
+			Document bioDoc = bio.getStyledDocument();
+			Document statsDoc = stats.getStyledDocument();
 
-			statsDoc.insertString(statsDoc.getLength(), "Name: " + hero.getName() + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Class: " + hero.getClas() + "\n\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Level: " + hero.getLevel() + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Exp: " + hero.getExp() + "\n\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "HP: " + (hero.getMaxHp() + hero.getBonusHp()) + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Attack: " + (hero.getAttack() + hero.getBonusAttack()) + "\n", atr);
-			statsDoc.insertString(statsDoc.getLength(), "Defence: " + (hero.getDefence() + hero.getBonusDefence()) + "\n\n", atr);
+			try {
+				bioDoc.insertString(statsDoc.getLength(), hero.getClas().getDescription() + "\n\n", atr);
+				StyleConstants.setFontSize(atr, 14);
+				StyleConstants.setItalic(atr, false);
 
-			String str = (hero.getWeapon() == null) ? "none\n" : hero.getWeapon().getName() + " (Attack +" + hero.getBonusAttack() + ")\n";
-			statsDoc.insertString(statsDoc.getLength(), "Weapon: " + str, atr);
-			str = (hero.getArmor() == null) ? "none\n" : hero.getArmor().getName() + " (Defence +" + hero.getBonusDefence() + ")\n";
-			statsDoc.insertString(statsDoc.getLength(), "Armor: " + str, atr);
-			str = (hero.getHelm() == null) ? "none\n" : hero.getHelm().getName() + " (HP +" + hero.getBonusHp() + ")\n";
-			statsDoc.insertString(statsDoc.getLength(), "Helm: " + str, atr);
-		} catch (BadLocationException e) {
-			e.printStackTrace();
+				statsDoc.insertString(statsDoc.getLength(), "Name: " + hero.getName() + "\n", atr);
+				statsDoc.insertString(statsDoc.getLength(), "Class: " + hero.getClas() + "\n\n", atr);
+				statsDoc.insertString(statsDoc.getLength(), "Level: " + hero.getLevel() + "\n", atr);
+				statsDoc.insertString(statsDoc.getLength(), "Exp: " + hero.getExp() + "\n\n", atr);
+				statsDoc.insertString(statsDoc.getLength(), "HP: " + (hero.getMaxHp() + hero.getBonusHp()) + "\n", atr);
+				statsDoc.insertString(statsDoc.getLength(), "Attack: " + (hero.getAttack() + hero.getBonusAttack()) + "\n", atr);
+				statsDoc.insertString(statsDoc.getLength(), "Defence: " + (hero.getDefence() + hero.getBonusDefence()) + "\n\n", atr);
+
+				String str = (hero.getWeapon() == null) ? "none\n" : hero.getWeapon().getName() + " (Attack +" + hero.getBonusAttack() + ")\n";
+				statsDoc.insertString(statsDoc.getLength(), "Weapon: " + str, atr);
+				str = (hero.getArmor() == null) ? "none\n" : hero.getArmor().getName() + " (Defence +" + hero.getBonusDefence() + ")\n";
+				statsDoc.insertString(statsDoc.getLength(), "Armor: " + str, atr);
+				str = (hero.getHelm() == null) ? "none\n" : hero.getHelm().getName() + " (HP +" + hero.getBonusHp() + ")\n";
+				statsDoc.insertString(statsDoc.getLength(), "Helm: " + str, atr);
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
 		}
+
 	}
 
 	private void createNewHero() {
@@ -179,8 +198,10 @@ public class ChooseHeroGui {
 		do {
 			input = (String) JOptionPane.showInputDialog(frame, "Enter your Hero's name (20 characters max):",
 					"New Hero's Name", JOptionPane.PLAIN_MESSAGE);
-			input = input.trim();
-		} while (input.isEmpty() || input.length() > 20);
+			if (input == null)
+				return;
+		} while (input.isEmpty() || input.trim().isEmpty() || input.length() > 20);
+		input = input.trim();
 		final String name = input;
 
 
@@ -277,6 +298,8 @@ public class ChooseHeroGui {
 			int id = heroesList.get(row).getId();
 			db.removeHero(id);
 			updateTable();
+			hero = null;
+			displayHeroStats();
 		}
 
 	}
