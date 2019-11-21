@@ -26,7 +26,7 @@ The project implements Model-View-Controller, Builder, Singleton design patterns
 
 *There is a pre-compiled jar archive ready to run.*
 
-Start with one of the following commands in a terminal:
+Start the game with one of the following commands in a terminal:
 
 `java -jar target/swingy-1.0-jar-with-dependencies.jar gui`
 
