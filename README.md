@@ -2,7 +2,7 @@
 
 A small role-playing game with GUI made on the Swing framework.
 
-![](doc/demo1.gif)
+![](docs/demo1.gif)
 
 ## Description
 
