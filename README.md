@@ -31,7 +31,6 @@ Compile in terminal with:
 Run with one of the following commands:
 
 `java -jar target/swingy-1.0-jar-with-dependencies.jar gui`
+
 `java -jar target/swingy-1.0-jar-with-dependencies.jar console`
-
-
 
