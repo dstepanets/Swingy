@@ -5,7 +5,8 @@ public class Main {
 
 	private static void printUsage() {
 		System.out.println("Choose the game mode by providing an argument.");
-		System.out.println("\t$java -jar swingy.jar console\nor\n\t$java -jar swingy.jar gui");
+		System.out.println("\t$java -jar swingy-1.0-jar-with-dependencies.jar console\nor");
+		System.out.println("\t$java -jar swingy-1.0-jar-with-dependencies.jar gui");
 		System.exit(1);
 	}
 

@@ -224,7 +224,7 @@ import java.util.Random;
 			if (guiMode) gui.printMessage("Sorceress lowered the enemy's attack and defence", TextStyle.blue);
 			else console.printMessage("Sorceress lowered the enemy's attack and defence");
 
-//		Paranoid Android has 20% chance to have weaker attack in battle because of depression
+//		Paranoid Android has 25% chance to have weaker attack in battle because of depression
 		} else if (hero.getClas() == HeroClass.ParanoidAndroid) {
 			MarvinPersonality.setSavedAttack(hero.getAttack());
 			if (rand.nextInt(4) == 0) {
