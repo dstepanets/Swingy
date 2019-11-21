@@ -24,13 +24,18 @@ The project implements Model-View-Controller, Builder, Singleton design patterns
 
 ## Usage
 
-Compile in terminal with:
+*There is a pre-compiled jar archive ready to run.*
 
-`mvn clean package`
-
-Run with one of the following commands:
+Start with one of the following commands in a terminal:
 
 `java -jar target/swingy-1.0-jar-with-dependencies.jar gui`
 
 `java -jar target/swingy-1.0-jar-with-dependencies.jar console`
 
+Or recompile first with:
+
+`mvn clean package`
+
+**You have to use this commands from the root directory!**
+
+**Requires JRE 7 or higher**
