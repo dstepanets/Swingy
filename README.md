@@ -44,8 +44,8 @@ Or recompile first (binaries will be in `target` directory):
 
 Switching between interfaces:
 
-![](docs/demo2.gif)
+![](docs/demo3.gif)
 
 Choosing/creating a hero:
 
-![](docs/demo1.gif)
+![](docs/demo2.gif)
