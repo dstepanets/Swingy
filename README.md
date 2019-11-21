@@ -39,3 +39,13 @@ Or recompile first (binaries will be in `target` directory):
 **You have to use these commands from the root directory!**
 
 **Requires JRE 7 or higher.**
+
+## More Demos
+
+Switching between interfaces:
+
+![](docs/demo2.gif)
+
+Choosing/creating a hero:
+
+![](docs/demo1.gif)
