@@ -10,7 +10,7 @@ Create your hero and find the way out of a square map populated with various wei
 
 ### Features:
 
-- project is built with Maven
+- build with Maven
 - switch between Swing GUI and text mode at runtime
 - heroes are stored in the embedded relational database (H2)
 - annotation-based Hibernate Validation
