@@ -1,6 +1,6 @@
 # Swingy
 
-Small role-playing game with GUI made on Swing framework
+A small role-playing game with GUI made on the Swing framework.
 
 ![](doc/)
 
@@ -28,14 +28,14 @@ The project implements Model-View-Controller, Builder, Singleton design patterns
 
 Start the game with one of the following commands in a terminal:
 
-`java -jar target/swingy-1.0-jar-with-dependencies.jar gui`
+`java -jar swingy-1.0-jar-with-dependencies.jar gui`
 
-`java -jar target/swingy-1.0-jar-with-dependencies.jar console`
+`java -jar swingy-1.0-jar-with-dependencies.jar console`
 
-Or recompile first with:
+Or recompile first (binaries will be in `target` directory):
 
 `mvn clean package`
 
-**You have to use this commands from the root directory!**
+**You have to use these commands from the root directory!**
 
-**Requires JRE 7 or higher**
+**Requires JRE 7 or higher.**
