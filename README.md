@@ -32,7 +32,7 @@ Start the game with one of the following commands in a terminal:
 
 `java -jar swingy-1.0-jar-with-dependencies.jar console`
 
-Or recompile first (binaries will be in `target` directory):
+Or recompile first (jar package will be in `target` directory):
 
 `mvn clean package`
 
