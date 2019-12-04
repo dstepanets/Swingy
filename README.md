@@ -14,7 +14,7 @@ Create your hero and find the way out of a square map populated with various wei
 - switch between Swing GUI and text mode at runtime
 - heroes are stored in the embedded relational database (H2)
 - annotation-based Hibernate Validation
-- 7 classes of heroes, 10 kinds of enemies, map obstacles, dozens of artifacts to collect
+- 7 classes of heroes, 10 kinds of enemies, map obstacles, dozens of artifacts to collect ;)
 
 The project implements Model-View-Controller, Builder, Singleton design patterns. 
 
